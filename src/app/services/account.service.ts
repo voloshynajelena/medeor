@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { API_URL } from '../constants';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class DataService {
+export class AccountService {
 
   constructor(private http: HttpClient) {}
+  
+  url = `${API_URL}/getUser`;
 
-  url = `${API_URL}/getUserData`;
-
-  getUserData(id: string) {
-    return this.http.get(this.url, { params: { id } });
+  getUserId(login, pass) {
+    return this.http.get(this.url, { params: { login, pass } });
   }
 }
