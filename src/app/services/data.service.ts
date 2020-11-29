@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
   constructor(private http: HttpClient) {}
-  configUrl = 'https://api-medeor.herokuapp.com/url';
+  configUrl = 'https://api-medeor.herokuapp.com/getUser';
 
   getData(data) {
-    return this.http.get(this.configUrl, { params: { code: data } });
+    return this.http.get(this.configUrl, { params: { name: 'test', pass: 'Qweqwe34' } });
   }
 }
