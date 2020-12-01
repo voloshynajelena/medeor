@@ -17,15 +17,16 @@ export class LoginComponent {
 
   validateLogin() {
     if(this.username && this.password) {
+      // получаем из ngModel переменки и делаем запрос за ID если данные введены правильно
       this.accountService.getUserId(this.username, this.password)
       .subscribe((data: {userId}) => {
         console.log(data);
+        // навигируем на страницу профиля юзера, используя его ID
         this.router.navigate([`${data.userId}`]);
       }, error => {
         console.log('error is ', error);
       });
       } else {
-
         alert('enter user name and password');
       }
   }
