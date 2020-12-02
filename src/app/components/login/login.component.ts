@@ -10,6 +10,7 @@ import { AccountService } from 'src/app/services/account.service';
 export class LoginComponent {
   username = '';
   password = '';
+  hide = true;
   constructor(
     private accountService: AccountService,
     private router: Router
