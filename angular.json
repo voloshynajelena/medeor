@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "medeor"
+  "defaultProject": "medeor",
+  "cli": {
+    "analytics": false
+  }
 }

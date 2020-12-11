@@ -1,5 +1,5 @@
 
-<mat-form-field>
+  <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
@@ -58,6 +58,16 @@
             mat-raised-button
             color="primary"
             (click)="goToClient(row.id)">Open</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="add-new">
+        <th mat-header-cell *matHeaderCellDef> Add new </th>
+        <td mat-cell *matCellDef="let row">
+            <button
+            mat-raised-button
+            color="primary"
+            (click)="add(row.addNew)">Add new</button>
         </td>
       </ng-container>
   

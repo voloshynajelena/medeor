@@ -15,7 +15,7 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
   @Input() clients: Client[];
 
   // устанавливаем названия столбцов и порядок колонок
-  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile'];
+  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new'];
   
   dataSource: MatTableDataSource<Client>;
 
