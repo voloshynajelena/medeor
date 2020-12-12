@@ -16,7 +16,7 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
 
   // устанавливаем названия столбцов и порядок колонок
   displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile'];
-  
+
   dataSource: MatTableDataSource<Client>;
 
   // следим за атрибутами сортировки и пагинации
@@ -26,7 +26,7 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
   constructor(
     private router: Router) {}
 
-  ngOnChanges(){ 
+  ngOnChanges(){
     this.dataSource = new MatTableDataSource(this.clients);
   }
 
@@ -46,7 +46,7 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
   applyFilter(event: Event) {
     // достаем значение переменной для фильтрации из пришедшего события
     const filterValue = (event.target as HTMLInputElement).value;
-    
+
     // устанавливаем значение переменной для фильтрации и обрезаем пробелы
     this.dataSource.filter = filterValue.trim().toLowerCase();
 

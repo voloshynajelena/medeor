@@ -1,0 +1,18 @@
+<mat-toolbar>
+    <button
+    mat-button 
+    mat-icon-button
+    (click)="menu.emit(null)"
+    class="example-icon"
+    aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Medeor</span>
+    <span class="example-spacer"></span>
+    <span>Hello, {{data?.name}} {{data?.surname}}!</span>
+    <span class="avatar client-avatar" >
+        <img alt="" class="avatar profile-avatar" [src]="data?.photo">
+    </span>
+    <button mat-button routerLink="/">Home</button>
+    <button mat-raised-button (click)="logout()">Logout</button>
+  </mat-toolbar>

@@ -1,35 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from 'src/app/services/auth.service';
+import { first } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { setUserData } from 'src/app/state/actions/user.actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent {
-  username = '';
-  password = '';
   hide = true;
+  loginForm: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl: string;
+  error: string;
+
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private store: Store<State>,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService
     ) {}
 
-  validateLogin() {
-    if(this.username && this.password) {
-      // получаем из ngModel переменки и делаем запрос за ID если данные введены правильно
-      this.accountService.getUserId(this.username, this.password)
-      .subscribe((data: {userId}) => {
-        console.log(data);
-        // навигируем на страницу профиля юзера, используя его ID
-        this.router.navigate([`${data.userId}`]);
-      }, error => {
-        console.log('error is ', error);
+    ngOnInit() {
+      this.loginForm = this.formBuilder.group({
+          username: ['', Validators.required],
+          password: ['', Validators.required]
       });
-      } else {
-        alert('enter user name and password');
-      }
-  }
 
+      // get return url from route parameters or default to '/'
+      this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+  }
+// convenience getter for easy access to form fields
+get f() { return this.loginForm.controls; }
+
+onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+        return;
+    }
+
+    this.loading = true;
+    this.authenticationService.login(this.f.username.value, this.f.password.value)
+        .pipe(first())
+        .subscribe(
+            (data) => {
+              console.log('authenticationService---', data);
+              this.store.dispatch(setUserData({id: data?.userId}));
+              this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                this.loading = false;
+            });
+  }
 }

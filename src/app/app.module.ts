@@ -1,18 +1,41 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+
+// Modules
+import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material/material.module';
+
+// Helpers
+import { initialState, metaReducers, reducers } from './state/reducers';
+import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from './_helpers';
+
+// Components
+import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { FormsModule } from '@angular/forms';
 import { ClientComponent } from './components/client/client.component';
 import { ClientsTableComponent } from './components/clients-table/clients-table.component';
+import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MainComponent } from './components/main/main.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ProfileComponent, ClientComponent, ClientsTableComponent],
+  declarations: [
+    AppComponent,
+    MainComponent,
+    HeaderComponent,
+    SidebarComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    ClientComponent,
+    ClientsTableComponent,
+  ],
   imports: [
     BrowserModule,
     MaterialModule,
@@ -20,8 +43,13 @@ import { ClientsTableComponent } from './components/clients-table/clients-table.
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forRoot(reducers, { metaReducers, initialState }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
