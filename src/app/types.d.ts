@@ -1,11 +1,11 @@
 export interface User {
   id: string,
-  name: string,
-  surname: string,
-  phone: string,
-  location: string,
-  specialties: string,
-  photo: string
+  name?: string,
+  surname?: string,
+  phone?: string,
+  location?: string,
+  specialties?: string,
+  photo?: string
 }
 
 export interface Client {

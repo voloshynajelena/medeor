@@ -1,0 +1,20 @@
+<mat-toolbar>
+    <button
+      mat-button 
+      mat-icon-button
+      (click)="menu.emit(null)"
+      aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <span class="header-user-greet">
+      Hello, {{data?.name}} {{data?.surname}}!
+    </span>
+    <span class="avatar header-avatar">
+        <img alt="" class="avatar" [src]="data?.photo">
+    </span>
+    <span class="action-buttons">
+      <button mat-button routerLink="/">Home</button>
+      <button mat-raised-button (click)="logout()">Logout</button>
+    </span>
+</mat-toolbar>

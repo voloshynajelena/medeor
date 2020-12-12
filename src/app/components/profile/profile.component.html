@@ -1,14 +1,3 @@
-<h1>My profile</h1>
-<mat-card>
-    <div class="card profile-card">
-        <span class="avatar client-avatar" >
-            <img alt="" class="avatar profile-avatar" [src]="data?.photo">
-        </span>
-        <span>{{data?.name}} {{data?.surname}}</span>
-    </div>
-</mat-card>
-<br>
-<br>
 <h1>My patients</h1>
 <div *ngIf="clients">
     <app-clients-table [clients]='clients'></app-clients-table>

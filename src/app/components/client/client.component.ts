@@ -24,14 +24,14 @@ export class ClientComponent implements OnInit {
     // достаем ID клиента из адресной строки и записываем в созданную выше переменную
     this.route.params.subscribe(({clientId}) => {
       this.clientId = clientId;
-    })
+    });
 
     // используем ID клиента для получения данных клиента
     // поскольку данные нужно ждать - подписываемся на сервис и когда данные прийдут - запишем их
     this.dataService.getClientData(this.clientId).subscribe(
       (data: any) => {
-        this.client = data
+        this.client = data;
       }
-    )
+    );
   }
 }

@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ClientComponent } from './components/client/client.component';
 import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AuthGuard } from './_helpers';
 
 // в переменную routes добавляем все новые компоненты, которым нужен свой адрес
 // т.о. компонента откроется по указанному адресу
@@ -13,9 +16,13 @@ import { ProfileComponent } from './components/profile/profile.component';
  // Например :clientId
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent },
-    { path: ':userId', component: ProfileComponent },
-    { path: 'client/:clientId', component: ClientComponent },
+    { path: '', component: MainComponent, canActivate: [AuthGuard]  },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: ':userId', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'client/:clientId', component: ClientComponent, canActivate: [AuthGuard] },
+     // otherwise redirect to home
+     { path: '**', redirectTo: '' }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

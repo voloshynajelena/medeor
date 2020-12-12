@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+      <h1>MEDEOR</h1>
+    </mat-drawer>
+    <app-header *ngIf="currentUser" (menu)="drawer.toggle()"></app-header>
+    <section class="section-container">
+        <router-outlet></router-outlet>
+    </section>
+</mat-drawer-container>
