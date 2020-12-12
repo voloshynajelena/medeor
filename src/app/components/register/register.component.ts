@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.less']
+  styleUrls: ['./register.component.less'],
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
       private formBuilder: FormBuilder,
       private router: Router,
       private authenticationService: AuthenticationService,
-      private userService: UserService
+      private userService: UserService,
   ) {
       // redirect to home if already logged in
       if (this.authenticationService.currentUserValue) {
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
           lastName: ['', Validators.required],
           email: ['', Validators.required],
           username: ['', Validators.required],
-          password: ['', [Validators.required, Validators.minLength(6)]]
+          password: ['', [Validators.required, Validators.minLength(6)]],
       });
   }
 

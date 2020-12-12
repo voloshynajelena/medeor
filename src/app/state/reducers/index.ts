@@ -16,7 +16,7 @@ export const initialState: State = {
  * @returns {ActionReducer<State>}
  */
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function(state: State, action: any): State {
+  return (state: State, action: any): State => {
     // tslint:disable-next-line
     console.log('state', state);
     // tslint:disable-next-line

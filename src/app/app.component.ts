@@ -6,4 +6,13 @@ import { AuthenticationService } from './services/auth.service';
   styleUrls: ['./app.component.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent {}
+export class AppComponent {
+  showFiller = true;
+  currentUser: any;
+
+  constructor(
+      private authenticationService: AuthenticationService
+  ) {
+      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+}

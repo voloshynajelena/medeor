@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Client } from 'src/app/types';
 
@@ -13,7 +12,6 @@ export class ProfileComponent implements OnInit {
   user = JSON.parse(localStorage.getItem('currentUser'));
   constructor(
     private dataService: DataService,
-    private route: ActivatedRoute,
     ) {}
 
   ngOnInit(): void {

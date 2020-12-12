@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'src/app/services/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { setUserData } from 'src/app/state/actions/user.actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  styleUrls: ['./login.component.less'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   hide = true;
   loginForm: FormGroup;
   loading = false;
@@ -20,7 +20,6 @@ export class LoginComponent {
   error: string;
 
   constructor(
-    private accountService: AccountService,
     private store: Store<State>,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -31,7 +30,7 @@ export class LoginComponent {
     ngOnInit() {
       this.loginForm = this.formBuilder.group({
           username: ['', Validators.required],
-          password: ['', Validators.required]
+          password: ['', Validators.required],
       });
 
       // get return url from route parameters or default to '/'
@@ -53,7 +52,6 @@ onSubmit() {
         .pipe(first())
         .subscribe(
             (data) => {
-              console.log('authenticationService---', data);
               this.store.dispatch(setUserData({id: data?.userId}));
               this.router.navigate([this.returnUrl]);
             },

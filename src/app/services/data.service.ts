@@ -12,15 +12,9 @@ export class DataService {
   // get userId and token from local storage
   user = JSON.parse(localStorage.getItem('currentUser'));
 
-  // создаем URL's используя переменную, которая хранит адрес API
-  // подставляя окончание, обозначающее метод в API
   urlUser = `${API_URL}/getUserData`;
   urlClient = `${API_URL}/getClient`;
   urlClients = `${API_URL}/getClients`;
-
-  // методы ниже возвращают Observable
-  // обращаемся к GET методу в http
-  // и передаем ему url и переменные, которые будет ждать этот endpoint
 
   getUserData(id: string): Observable<any>  {
     return this.http.get(this.urlUser, {
