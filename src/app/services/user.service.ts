@@ -11,7 +11,7 @@ export class UserService {
     }
 
     register(user) {
-        return this.http.post(`${API_URL}/users/register`, user);
+        return this.http.post(`${API_URL}/addUser`, user);
     }
 
     delete(id) {
