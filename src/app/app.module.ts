@@ -23,6 +23,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ClientComponent } from './components/client/client.component';
 import { ClientsTableComponent } from './components/clients-table/clients-table.component';
+import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ClientsTableComponent } from './components/clients-table/clients-table.
     ProfileComponent,
     ClientComponent,
     ClientsTableComponent,
+    UserSettingsComponent,
   ],
   imports: [
     BrowserModule,
