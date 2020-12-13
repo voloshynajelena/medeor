@@ -1,0 +1,48 @@
+.user
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 45px
+    height: 45px
+    border-radius: 50%
+    overflow: hidden
+    cursor: pointer
+    background-color:#2196F3
+    font-family: sans-serif
+    font-size: 20px
+    color: #ffffff
+    position: relative
+    &__img
+        display: block
+        width: 100%
+        height: 100%
+        object-fit: cover
+        position: absolute
+        top: 0
+        left: 0
+
+.user-info
+    box-sizing: border-box
+    display: flex
+    align-items: center
+    width: 280px
+    padding: 8px 16px
+    font-size: 16px
+    line-height: 1.1
+    &__img
+        margin-right: 8px
+    &__text
+        min-width: 0
+        flex: 1
+    &__name, &__email
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+    &__name
+        font-weight: 500
+        font-size: 1em
+    &__email
+        font-size: 0.8em
+        color: rgba(#000, .6)
+    *
+        cursor: default

@@ -7,7 +7,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <span class="header-user-greet">
+    <!-- <span class="header-user-greet">
       Hello, {{data?.name}} {{data?.surname}}!
     </span>
     <span class="avatar header-avatar">
@@ -16,5 +16,7 @@
     <span class="action-buttons">
       <button mat-button routerLink="/">Home</button>
       <button mat-raised-button (click)="logout()">Logout</button>
-    </span>
+    </span> -->
+    <app-date-now></app-date-now>
+    <app-user-menu *ngIf="data" [data]="data"></app-user-menu>
 </mat-toolbar>
