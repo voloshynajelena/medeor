@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService
     ) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
       this.loginForm = this.formBuilder.group({
           username: ['', Validators.required],
           password: ['', Validators.required],
@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 // convenience getter for easy access to form fields
-get f() { return this.loginForm.controls; }
+  get f(): any { return this.loginForm.controls; }
 
-onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     // stop here if form is invalid
