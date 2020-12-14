@@ -12,7 +12,7 @@ export class DataService {
   // get userId and token from local storage
   user = JSON.parse(localStorage.getItem('currentUser'));
 
-  urlUser = `${API_URL}/getUserData`;
+  urlUser = `${API_URL}/user`;
   urlClient = `${API_URL}/getClient`;
   urlClients = `${API_URL}/getClients`;
 
