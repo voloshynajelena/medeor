@@ -16,7 +16,7 @@ export class DateNowComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    setInterval(() => this.date = new Date(), 1000)
+    setInterval(() => this.date = new Date(), 1000);
   }
 
 }

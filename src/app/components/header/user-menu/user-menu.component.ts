@@ -7,7 +7,7 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.sass']
+  styleUrls: ['./user-menu.component.less']
 })
 export class UserMenuComponent implements OnInit {
 

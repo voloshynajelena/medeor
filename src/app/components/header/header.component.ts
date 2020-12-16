@@ -1,8 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-
-
-// import { AuthenticationService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/types';
 @Component({
@@ -17,8 +13,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    // private router: Router,
-    // private authenticationService: AuthenticationService,
     ) {}
 
   ngOnInit(): void {

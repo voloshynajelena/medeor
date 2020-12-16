@@ -13,8 +13,8 @@ export class DataService {
   user = JSON.parse(localStorage.getItem('currentUser'));
 
   urlUser = `${API_URL}/user`;
-  urlClient = `${API_URL}/getClient`;
-  urlClients = `${API_URL}/getClients`;
+  urlClient = `${API_URL}/client`;
+  urlClients = `${API_URL}/clients`;
 
   getUserData(id: string): Observable<any>  {
     return this.http.get(this.urlUser, {
