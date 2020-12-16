@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-// import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+
 
 // import { AuthenticationService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -13,7 +13,6 @@ import { User } from 'src/app/types';
 export class HeaderComponent implements OnInit {
   data: User;
   user;
-  userData$: Observable<User>;
   @Output() menu: EventEmitter<null> = new EventEmitter<null>();
 
   constructor(
@@ -33,9 +32,4 @@ export class HeaderComponent implements OnInit {
       );
     }
   }
-
-  // logout() {
-  //   this.authenticationService.logout();
-  //   this.router.navigate(['/login']);
-  // }
 }

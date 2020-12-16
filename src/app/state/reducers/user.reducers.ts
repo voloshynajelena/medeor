@@ -18,7 +18,7 @@ const userReducer = createReducer(
   )
 );
 
-function reducer(state: UserState, action: Action) {
+function reducer(state: UserState, action: Action): any {
   return userReducer(state, action);
 }
 

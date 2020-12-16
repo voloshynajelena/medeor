@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
       }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
       this.registerForm = this.formBuilder.group({
         name: ['', Validators.required],
         surname: ['', Validators.required],
@@ -42,9 +42,9 @@ export class RegisterComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f(): any { return this.registerForm.controls; }
 
-  onSubmit() {
+  onSubmit(): void {
       this.submitted = true;
 
       // stop here if form is invalid

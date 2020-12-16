@@ -33,20 +33,20 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
 
   constructor(private router: Router) {}
 
-  ngOnChanges(){
+  ngOnChanges(): void{
     this.dataSource = new MatTableDataSource(this.clients);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  goToClient(id) {
+  goToClient(id): void {
     this.router.navigate([`client/${id}`]);
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource?.paginator) {
