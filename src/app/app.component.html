@@ -1,6 +1,8 @@
 <mat-drawer-container class="container" autosize>
     <mat-drawer #drawer class="sidenav" mode="side">
       <h1>MEDEOR</h1>
+      <mat-divider></mat-divider>
+      <app-sidebar></app-sidebar>
     </mat-drawer>
     <app-header *ngIf="currentUser" (menu)="drawer.toggle()"></app-header>
     <section class="section-container">
