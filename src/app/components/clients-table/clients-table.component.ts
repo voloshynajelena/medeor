@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Client } from 'src/app/types';
+import { Client, Test } from 'src/app/types';
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
@@ -18,6 +18,43 @@ import { Client } from 'src/app/types';
   ],
 })
 export class ClientsTableComponent implements AfterViewInit, OnChanges {
+
+  // code for last-tests-widget component
+
+  //full array of last tests
+  tests: Test[] = [
+    {
+      id: '1',
+      name: 'General blood test',
+      date: new Date('12.09.2020'),
+    },
+    {
+      id: '2',
+      name: 'Blood cholesterol test',
+      date: new Date('10.04.2020'),
+    },
+    {
+      id: '3',
+      name: 'Blood glucose test',
+      date: new Date('12.04.2020'),
+    },
+    {
+      id: '4',
+      name: 'Chromosome testing',
+      date: new Date('6.14.2020'),
+    },
+    { // test element
+      id: '5',
+      name: '5',
+      date: new Date('12.04.2020'),
+    },
+    { // test element
+      id: '6',
+      name: '6',
+      date: new Date('12.04.2020'),
+    },
+  ];
+  // end code for last-tests-widget component
 
   @Input() clients: Client[];
 

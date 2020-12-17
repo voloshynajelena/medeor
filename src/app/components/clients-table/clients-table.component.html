@@ -76,10 +76,43 @@
         <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
           <div class="example-element-detail"
                [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+<!-- --------------------------------- -->
+<!-- --------------------------------- -->
+<!-- --------------------------------- -->
           <!--  KATIA edit below-->
-<!--            <div class="example-element-diagram">-->
-<!--              <app-an-prewiew *ngFor="let i of items"></app-an-prewiew>-->
-<!--            </div>-->
+
+          <!-- expanded row container -->
+          <div class="expanded-row-container">
+
+            <!-- expanded row header - block heading 'Latest tests' -->
+            <div class="last-tests-block-headline">
+              <h2>Latest tests</h2>
+            </div>
+
+            <!-- expanded row body -->
+            <div class="last-test-widgets-block">
+
+              <!-- loop of lasts tests-->
+              <div class="last-test-loop">
+                <ng-container *ngFor="let test of tests | slice:0:4">
+                  <app-last-tests-widget [test]="test"></app-last-tests-widget>
+                </ng-container>
+              </div>
+
+              <!-- button view all -->
+              <div class="but-view-all">
+                <button
+                mat-stroked-button
+                color="primary"
+                (click)="goToClient(row.id)">View all</button>
+              </div>
+
+            </div> <!-- end expanded row body -->
+          </div> <!-- end expanded row container -->
+
+<!-- --------------------------------- -->
+<!-- --------------------------------- -->
+<!-- --------------------------------- -->
           </div>
         </td>
       </ng-container>

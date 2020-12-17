@@ -26,6 +26,7 @@ import { ClientsTableComponent } from './components/clients-table/clients-table.
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 import { UserMenuComponent } from './components/header/user-menu/user-menu.component';
 import { DateNowComponent } from './components/header/date-now/date-now.component';
+import { LastTestsWidgetComponent } from './components/last-tests-widget/last-tests-widget.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DateNowComponent } from './components/header/date-now/date-now.componen
     UserSettingsComponent,
     UserMenuComponent,
     DateNowComponent,
+    LastTestsWidgetComponent,
   ],
   imports: [
     BrowserModule,
