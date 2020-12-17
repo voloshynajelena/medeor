@@ -32,3 +32,8 @@ interface Analyzes {
   category: string;
   groups: string[];
 }
+interface Test {
+  id: string;
+  name: string;
+  date: Date;
+}
