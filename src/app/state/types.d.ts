@@ -3,9 +3,9 @@ interface State {
 }
 
 interface UserState {
-    user: User;
+    user: UserStateId;
 }
 
-interface User {
+interface UserStateId {
     id: string;
 }

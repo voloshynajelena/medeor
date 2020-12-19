@@ -11,7 +11,7 @@ const userReducer = createReducer(
   initialState,
   on(
     setUserData,
-    (state: UserState, { type, ...payload }: User & Action) => ({
+    (state: UserState, { type, ...payload }: UserStateId & Action) => ({
       ...state,
       preferences: payload,
     })

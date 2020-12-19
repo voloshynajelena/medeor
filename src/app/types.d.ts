@@ -20,11 +20,20 @@ export interface Client {
   pregnancy: string;
   phone: string;
   email: string;
-  photo: string;
+  photo?: string;
   analyzes?: Analyzes[];
 }
+export interface ClientDataInput {
+  name: string;
+  surname: string;
+  sex: string;
+  age: string;
+  pregnancy: string;
+  phone: string;
+  email: string;
+}
 
-interface Analyzes {
+export interface Analyzes {
   id: string;
   name: string;
   code: string;
@@ -32,8 +41,12 @@ interface Analyzes {
   category: string;
   groups: string[];
 }
-interface Test {
+export interface Test {
   id: string;
   name: string;
   date: Date;
+}
+
+export interface Response {
+  error: string;
 }

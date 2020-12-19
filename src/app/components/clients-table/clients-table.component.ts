@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ViewChild, OnChanges, Input } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnChanges, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Client, Test } from 'src/app/types';
+import {Client, Test, User} from 'src/app/types';
+import {MatDialog} from '@angular/material/dialog';
+import {NewPatientComponent} from '../new-patient/new-patient.component';
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
@@ -17,11 +19,8 @@ import { Client, Test } from 'src/app/types';
     ]),
   ],
 })
-export class ClientsTableComponent implements AfterViewInit, OnChanges {
-
-  // code for last-tests-widget component
-
-  //full array of last tests
+export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
+  // full array of last tests
   tests: Test[] = [
     {
       id: '1',
@@ -55,21 +54,21 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
     },
   ];
   // end code for last-tests-widget component
-
-  @Input() clients: Client[];
-
-  // устанавливаем названия столбцов и порядок колонок
   displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new'];
-
   dataSource: MatTableDataSource<Client>;
-
-  expandedElement: User | null;
+  user: User;
+  expandedElement: any;
+  @Input() clients: Client[];
   // следим за атрибутами сортировки и пагинации
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private dialog: MatDialog) {}
 
+  ngOnInit(): void{
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
   ngOnChanges(): void{
     this.dataSource = new MatTableDataSource(this.clients);
   }
@@ -89,5 +88,19 @@ export class ClientsTableComponent implements AfterViewInit, OnChanges {
     if (this.dataSource?.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  openCreateNewPatientOverlay(): void {
+    this.dialog.open(NewPatientComponent, {
+      width: '90%',
+      height: '95%',
+      maxWidth: '100%',
+      hasBackdrop: true,
+      autoFocus: false,
+      restoreFocus: false,
+      data: {
+        user: this.user,
+      }
+    });
   }
 }
