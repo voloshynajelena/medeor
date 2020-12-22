@@ -21,7 +21,7 @@ export interface Client {
   phone: string;
   email: string;
   photo?: string;
-  analyzes?: Analyzes[];
+  tags?: string[];
 }
 export interface ClientDataInput {
   name: string;
