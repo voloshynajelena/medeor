@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -6,17 +6,18 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
+import {ClientService} from '../../services/client.service';
 
-//enum all tags array
+// enum all tags array
 enum AllTagsEnum {
-  diabetic = "Diabetic",
-  allergic = "Allergic",
-  multPregnancy = "Multiple pregnancy",
-  secondPregnancy = "Second pregnancy",
-  tenWeeksPregnancy = "10 weeks pregnancy",
-  vegetarian = "Vegetarian",
-  covid = "Covid",
-  exCovid = "ex Covid",
+  diabetic = 'Diabetic',
+  allergic = 'Allergic',
+  multPregnancy = 'Multiple pregnancy',
+  secondPregnancy = 'Second pregnancy',
+  tenWeeksPregnancy = '10 weeks pregnancy',
+  vegetarian = 'Vegetarian',
+  covid = 'Covid',
+  exCovid = 'ex Covid',
 }
 
 @Component({
@@ -25,8 +26,9 @@ enum AllTagsEnum {
   styleUrls: ['./tags.component.less']
 })
 
-export class TagsComponent {
+export class TagsComponent implements OnInit {
   @Input() tags: string[];
+  @Input() client: string;
 
   visible = true;
   selectable = true;
@@ -37,34 +39,54 @@ export class TagsComponent {
 
   filteredTags: Observable<string[]>;
 
-  //current tags array
+  // current tags array
   defaultTags: string[] = ['Diabetic', 'Allergic', 'Multiple pregnancy'];
 
-  //all tags array - for select list
-  allTags: AllTagsEnum[] = [AllTagsEnum.diabetic, AllTagsEnum.allergic, AllTagsEnum.multPregnancy, AllTagsEnum.secondPregnancy, AllTagsEnum.tenWeeksPregnancy, AllTagsEnum.vegetarian, AllTagsEnum.covid, AllTagsEnum.exCovid,];
-  
+  // all tags array - for select list
+  allTags: AllTagsEnum[] = [
+    AllTagsEnum.diabetic,
+    AllTagsEnum.allergic,
+    AllTagsEnum.multPregnancy,
+    AllTagsEnum.secondPregnancy,
+    AllTagsEnum.tenWeeksPregnancy,
+    AllTagsEnum.vegetarian,
+    AllTagsEnum.covid,
+    AllTagsEnum.exCovid,
+  ];
+
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor() {
+  constructor(
+    private clientService: ClientService,
+  ) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
         startWith(null),
         map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
-  ngOnInit() {
-    if(!this.tags.length) {
-      this.tags = this.defaultTags;
-    }
+  ngOnInit(): void {
+    // if (!this.tags.length) {
+    //   this.tags = this.defaultTags;
+    // }
   }
 
   add(event: MatChipInputEvent): void {
+    console.log('add---', event);
+
     const input = event.input;
     const value = event.value;
+    console.log('add---', input);
+    console.log('add---', value);
 
     // Add our tag
     if ((value || '').trim()) {
       this.tags.push(value.trim());
+      this.clientService.updatePatient({
+        id: this.client,
+        tags: this.tags,
+      }).subscribe();
+      console.log('add this.tags---', this.tags);
     }
 
     // Reset the input value
@@ -76,15 +98,21 @@ export class TagsComponent {
   }
 
   remove(tag: string): void {
+    console.log('remove---', tag);
     const index = this.tags.indexOf(tag);
-
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
+    console.log('selected---', event);
+    this.tags.push(event.option.value);
+    this.clientService.updatePatient({
+      id: this.client,
+      tags: this.tags,
+    }).subscribe();
+    console.log('selected---', this.tags);
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
@@ -94,5 +122,5 @@ export class TagsComponent {
 
     return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-  
+
 }
