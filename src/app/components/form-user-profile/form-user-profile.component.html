@@ -1,0 +1,47 @@
+<form action="" class="form-profile">
+  <div class="form-profile__title-wrap">
+    <h2 class="form-profile__title">Profile</h2>
+    <button mat-stroked-button color="accent" type="submit">Save changes</button>
+  </div>
+  <div class="form-profile__change-photo">
+    <div class="form-profile__change-photo-desc">
+      <h3 class="form-profile___change-photo-title">Avatar</h3>
+      <p>Photo must be link</p>
+      <p>
+        <button type="button" class="form-profile__change-btn">change photo</button>
+        or
+        <button type="button" class="form-profile__change-btn form-profile__change-btn--remove">remove photo</button>
+      </p>
+    </div>
+    <div class="form-profile__change-photo-photo">
+      <img src="" alt="user photo">
+    </div>
+  </div>
+  <div class="form-profile__inputs-wrap">
+    <mat-form-field hintLabel="Min 2 - max 16 characters" appearance="fill">
+      <mat-label>First name</mat-label>
+      <input matInput #input minlength="2" maxlength="16" placeholder="Ex. Nougat">
+      <mat-hint align="end">{{input.value?.length || 0}}/16</mat-hint>
+    </mat-form-field>
+    <mat-form-field hintLabel="Min 2 - max 16 characters" appearance="fill">
+      <mat-label>Last name</mat-label>
+      <input matInput #input maxlength="16" placeholder="Ex. Nougat">
+      <mat-hint align="end">{{input.value?.length || 0}}/16</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Changed your email</mat-label>
+      <input matInput placeholder="pat@example.com" [formControl]="email" required>
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="button" *ngIf="passwordChange; else passwordChangeTemplate" (click)="togglePasswordChange()">Change password</button>
+    <ng-template #passwordChangeTemplate>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput minlength="6" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </ng-template>
+  </div>
+</form>

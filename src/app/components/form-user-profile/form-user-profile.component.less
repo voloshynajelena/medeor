@@ -1,0 +1,40 @@
+@import "../../../styles/colors";
+
+.form-profile {
+  /* mat styles */
+  .mat-form-field {
+    margin-bottom: 20px;
+  }
+
+  /* custom styles */
+  &__title-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__title {
+    margin-bottom: auto;
+  }
+
+  &__change-photo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__change-btn {
+    color: @color-crepuscule;
+    border: none;
+    cursor: pointer;
+  }
+  &__change-btn--remove {
+    color: @color-chili;
+  }
+  &__inputs-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+  }
+}
