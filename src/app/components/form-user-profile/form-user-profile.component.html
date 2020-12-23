@@ -1,4 +1,4 @@
-<form action="" class="form-profile">
+<form class="form-profile">
   <div class="form-profile__title-wrap">
     <h2 class="form-profile__title">Profile</h2>
     <button mat-stroked-button color="accent" type="submit">Save changes</button>
@@ -34,14 +34,15 @@
       <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="button" *ngIf="passwordChange; else passwordChangeTemplate" (click)="togglePasswordChange()">Change password</button>
-    <ng-template #passwordChangeTemplate>
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input matInput minlength="6" [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-    </ng-template>
   </div>
 </form>
+
+<ng-template #passwordChangeTemplate>
+  <mat-form-field appearance="fill">
+    <mat-label>Enter your password</mat-label>
+    <input matInput minlength="6" [type]="hide ? 'password' : 'text'">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+</ng-template>
