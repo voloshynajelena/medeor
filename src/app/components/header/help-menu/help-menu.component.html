@@ -1,0 +1,14 @@
+<button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+    <mat-icon>help</mat-icon>
+</button>
+
+<mat-menu #menu xPosition="before">
+    <a href="https://medeor.atlassian.net/wiki/spaces/MEDEOR/" target="_blank" mat-menu-item>
+        <mat-icon>info</mat-icon>
+        <span>Info</span>
+    </a>
+    <a mat-menu-item>
+        <mat-icon>forward_to_inbox</mat-icon>
+        <span>Contact Us</span>
+    </a>
+</mat-menu>

@@ -13,6 +13,8 @@ export class UserMenuComponent {
 
   @Input() data: User;
 
+  currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,

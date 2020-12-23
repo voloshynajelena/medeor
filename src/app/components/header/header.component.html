@@ -7,6 +7,15 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <app-date-now></app-date-now>
-    <app-user-menu *ngIf="data" [data]="data"></app-user-menu>
+    <div class="header-right-grid">
+      <div class="header-right-grid__col">
+        <app-date-now></app-date-now>
+      </div>
+      <div class="header-right-grid__col">
+        <app-help-menu></app-help-menu>
+      </div>
+      <div class="header-right-grid__col">
+        <app-user-menu *ngIf="data" [data]="data"></app-user-menu>
+      </div>
+    </div>
 </mat-toolbar>

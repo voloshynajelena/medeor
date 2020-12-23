@@ -28,6 +28,7 @@ import { UserMenuComponent } from './components/header/user-menu/user-menu.compo
 import { DateNowComponent } from './components/header/date-now/date-now.component';
 import { LastTestsWidgetComponent } from './components/last-tests-widget/last-tests-widget.component';
 import { NewPatientComponent } from './components/new-patient/new-patient.component';
+import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NewPatientComponent } from './components/new-patient/new-patient.compon
     DateNowComponent,
     LastTestsWidgetComponent,
     NewPatientComponent,
+    HelpMenuComponent,
   ],
   imports: [
     BrowserModule,
