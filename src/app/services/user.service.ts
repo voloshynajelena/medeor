@@ -7,8 +7,11 @@ import {Observable} from 'rxjs';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAll(): Observable<any> {
-        return this.http.get<any[]>(`${API_URL}/users`);
+    getAll(id, authorization): Observable<any> {
+        return this.http.get<any[]>(`${API_URL}/users`, {params: {
+          id,
+          authorization,
+          }});
     }
 
     update(user): Observable<any> {
