@@ -11,6 +11,7 @@ import { User } from 'src/app/types';
 })
 export class UserMenuComponent {
 
+  idUser: string;
   @Input() data: User;
 
   constructor(
@@ -23,4 +24,7 @@ export class UserMenuComponent {
     this.router.navigate(['/login']);
   }
 
+  ngOnInit(): string {
+    return this.idUser = this.data.id;
+  }
 }

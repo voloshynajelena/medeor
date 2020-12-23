@@ -17,11 +17,11 @@
         </div>
     </div>
     <mat-divider></mat-divider>
-    <a mat-menu-item>
+    <a mat-menu-item [routerLink]="[this.idUser]">
         <mat-icon>account_circle</mat-icon>
         <span>Profile</span>
     </a>
-    <a mat-menu-item>
+    <a mat-menu-item [routerLink]="['/user-settings']">
         <mat-icon>settings</mat-icon>
         <span>Settings</span>
     </a>
