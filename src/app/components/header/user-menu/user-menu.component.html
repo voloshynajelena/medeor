@@ -1,19 +1,11 @@
-<div class="user" [matMenuTriggerFor]="menu">
-    {{data.name[0] + data.surname[0] | uppercase}}
-    <img *ngIf="data.photo" src="{{data.photo}}" alt="avatar" class="user__img">
-</div>
+<app-user-icon class="user-icon" [userData]="user" [matMenuTriggerFor]="menu"></app-user-icon>
 
 <mat-menu #menu xPosition="before">
-    <div class="user-info">
-        <div class="user-info__img">
-            <div class="user">
-                {{data.name[0] + data.surname[0] | uppercase}}
-                <img *ngIf="data.photo" src="{{data.photo}}" alt="avatar" class="user__img">
-            </div>
-        </div>
+    <div class="user-info" (click)="$event.stopPropagation()">
+        <app-user-icon class="user-info__img" [userData]="user"></app-user-icon>
         <div class="user-info__text">
-            <div class="user-info__name">{{data.name | titlecase}} {{data.surname | titlecase}}</div>
-            <div class="user-info__email">{{data.email}}</div>
+            <div class="user-info__name">{{user.name | titlecase}} {{user.surname | titlecase}}</div>
+            <div class="user-info__email">{{user.email}}</div>
         </div>
     </div>
     <mat-divider></mat-divider>

@@ -11,7 +11,7 @@ import { User } from 'src/app/types';
 })
 export class UserMenuComponent {
 
-  @Input() data: User;
+  @Input() user: User;
 
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

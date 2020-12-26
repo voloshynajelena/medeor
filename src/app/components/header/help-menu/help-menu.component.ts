@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
+import { User } from 'src/app/types';
 
 @Component({
   selector: 'app-help-menu',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HelpMenuComponent implements OnInit {
 
-  constructor() { }
+  @Input() user: User;
+
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+
+  contactUsModalOpen() {
+    this.dialog.open(ContactUsModalComponent, {data: this.user});
   }
 
 }

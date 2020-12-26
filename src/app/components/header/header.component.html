@@ -12,10 +12,10 @@
         <app-date-now></app-date-now>
       </div>
       <div class="header-right-grid__col">
-        <app-help-menu></app-help-menu>
+        <app-help-menu [user]="data"></app-help-menu>
       </div>
       <div class="header-right-grid__col">
-        <app-user-menu *ngIf="data" [data]="data"></app-user-menu>
+        <app-user-menu *ngIf="data" [user]="data"></app-user-menu>
       </div>
     </div>
 </mat-toolbar>
