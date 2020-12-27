@@ -1,0 +1,14 @@
+<button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+    <mat-icon>help_outline</mat-icon>
+</button>
+
+<mat-menu #menu xPosition="before">
+    <a href="https://medeor.atlassian.net/wiki/spaces/MEDEOR/" target="_blank" mat-menu-item>
+        <mat-icon>info</mat-icon>
+        <span>Info</span>
+    </a>
+    <button (click)="contactUsModalOpen()" mat-menu-item>
+        <mat-icon>forward_to_inbox</mat-icon>
+        <span>Contact Us</span>
+    </button>
+</mat-menu>

@@ -11,8 +11,9 @@ import { User } from 'src/app/types';
 })
 export class UserMenuComponent {
 
-  idUser: string;
-  @Input() data: User;
+  @Input() user: User;
+
+  currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(
     private router: Router,
@@ -24,7 +25,4 @@ export class UserMenuComponent {
     this.router.navigate(['/login']);
   }
 
-  ngOnInit(): string {
-    return this.idUser = this.data.id;
-  }
 }
