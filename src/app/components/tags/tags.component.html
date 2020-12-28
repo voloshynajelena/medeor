@@ -1,5 +1,5 @@
-<div class="tags-container" 
-[class.tags-container-active]="isActive" 
+<div class="tags-container"
+[class.tags-container-active]="isActive"
 (clickOutside)="onClickedOutside($event)"
 >
 
@@ -30,7 +30,7 @@
       <!-- tags added block and input -->
       <mat-chip-list #chipList aria-label="Tag selection">
         <mat-chip
-          *ngFor="let tag of tags"
+          *ngFor="let tag of tagCtrl.value"
           [selectable]="selectable"
           [removable]="removable"
           (removed)="remove(tag)">
@@ -70,10 +70,10 @@
           <span class="material-icons">
             info
           </span>
-          This tag has been already added          
+          This tag has been already added
         </p>
       </div>
-      
+
     </mat-form-field>
   </div>
 
