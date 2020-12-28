@@ -8,17 +8,11 @@
     <mat-form-field class="tags-list" [class.active-tag-block]="isActive" #tagsBlock>
       <mat-label>Patient tags</mat-label>
 
-      <!-- no tags added block -->
-      <div class="no-tags-block-hide" [class.is-no-tags-added]="isNoTags">
+      <div class="is-no-tags-added" *ngIf="!tags.length">
         <p>No tags added</p>
-
-        <button mat-mini-fab color="primary" (click)="inputEnable()">
-          <mat-icon>add</mat-icon>
-        </button>
       </div>
 
-      <!-- no tags to delete block -->
-      <div class="no-tags-to-delete-hide" [class.is-no-tags-to-delete]="isNoTagsToDelete">
+      <div class="is-no-tags-to-delete" *ngIf="isNoTagsToDelete">
         <p>
           <span class="material-icons">
             info
@@ -30,7 +24,7 @@
       <!-- tags added block and input -->
       <mat-chip-list #chipList aria-label="Tag selection">
         <mat-chip
-          *ngFor="let tag of tagCtrl.value"
+          *ngFor="let tag of tags"
           [selectable]="selectable"
           [removable]="removable"
           (removed)="remove(tag)">
@@ -89,7 +83,7 @@
         </mat-icon>
       </button>
 
-      <button mat-button class="edit-but" (click)="inputDisable()">
+      <button mat-button class="edit-but" (click)="saveTags()">
         <mat-icon class="button-icon">
           <span class="material-icons">
             done_outline

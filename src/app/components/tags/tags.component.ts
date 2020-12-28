@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -9,18 +9,8 @@ import { map } from 'rxjs/operators';
 import {ClientService} from '../../services/client.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-delete-all-tags.component';
+import {AllTagsEnum} from '../../constants';
 
-// enum all tags array
-enum AllTagsEnum {
-  diabetic = 'Diabetic',
-  allergic = 'Allergic',
-  multPregnancy = 'Multiple pregnancy',
-  secondPregnancy = 'Second pregnancy',
-  tenWeeksPregnancy = '10 weeks pregnancy',
-  vegetarian = 'Vegetarian',
-  covid = 'Covid',
-  exCovid = 'ex Covid',
-}
 
 @Component({
   selector: 'app-tags',
@@ -28,9 +18,18 @@ enum AllTagsEnum {
   styleUrls: ['./tags.component.less']
 })
 
-export class TagsComponent implements OnInit {
+export class TagsComponent {
   @Input() tags: string[];
   @Input() client: string;
+
+  constructor(
+    private clientService: ClientService,
+    public dialog: MatDialog,
+  ) {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+  }
 
   visible = true;
   selectable = true;
@@ -45,9 +44,6 @@ export class TagsComponent implements OnInit {
 
   // block no tags to delete is false by default
   isNoTagsToDelete = false;
-
-  // if no tags added
-  isNoTags = false;
 
   filteredTags: Observable<string[]>;
 
@@ -69,16 +65,6 @@ export class TagsComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  ngOnInit(): void {
-    if (!this.tags.length) {
-      this.isNoTags = true;
-    } else {
-      this.isNoTags = false;
-      this.tagCtrl.setValidators([this.duplicateTagsValidator]);
-
-    }
-  }
-
   // enable tags edit mode
   inputEnable(): void {
     // input enable
@@ -86,9 +72,6 @@ export class TagsComponent implements OnInit {
 
     // add style class active
     this.isActive = true;
-
-    // hide no-tags block
-    this.isNoTags = false;
 
     // enable tags remove option
     this.removable = true;
@@ -98,7 +81,7 @@ export class TagsComponent implements OnInit {
   }
 
   // disable tags edit mode
-  inputDisable(): void {
+  saveTags(): void {
     // input disable
     this.tagCtrl.disable();
 
@@ -107,13 +90,6 @@ export class TagsComponent implements OnInit {
 
     // disable tags remove option
     this.removable = false;
-
-    // show no-tags block if tags array is empty after edition
-    if (!this.tags.length) {
-      this.isNoTags = true;
-    } else {
-      this.isNoTags = false;
-    }
 
     // hide no tags to delete
     this.isNoTagsToDelete = false;
@@ -131,43 +107,15 @@ export class TagsComponent implements OnInit {
 
     // remove style class active
     this.isActive = false;
-
-    // show no-tags block
-    this.isNoTags = true;
   }
-
-  // modal window - are you to delete all tags?
-  openDialogRemoveAllTags(): void {
-    const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (this.tags.length && result) {
-        this.deleteAllTags();
-      } else if (!this.tags.length && result) {
-        // show if no tags to delete
-        this.isNoTagsToDelete = true;
-      }
-    });
-  }
-
   // click outside of the tags block
   onClickedOutside(event: Event): void {
-
+    setTimeout(() => {this.isSameTag = false}, 2000);
     // disable tags edit mode by click outside of the block
-    this.inputDisable();
+    this.saveTags();
 
     // hide no tags to delete by click outside of the block
     this.isNoTagsToDelete = false;
-  }
-
-
-  constructor(
-    private clientService: ClientService,
-    public dialog: MatDialog,
-  ) {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-        startWith(null),
-        map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
   // adding new tag by clicking to button
@@ -225,6 +173,7 @@ export class TagsComponent implements OnInit {
 
       // check if a new tag doesn't exist in the array
       if (indexNewTag === -1) {
+        this.isSameTag = false;
 
         // add new tag
         this.tags.push(value.trim());
@@ -255,6 +204,7 @@ export class TagsComponent implements OnInit {
     // check if a new tag doesn't exist in the array
     if (indexNewTag === -1) {
 
+      this.isSameTag = false;
       // add new tag from select
       this.tags.push(event.option.value);
     } else {
@@ -294,6 +244,20 @@ export class TagsComponent implements OnInit {
       return { duplicatedNewTag: 'This tag has been already added to the list' };
     }
     return null;
+  }
+
+  // modal window - are you to delete all tags?
+  openDialogRemoveAllTags(): void {
+    const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.tags.length && result) {
+        this.deleteAllTags();
+      } else if (!this.tags.length && result) {
+        // show if no tags to delete
+        this.isNoTagsToDelete = true;
+      }
+    });
   }
 
   private _filter(value: string): string[] {
