@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material/material.module';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 // Helpers
 import { initialState, metaReducers, reducers } from './state/reducers';
@@ -29,6 +30,7 @@ import { DateNowComponent } from './components/header/date-now/date-now.componen
 import { LastTestsWidgetComponent } from './components/last-tests-widget/last-tests-widget.component';
 import { NewPatientComponent } from './components/new-patient/new-patient.component';
 import { TagsComponent } from './components/tags/tags.component';
+import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { TagsComponent } from './components/tags/tags.component';
     LastTestsWidgetComponent,
     NewPatientComponent,
     TagsComponent,
+    ModalDeleteAllTagsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { TagsComponent } from './components/tags/tags.component';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, { metaReducers, initialState }),
+    ClickOutsideModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

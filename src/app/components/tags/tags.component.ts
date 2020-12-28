@@ -1,12 +1,14 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
 import {ClientService} from '../../services/client.service';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-delete-all-tags.component';
 
 // enum all tags array
 enum AllTagsEnum {
@@ -32,15 +34,122 @@ export class TagsComponent implements OnInit {
 
   visible = true;
   selectable = true;
-  removable = true;
+
+  //disable tags remove option by default
+  removable = false;
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  tagCtrl = new FormControl();
+  tagCtrl = new FormControl([], [this.duplicateTagsValidator]);
+
+  //tags duplication validator
+  duplicateTagsValidator(control: FormControl): ValidationErrors {
+    let newTag = control.value;//new tag
+    let indexNewTag = this.tags.indexOf(newTag);//index of new tag
+    if(indexNewTag >= 0) {
+      return { duplicatedNewTag: 'This tag has been already added to the list' };
+    }
+    return null;
+  }
+
+  //class active for edit mode is false by default
+  isActive = false;
+  
+  //warning block of duplicate tag is hidden by default
+  isSameTag = false;
+
+  //block no tags to delete is false by default
+  isNoTagsToDelete = false;
+
+  //if no tags added
+  isNoTags: boolean = false;
+  ngOnInit(): void {
+    if (!this.tags.length) {
+      this.isNoTags = true;
+    } else this.isNoTags = false;
+  }
+
+  //enable tags edit mode
+  inputEnable(){
+    //input enable
+    this.tagCtrl.enable();
+
+    //add style class active
+    this.isActive = true;
+
+    //hide no-tags block
+    this.isNoTags = false;
+
+    //enable tags remove option
+    this.removable = true;
+
+    //hide no tags to delete
+    this.isNoTagsToDelete = false;
+  }
+
+  //disable tags edit mode
+  inputDisable(){
+    //input disable
+    this.tagCtrl.disable();
+
+    //remove style class active
+    this.isActive = false;
+
+    //disable tags remove option
+    this.removable = false;
+
+    //show no-tags block if tags array is empty after edition
+    if (!this.tags.length) {
+      this.isNoTags = true;
+    } else this.isNoTags = false;
+
+    //hide no tags to delete
+    this.isNoTagsToDelete = false;
+  }
+
+  //remove all tags
+  deleteAllTags() {
+    this.tags = [];
+
+    //send data to server
+    this.clientService.updatePatient({
+      id: this.client,
+      tags: this.tags,
+    }).subscribe();
+
+    //remove style class active
+    this.isActive = false;
+
+    //show no-tags block
+    this.isNoTags = true;
+  }
+  
+  //modal window - are you to delete all tags?
+  openDialogRemoveAllTags(): void {
+    const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(this.tags.length && result) {
+        this.deleteAllTags();
+      } else if(!this.tags.length && result) {
+        //show if no tags to delete
+        this.isNoTagsToDelete = true;
+      }
+    });
+  }
+
+  @ViewChild('tagsBlock') tagsBlock: ElementRef;
+
+  //click outside of the tags block
+  onClickedOutside(event: Event) {
+
+    //disable tags edit mode by click outside of the block
+    this.inputDisable();
+
+    //hide no tags to delete by click outside of the block
+    this.isNoTagsToDelete = false;
+  }
 
   filteredTags: Observable<string[]>;
-
-  // current tags array
-  defaultTags: string[] = ['Diabetic', 'Allergic', 'Multiple pregnancy'];
 
   // all tags array - for select list
   allTags: AllTagsEnum[] = [
@@ -59,34 +168,79 @@ export class TagsComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
+    public dialog: MatDialog,
   ) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
         startWith(null),
         map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
   }
 
-  ngOnInit(): void {
-    // if (!this.tags.length) {
-    //   this.tags = this.defaultTags;
-    // }
-  }
-
-  add(event: MatChipInputEvent): void {
-    console.log('add---', event);
-
-    const input = event.input;
-    const value = event.value;
-    console.log('add---', input);
-    console.log('add---', value);
+  //adding new tag by clicking to button
+  addTagBut() {
+    let newTag = this.tagInput.nativeElement.value;
 
     // Add our tag
-    if ((value || '').trim()) {
-      this.tags.push(value.trim());
+    if ((newTag || '').trim()) {
+
+      //add new tag
+      this.tags.push(newTag.trim());
+      
+      //let indexNewTag = this.tags.indexOf(newTag);
+
+      //check if a new tag doesn't exist in the array
+      //if(indexNewTag === -1) {
+
+        //add new tag
+       // this.tags.push(newTag.trim());
+
+      // } else {
+      //     this.isSameTag = true;
+
+      //     setTimeout(function(){
+      //       this.isSameTag = false;
+      //       console.log('setTimeout works in 2 sec!!!!!!!!!!!!!!');
+      //     }, 2000);
+      // }
+
+      //send data to server
       this.clientService.updatePatient({
         id: this.client,
         tags: this.tags,
       }).subscribe();
-      console.log('add this.tags---', this.tags);
+    }
+
+    // Reset the input value
+    if (this.tagInput) {
+      this.tagInput.nativeElement.value = '';
+    }
+
+    this.tagCtrl.setValue(null);
+  }
+
+  //adding new tag by clicking on enter or comma
+  add(event: MatChipInputEvent): void {
+
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+      
+      let indexNewTag = this.tags.indexOf(value);
+
+      //check if a new tag doesn't exist in the array
+      if(indexNewTag === -1) {
+
+        //add new tag
+        this.tags.push(value.trim());
+
+      } else this.isSameTag = true;
+
+      //send data to server
+      this.clientService.updatePatient({
+        id: this.client,
+        tags: this.tags,
+      }).subscribe();
     }
 
     // Reset the input value
@@ -97,24 +251,40 @@ export class TagsComponent implements OnInit {
     this.tagCtrl.setValue(null);
   }
 
-  remove(tag: string): void {
-    console.log('remove---', tag);
-    const index = this.tags.indexOf(tag);
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-    }
-  }
-
+  //adding our tag from select list
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log('selected---', event);
-    this.tags.push(event.option.value);
+
+    let indexNewTag = this.tags.indexOf(event.option.value);
+
+    //check if a new tag doesn't exist in the array
+    if(indexNewTag === -1) {
+
+      //add new tag from select
+      this.tags.push(event.option.value);
+    } else this.isSameTag = true;
+
+    //send data to server
     this.clientService.updatePatient({
       id: this.client,
       tags: this.tags,
     }).subscribe();
-    console.log('selected---', this.tags);
+    
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
+  }
+
+  //remove tags from tags array
+  remove(tag: string): void {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+
+      //send data to server
+      this.clientService.updatePatient({
+        id: this.client,
+        tags: this.tags,
+      }).subscribe();
+    }
   }
 
   private _filter(value: string): string[] {
@@ -122,5 +292,4 @@ export class TagsComponent implements OnInit {
 
     return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-
 }
