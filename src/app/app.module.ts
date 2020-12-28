@@ -29,6 +29,9 @@ import { UserMenuComponent } from './components/header/user-menu/user-menu.compo
 import { DateNowComponent } from './components/header/date-now/date-now.component';
 import { LastTestsWidgetComponent } from './components/last-tests-widget/last-tests-widget.component';
 import { NewPatientComponent } from './components/new-patient/new-patient.component';
+import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
+import { UserIconComponent } from './components/user-icon/user-icon.component';
+import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
 
@@ -48,6 +51,9 @@ import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/
     DateNowComponent,
     LastTestsWidgetComponent,
     NewPatientComponent,
+    HelpMenuComponent,
+    UserIconComponent,
+    ContactUsModalComponent,
     TagsComponent,
     ModalDeleteAllTagsComponent,
   ],

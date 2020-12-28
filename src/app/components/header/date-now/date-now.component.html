@@ -1,0 +1,10 @@
+<button [matMenuTriggerFor]="calendar" class="date-now">{{ date | date: 'd MMMM YYYY, EEEE | HH:mm:ss'}}</button>
+
+<mat-menu #calendar xPosition="after">
+    <mat-calendar (click)="$event.stopPropagation()"></mat-calendar>
+    <mat-divider></mat-divider>
+    <button class="mat-icon" mat-menu-item>
+        <mat-icon>cancel_presentation</mat-icon>
+        <span>Close</span>
+    </button>
+</mat-menu>

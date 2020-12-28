@@ -20,4 +20,9 @@ export class ClientService {
   updatePatient(data: ClientDataInput): Observable<any> {
     return this.http.put<Client>(this.urlClient, { ...data  });
   }
+
+  deletePatient(id: string): Observable<any> {
+    return this.http.delete<any>(this.urlClient,  {params: {id}});
+  }
+
 }

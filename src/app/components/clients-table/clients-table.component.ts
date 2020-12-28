@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {Client, Test, User} from 'src/app/types';
 import {MatDialog} from '@angular/material/dialog';
 import {NewPatientComponent} from '../new-patient/new-patient.component';
+import {ClientService} from '../../services/client.service';
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
@@ -54,7 +55,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     },
   ];
   // end code for last-tests-widget component
-  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new'];
+  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new', 'remove'];
   dataSource: MatTableDataSource<Client>;
   user: User;
   expandedElement: any;
@@ -64,7 +65,8 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private router: Router,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private clientService: ClientService) {}
 
   ngOnInit(): void{
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -78,8 +80,14 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.dataSource.sort = this.sort;
   }
 
-  goToClient(id): void {
+  goToClient(event: Event, id): void {
+    event.stopPropagation();
     this.router.navigate([`client/${id}`]);
+  }
+
+  removeClient(event: Event, id): void {
+    event.stopPropagation();
+    this.clientService.deletePatient(id).subscribe();
   }
 
   applyFilter(event: Event): void {

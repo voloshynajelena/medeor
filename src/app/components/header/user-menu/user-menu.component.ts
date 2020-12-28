@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/auth.service';
 
@@ -9,18 +9,16 @@ import { User } from 'src/app/types';
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.less']
 })
-export class UserMenuComponent implements OnInit {
+export class UserMenuComponent {
 
-  @Input() data: User;
+  @Input() user: User;
+
+  currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
-
-  ngOnInit(): void {
-    console.log(this.data)
-  }
 
   logout(): void {
     this.authenticationService.logout();

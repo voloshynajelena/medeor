@@ -1,0 +1,4 @@
+<div class="user">
+    {{data.name[0] + data.surname[0] | uppercase}}
+    <img *ngIf="data.photo" src="{{data.photo}}" alt="avatar" class="user__img">
+</div>
