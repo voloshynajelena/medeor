@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material/material.module';
-import { ClickOutsideModule } from 'ng-click-outside';
 
 // Helpers
 import { initialState, metaReducers, reducers } from './state/reducers';
@@ -66,7 +65,6 @@ import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, { metaReducers, initialState }),
-    ClickOutsideModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

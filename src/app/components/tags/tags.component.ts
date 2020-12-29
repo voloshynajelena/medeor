@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormControl, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, ValidationErrors } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs/internal/Observable';
@@ -10,6 +10,7 @@ import {ClientService} from '../../services/client.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-delete-all-tags.component';
 import {AllTagsEnum} from '../../constants';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class TagsComponent {
 
   constructor(
     private clientService: ClientService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -36,14 +37,21 @@ export class TagsComponent {
 
   // disable tags remove option by default
   removable = false;
+
   // class active for edit mode is false by default
   isActive = false;
 
-  // warning block of duplicate tag is hidden by default
+  // notification block of duplicate tag is hidden by default
   isSameTag = false;
 
   // block no tags to delete is false by default
   isNoTagsToDelete = false;
+
+  //option to hide 'no tags block' is false by default
+  isNoAddedTagsHide = false;
+
+  //show edit (pencil) button and hide check mark button by default 
+  editBtnDisplay = true;
 
   filteredTags: Observable<string[]>;
 
@@ -61,7 +69,6 @@ export class TagsComponent {
     AllTagsEnum.covid,
     AllTagsEnum.exCovid,
   ];
-  @ViewChild('tagsBlock') tagsBlock: ElementRef;
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -78,10 +85,23 @@ export class TagsComponent {
 
     // hide no tags to delete
     this.isNoTagsToDelete = false;
+
+    //hide 'no tags block' in active mode
+    this.isNoAddedTagsHide = true;
+
+    //hide edit (pencil) button and show check mark button
+    this.editBtnDisplay = false;
   }
 
-  // disable tags edit mode
+  // disable tags edit mode (save tags)
   saveTags(): void {
+
+    // send data to server
+    this.clientService.updatePatient({
+      id: this.client,
+      tags: this.tags,
+    }).subscribe();
+    
     // input disable
     this.tagCtrl.disable();
 
@@ -93,6 +113,17 @@ export class TagsComponent {
 
     // hide no tags to delete
     this.isNoTagsToDelete = false;
+
+    // hide duplicate tag block
+    this.isSameTag = false;
+
+    //show edit (pencil) button and hide check mark button
+    this.editBtnDisplay = true;
+
+    //show 'no tags block' if no tags added
+    if(!this.tags.length) {
+      this.isNoAddedTagsHide = false;
+    }
   }
 
   // remove all tags
@@ -107,15 +138,14 @@ export class TagsComponent {
 
     // remove style class active
     this.isActive = false;
-  }
-  // click outside of the tags block
-  onClickedOutside(event: Event): void {
-    setTimeout(() => {this.isSameTag = false}, 2000);
-    // disable tags edit mode by click outside of the block
-    this.saveTags();
 
-    // hide no tags to delete by click outside of the block
-    this.isNoTagsToDelete = false;
+    //show edit (pencil) button and hide check mark button
+    this.editBtnDisplay = true;
+
+    //show 'no tags block'
+    if(!this.tags.length) {
+      this.isNoAddedTagsHide = false;
+    }
   }
 
   // adding new tag by clicking to button
@@ -125,35 +155,21 @@ export class TagsComponent {
     // Add our tag
     if ((newTag || '').trim()) {
 
-      // add new tag
-      this.tags.push(newTag.trim());
-
-      // let indexNewTag = this.tags.indexOf(newTag);
+      const indexNewTag = this.tags.indexOf(newTag);
 
       // check if a new tag doesn't exist in the array
-      // if(indexNewTag === -1) {
+      if(indexNewTag === -1) {
+        this.isSameTag = false;
 
         // add new tag
-       // this.tags.push(newTag.trim());
-
-      // } else {
-      //     this.isSameTag = true;
-
-      //     setTimeout(function(){
-      //       this.isSameTag = false;
-      //       console.log('setTimeout works in 2 sec!!!!!!!!!!!!!!');
-      //     }, 2000);
-      // }
-
-      // send data to server
-      this.clientService.updatePatient({
-        id: this.client,
-        tags: this.tags,
-      }).subscribe();
+        this.tags.push(newTag.trim());
+      } else {
+          this.isSameTag = true;
+      }
     }
 
     // Reset the input value
-    if (this.tagInput) {
+    if (this.tagInput.nativeElement) {
       this.tagInput.nativeElement.value = '';
     }
 
@@ -177,16 +193,9 @@ export class TagsComponent {
 
         // add new tag
         this.tags.push(value.trim());
-
       } else {
         this.isSameTag = true;
       }
-
-      // send data to server
-      this.clientService.updatePatient({
-        id: this.client,
-        tags: this.tags,
-      }).subscribe();
     }
 
     // Reset the input value
@@ -203,19 +212,13 @@ export class TagsComponent {
 
     // check if a new tag doesn't exist in the array
     if (indexNewTag === -1) {
-
       this.isSameTag = false;
+
       // add new tag from select
       this.tags.push(event.option.value);
     } else {
       this.isSameTag = true;
     }
-
-    // send data to server
-    this.clientService.updatePatient({
-      id: this.client,
-      tags: this.tags,
-    }).subscribe();
 
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
@@ -226,12 +229,6 @@ export class TagsComponent {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
-
-      // send data to server
-      this.clientService.updatePatient({
-        id: this.client,
-        tags: this.tags,
-      }).subscribe();
     }
   }
 
@@ -246,7 +243,7 @@ export class TagsComponent {
     return null;
   }
 
-  // modal window - are you to delete all tags?
+  // modal window - are you sure to delete all tags?
   openDialogRemoveAllTags(): void {
     const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
 
@@ -254,11 +251,17 @@ export class TagsComponent {
       if (this.tags.length && result) {
         this.deleteAllTags();
       } else if (!this.tags.length && result) {
-        // show if no tags to delete
+        // show block no tags to delete
         this.isNoTagsToDelete = true;
+        // hide block no tags to delete after 1 sec
+        setTimeout(() => {this.isNoTagsToDelete = false}, 1000);
       }
     });
   }
+
+  //tooltips for edit buttons
+  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
+  position = new FormControl(this.positionOptions[1]);
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

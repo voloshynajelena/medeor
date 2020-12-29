@@ -6,8 +6,10 @@
 .tags-container-active {
   padding-bottom: 20px;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
-  min-height: 20px;
+:host {
+  ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+    min-height: 20px;
+  }
 }
 .is-no-tags-added {
   display: flex;
@@ -18,9 +20,10 @@
 .is-no-tags-added p {
   color: #868888;
   font-size: 12px;
-  padding: 7px;
-  margin-right: 7px;
   margin-bottom: 0;
+}
+.is-no-tags-added-hide {
+  display: none;
 }
 .add-tag-button-hide {
   display: none;
@@ -85,11 +88,13 @@
 .inactive-input {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
-  display: none;
-}
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-  padding-bottom: 8px;
+:host {
+  ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+    display: none;
+  }
+  ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 8px;
+  }
 }
 //edit buttons block
 .buttons-edit-block {
@@ -102,13 +107,13 @@
   border: none;
   display: flex;
 }
-.edit-but {
+.edit-btn {
   color: #3f51b5;
   width: 100%;
   border-right: 1px solid #d7d7d7;
   border-radius: 0;
 }
-.edit-but:last-child {
+.edit-btn:last-child {
   border: none;
 }
 .button-icon span {
