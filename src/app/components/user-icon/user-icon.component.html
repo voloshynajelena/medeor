@@ -1,4 +1,6 @@
 <div class="user">
-    <span class="user__sign">{{data.name[0] + data.surname[0] | uppercase}}</span>
+    <svg class="user__sign" viewBox="0 0 25 25">
+        <text x="50%" y="50%" dy="1" dominant-baseline="middle" text-anchor="middle" font-size="11" fill="#fff">{{data.name[0] + data.surname[0] | uppercase}}</text>
+    </svg>
     <img *ngIf="data.photo" src="{{data.photo}}" alt="avatar" class="user__img">
 </div>
