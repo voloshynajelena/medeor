@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ClientService } from 'src/app/services/client.service';
-import { DeletePatientModalComponent } from 'src/app/components/delete-patient-modal/delete-patient-modal.component';
+import { RemovePatientModalComponent } from 'src/app/components/remove-patient-modal/remove-patient-modal.component';
 import { TESTS } from 'src/app/components/clients-table/clients-table.component';
 // import { TestBedStatic } from '@angular/core/testing';
 
@@ -141,7 +141,7 @@ export class ClientComponent implements OnInit {
   }
 
   acceptToRemove() {
-    const dialogRef = this.dialog.open(DeletePatientModalComponent, {data: this.client});
+    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: this.client});
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {

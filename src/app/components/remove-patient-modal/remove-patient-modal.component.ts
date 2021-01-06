@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Client } from 'src/app/types';
 
 @Component({
-  selector: 'app-delete-patient-modal',
-  templateUrl: './delete-patient-modal.component.html',
-  styleUrls: ['./delete-patient-modal.component.less']
+  selector: 'app-remove-patient-modal',
+  templateUrl: './remove-patient-modal.component.html',
+  styleUrls: ['./remove-patient-modal.component.less']
 })
-export class DeletePatientModalComponent implements OnInit {
+export class RemovePatientModalComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Client) { }
 

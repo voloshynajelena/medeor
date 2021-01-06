@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewPatientComponent } from '../new-patient/new-patient.component';
 import { ClientService } from '../../services/client.service';
 import { DataService } from '../../services/data.service';
-import { DeletePatientModalComponent } from '../delete-patient-modal/delete-patient-modal.component';
+import { RemovePatientModalComponent } from '../remove-patient-modal/remove-patient-modal.component';
 
 export const TESTS: Test[] = [
   {
@@ -97,7 +97,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
     // this.clientService.deletePatient(id).subscribe();
 
-    const dialogRef = this.dialog.open(DeletePatientModalComponent, {data: client});
+    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: client});
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
