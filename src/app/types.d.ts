@@ -21,16 +21,18 @@ export interface Client {
   phone: string;
   email: string;
   photo?: string;
-  analyzes?: Analyzes[];
+  tags?: string[];
 }
 export interface ClientDataInput {
-  name: string;
-  surname: string;
-  sex: string;
-  age: string;
-  pregnancy: string;
-  phone: string;
-  email: string;
+  id: string;
+  name?: string;
+  surname?: string;
+  sex?: string;
+  age?: string;
+  pregnancy?: string;
+  phone?: string;
+  email?: string;
+  tags?: string[];
 }
 
 export interface Analyzes {

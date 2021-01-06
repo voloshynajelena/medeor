@@ -87,37 +87,45 @@
         <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
           <div class="example-element-detail"
                [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
-          <!-- expanded row container -->
-          <div class="expanded-row-container">
 
-            <!-- expanded row header - block heading 'Latest tests' -->
-            <div class="last-tests-block-headline">
-              <h2>Latest tests</h2>
-            </div>
+            <!-- expanded row container -->
+            <div class="expanded-row-container">
 
-            <!-- expanded row body -->
-            <div class="last-test-widgets-block">
-
-              <!-- loop of lasts tests-->
-              <div class="last-test-loop">
-                <ng-container *ngFor="let test of tests | slice:0:4">
-                  <app-last-tests-widget [test]="test"></app-last-tests-widget>
-                </ng-container>
+              <!-- expanded row header - block heading 'Latest tests' -->
+              <div class="last-tests-block-headline">
+                <h2>Latest tests</h2>
               </div>
 
-              <!-- button view all -->
-              <div class="but-view-all">
-                <button
-                mat-stroked-button
-                color="primary"
-                (click)="goToClient($event, row.id)">View all</button>
+              <!-- last tests block -->
+              <div class="last-test-widgets-block">
+
+                <!-- loop of lasts tests-->
+                <div class="last-test-loop">
+                  <ng-container *ngFor="let test of tests | slice:0:4">
+                    <app-last-tests-widget [test]="test"></app-last-tests-widget>
+                  </ng-container>
+                </div>
+
+                <!-- button view all -->
+                <div class="but-view-all">
+                  <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="goToClient($event, row.id)">View all</button>
+                </div>
+              </div> <!-- end last tests block  -->
+
+              <!-- tags block  -->
+              <div class="tags-component-container">
+                <!-- tags -->
+                <app-tags [tags]='row.tags' [client]="row.id"></app-tags>
               </div>
 
-            </div> <!-- end expanded row body -->
-          </div> <!-- end expanded row container -->
+            </div> <!-- end expanded row container -->
+
           </div>
-        </td>
-      </ng-container>
+      </td>
+    </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"
