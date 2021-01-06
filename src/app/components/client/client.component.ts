@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Client } from 'src/app/types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ClientService } from 'src/app/services/client.service';
+import { DeletePatientModalComponent } from 'src/app/components/delete-patient-modal/delete-patient-modal.component';
 import { TESTS } from 'src/app/components/clients-table/clients-table.component';
 // import { TestBedStatic } from '@angular/core/testing';
 
@@ -32,7 +35,10 @@ export class ClientComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private clientService: ClientService
+    private router: Router,
+    private clientService: ClientService,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
 ) { }
 
   ngOnInit(): void {
@@ -47,8 +53,6 @@ export class ClientComponent implements OnInit {
       (data: any) => {
         this.client = data;
         this.resetFormData();
-
-        console.log(data)
       }
     );
   }
@@ -130,8 +134,22 @@ export class ClientComponent implements OnInit {
       this.client.tags = this.clientChipTags.map(t => t);
 
       this.disableEditMode();
+    }, error => {
+      this.sending = false;
+      this._snackBar.open('Error. Data was not saved!', 'Hide');
     });
   }
 
-  // TODO: Добавить удаление пациента
+  acceptToRemove() {
+    const dialogRef = this.dialog.open(DeletePatientModalComponent, {data: this.client});
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.clientService.deletePatient(this.clientId).subscribe(resp => {
+          this.client = null;
+          this.router.navigateByUrl('/');
+        });
+      }
+    });
+  }
 }

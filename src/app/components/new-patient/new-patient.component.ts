@@ -72,6 +72,7 @@ export class NewPatientComponent implements OnInit {
           } else {
             this.newClient = data as Client;
             this.message = `Patient ${(data as Client).name} ${(data as Client).surname} created`;
+            this.closeOverlay(data);
           }
           this.loading = false;
         },
@@ -86,7 +87,7 @@ export class NewPatientComponent implements OnInit {
     }
     return control.hasError('email') ? 'Not a valid email' : '';
   }
-  closeOverlay(): void {
-    this.dialogRef.close();
+  closeOverlay(dialogResult?): void {
+    this.dialogRef.close(dialogResult);
   }
 }

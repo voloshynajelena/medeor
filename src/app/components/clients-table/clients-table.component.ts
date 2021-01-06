@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {Client, Test, User} from 'src/app/types';
-import {MatDialog} from '@angular/material/dialog';
-import {NewPatientComponent} from '../new-patient/new-patient.component';
-import {ClientService} from '../../services/client.service';
+import { Client, Test, User } from 'src/app/types';
+import { MatDialog } from '@angular/material/dialog';
+import { NewPatientComponent } from '../new-patient/new-patient.component';
+import { ClientService } from '../../services/client.service';
+import { DataService } from '../../services/data.service';
+import { DeletePatientModalComponent } from '../delete-patient-modal/delete-patient-modal.component';
 
 export const TESTS: Test[] = [
   {
@@ -58,38 +60,6 @@ export const TESTS: Test[] = [
 export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   // full array of last tests
   tests = TESTS;
-  // tests: Test[] = [
-  //   {
-  //     id: '1',
-  //     name: 'General blood test',
-  //     date: new Date('12.09.2020'),
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'Blood cholesterol test',
-  //     date: new Date('10.04.2020'),
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'Blood glucose test',
-  //     date: new Date('12.04.2020'),
-  //   },
-  //   {
-  //     id: '4',
-  //     name: 'Chromosome testing',
-  //     date: new Date('6.14.2020'),
-  //   },
-  //   { // test element
-  //     id: '5',
-  //     name: '5',
-  //     date: new Date('12.04.2020'),
-  //   },
-  //   { // test element
-  //     id: '6',
-  //     name: '6',
-  //     date: new Date('12.04.2020'),
-  //   },
-  // ];
   // end code for last-tests-widget component
   displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new', 'remove'];
   dataSource: MatTableDataSource<Client>;
@@ -102,7 +72,8 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   constructor(private router: Router,
               private dialog: MatDialog,
-              private clientService: ClientService) {}
+              private clientService: ClientService,
+              private dataService: DataService) {}
 
   ngOnInit(): void{
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -121,9 +92,23 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.router.navigate([`client/${id}`]);
   }
 
-  removeClient(event: Event, id): void {
+  removeClient(event: Event, client: Client): void {
     event.stopPropagation();
-    this.clientService.deletePatient(id).subscribe();
+
+    // this.clientService.deletePatient(id).subscribe();
+
+    const dialogRef = this.dialog.open(DeletePatientModalComponent, {data: client});
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.clientService.deletePatient(client.id).subscribe(resp => {
+          const user = JSON.parse(localStorage.getItem('currentUser'));
+          this.dataService.getClientsData(user.id).subscribe(data => {
+            this.dataSource.data = data.clients;
+          });
+        });
+      }
+    });
   }
 
   applyFilter(event: Event): void {
@@ -135,7 +120,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   openCreateNewPatientOverlay(): void {
-    this.dialog.open(NewPatientComponent, {
+    const dialogRef = this.dialog.open(NewPatientComponent, {
       width: '90%',
       height: '95%',
       maxWidth: '100%',
@@ -146,5 +131,10 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
         user: this.user,
       }
     });
+
+    dialogRef.afterClosed().subscribe((data: Client) => {
+      this.clients.push(data);
+      this.dataSource.data = this.clients;
+    })
   }
 }
