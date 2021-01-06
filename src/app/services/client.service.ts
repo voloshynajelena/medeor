@@ -16,8 +16,8 @@ export class ClientService {
   createPatient(data: ClientDataInput): Observable<any> {
     return this.http.post<Client>(this.urlClient, { ...data  });
   }
-
-  updatePatient(data: ClientDataInput): Observable<any> {
+  
+  updatePatient(data: any): Observable<any> {
     return this.http.put<Client>(this.urlClient, { ...data  });
   }
 

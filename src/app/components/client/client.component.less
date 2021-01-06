@@ -1,9 +1,106 @@
+@import "src/styles/colors";
+
 :host {
-    ::ng-deep mat-card {
-        width: 300px;
+    ::ng-deep {
+        mat-card {
+            width: 100%;
+            max-width: 980px;
+            margin: auto;
+        }
+        mat-card-actions {
+            margin-bottom: 0;
+            margin-left: auto;
+        }
+        mat-form-field {
+            width: 100%;
+        }
+        .mat-form-field-infix {
+            width: auto;
+        }
+        .custom-spinner circle{   
+            stroke: #fff;
+        }
     }
 }
-.client-avatar {
-    width: 100px;
-    height: 100px;
+
+.client-card-title {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    padding-bottom: 16px;
+    font-size: 1.3rem;
+    &__id {
+        margin-right: 16px;
+        background-color: @color-blue-sky;
+        color: #ffffff;
+        padding: 0.2em 0.5em;
+    }
+    &__fullname {
+        font-weight: bold;
+    }
+}
+
+.client-card-grid {
+    display: flex;
+    margin: -16px;
+    margin-bottom: 16px;
+    &__col {
+        padding: 16px;
+        &:nth-child(1) {
+            flex-shrink: 0;
+        }
+        &:nth-child(2) {
+            flex-grow: 1;
+        }
+    }
+}
+
+.user-icon {
+    width: 150px;
+}
+
+.client-info-row {
+    display: flex;
+    & + & {
+        margin-top: 20px;
+    }
+    &__item {
+        flex: 1 1 100%;
+        & + & {
+            margin-left: 16px;
+        }
+    }
+    &__title {
+        color: rgba(0, 0, 0, .6);
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+    &__content {
+        margin-left: 10px;
+    }
+}
+
+.client-test {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+    &__item {
+        display: flex;
+        justify-content: center;
+        width: 25%;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+}
+
+.custom-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.loader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20vh 0;
 }

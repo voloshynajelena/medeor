@@ -31,6 +31,7 @@ import { NewPatientComponent } from './components/new-patient/new-patient.compon
 import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
 import { UserIconComponent } from './components/user-icon/user-icon.component';
 import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
+import { RemovePatientModalComponent } from './components/remove-patient-modal/remove-patient-modal.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
 
@@ -53,6 +54,7 @@ import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/
     HelpMenuComponent,
     UserIconComponent,
     ContactUsModalComponent,
+    RemovePatientModalComponent,
     TagsComponent,
     ModalDeleteAllTagsComponent,
   ],
