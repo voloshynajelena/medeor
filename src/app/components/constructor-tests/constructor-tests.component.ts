@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from 'src/app/types';
-import {ClientService} from '../../services/client.service';
+import { Client } from '../../types';
+import { ClientService } from '../../services/client.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.less']
+  selector: 'app-constructor-tests',
+  templateUrl: './constructor-tests.component.html',
+  styleUrls: ['./constructor-tests.component.less']
 })
-export class ProfileComponent implements OnInit {
+export class ConstructorTestsComponent implements OnInit {
+
   clients: Client[];
   loading = false;
   user = JSON.parse(localStorage.getItem('currentUser'));
   constructor(
     private clientService: ClientService,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -24,5 +25,4 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
 }

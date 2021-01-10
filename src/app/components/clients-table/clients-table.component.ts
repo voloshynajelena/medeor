@@ -71,6 +71,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   ngOnInit(): void{
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
+
   ngOnChanges(): void{
     this.dataSource = new MatTableDataSource(this.clients);
   }
@@ -87,7 +88,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   removeClient(event: Event, id): void {
     event.stopPropagation();
-    this.clientService.deletePatient(id).subscribe();
+    this.clientService.deleteClient(id).subscribe();
   }
 
   applyFilter(event: Event): void {

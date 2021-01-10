@@ -31,6 +31,9 @@ import { NewPatientComponent } from './components/new-patient/new-patient.compon
 import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
 import { UserIconComponent } from './components/user-icon/user-icon.component';
 import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
+import { ConstructorTestsComponent } from './components/constructor-tests/constructor-tests.component';
+import { GroupedTestsTableComponent } from './components/grouped-tests-table/grouped-tests-table.component';
+import { NewTestGroupComponent } from './components/new-test-group/new-test-group.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { ContactUsModalComponent } from './components/contact-us-modal/contact-u
     HelpMenuComponent,
     UserIconComponent,
     ContactUsModalComponent,
+    ConstructorTestsComponent,
+    GroupedTestsTableComponent,
+    NewTestGroupComponent,
   ],
   imports: [
     BrowserModule,

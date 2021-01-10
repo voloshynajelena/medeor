@@ -6,10 +6,8 @@ import {Observable} from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class UserService {
     constructor(private http: HttpClient) { }
-
-    getAll(): Observable<any> {
-        return this.http.get<any[]>(`${API_URL}/users`);
-    }
+    user = JSON.parse(localStorage.getItem('currentUser'));
+    urlUser = `${API_URL}/user`;
 
     update(user): Observable<any> {
         return this.http.put(`${API_URL}/user`, user);
@@ -19,7 +17,15 @@ export class UserService {
         return this.http.post(`${API_URL}/user`, user);
     }
 
+
     delete(id): Observable<any> {
         return this.http.delete(`${API_URL}/user`, {params: {id}});
     }
+
+    getUserData(id: string): Observable<any>  {
+    return this.http.get(this.urlUser, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
+  }
+
 }

@@ -10,13 +10,27 @@ import {Observable} from 'rxjs';
 export class ClientService {
   user = JSON.parse(localStorage.getItem('currentUser'));
   urlClient = `${API_URL}/client`;
+  urlClients = `${API_URL}/clients`;
+
   constructor(private http: HttpClient) {}
 
-  createPatient(data: ClientDataInput): Observable<any> {
+  createClient(data: ClientDataInput): Observable<any> {
     return this.http.post<Client>(this.urlClient, { ...data  });
   }
 
-  deletePatient(id: string): Observable<any> {
+  deleteClient(id: string): Observable<any> {
     return this.http.delete<any>(this.urlClient,  {params: {id}});
+  }
+
+  getClientData(id: string): Observable<any> {
+    return this.http.get(this.urlClient, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
+  }
+
+  getClients(id: string): Observable<any> {
+    return this.http.get(this.urlClients, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
   }
 }

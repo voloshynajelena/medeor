@@ -1,24 +1,18 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Client, Response} from '../../types';
-import {Form, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {first} from 'rxjs/operators';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ClientService} from '../../services/client.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {first} from 'rxjs/operators';
+import {Client, Response} from '../../types';
 
 @Component({
-  selector: 'app-new-patient',
-  templateUrl: './new-patient.component.html',
-  styleUrls: ['./new-patient.component.less']
+  selector: 'app-new-test-group',
+  templateUrl: './new-test-group.component.html',
+  styleUrls: ['./new-test-group.component.less']
 })
-export class NewPatientComponent implements OnInit {
-  errorValidation = '';
-  errorHttp = '';
-  message = '';
-  newPatientForm: FormGroup;
-  loading = false;
-  submitted = false;
-  newClient: Client;
+export class NewTestGroupComponent implements OnInit {
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,

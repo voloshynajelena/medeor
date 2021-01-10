@@ -9,6 +9,8 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<any>;
     public currentUser: Observable<any>;
 
+    url = `${API_URL}/login`;
+
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
@@ -17,8 +19,6 @@ export class AuthenticationService {
     public get currentUserValue(): any {
         return this.currentUserSubject.value;
     }
-
-    url = `${API_URL}/login`;
 
     login(login, pass): Observable<any> {
         return this.http.get<any>(this.url, { params: { login, pass } })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from 'src/app/services/data.service';
 import { Client } from 'src/app/types';
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-client',
@@ -10,13 +10,11 @@ import { Client } from 'src/app/types';
 })
 export class ClientComponent implements OnInit {
 
-  // подготавливаем переменные для записи в них данных
   clientId: string;
   client: Client;
 
-  // подключаем к классу сервис и роутинг
   constructor(
-    private dataService: DataService,
+    private clientService: ClientService,
     private route: ActivatedRoute,
 ) { }
 
@@ -28,7 +26,7 @@ export class ClientComponent implements OnInit {
 
     // используем ID клиента для получения данных клиента
     // поскольку данные нужно ждать - подписываемся на сервис и когда данные прийдут - запишем их
-    this.dataService.getClientData(this.clientId).subscribe(
+    this.clientService.getClientData(this.clientId).subscribe(
       (data: any) => {
         this.client = data;
       }
