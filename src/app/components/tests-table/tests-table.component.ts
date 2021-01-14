@@ -8,15 +8,15 @@ import {NewPatientComponent} from '../new-patient/new-patient.component';
 import {ITestsGroup, User} from '../../types';
 
 @Component({
-  selector: 'app-grouped-tests-table',
-  templateUrl: './grouped-tests-table.component.html',
-  styleUrls: ['./grouped-tests-table.component.less']
+  selector: 'app-tests-table',
+  templateUrl: './tests-table.component.html',
+  styleUrls: ['./tests-table.component.less']
 })
-export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  displayedColumns: string[] = ['id', 'name', 'description', 'open'];
+export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
+  displayedColumns: string[] = ['id', 'name', 'code', 'description', 'open'];
   dataSource: MatTableDataSource<ITestsGroup>;
   user: User;
-  @Input() testsGroups: ITestsGroup[] = [];
+  @Input() tests: ITestsGroup[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -29,7 +29,7 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
   }
 
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource(this.testsGroups);
+    this.dataSource = new MatTableDataSource(this.tests);
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

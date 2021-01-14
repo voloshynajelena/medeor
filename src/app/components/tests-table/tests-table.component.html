@@ -1,4 +1,4 @@
-<h2>Groups of Tests</h2>
+<h2>All tests</h2>
 
 <div class="table-list">
   <mat-form-field>
@@ -22,7 +22,13 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.name?.ru}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.title?.ru}} </td>
+    </ng-container>
+
+    <!-- Code Column -->
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+      <td mat-cell *matCellDef="let row"> {{row.code}} </td>
     </ng-container>
 
     <!-- Description Column -->

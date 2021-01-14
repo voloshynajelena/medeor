@@ -4,7 +4,7 @@
     <h2>(you can create new patient and then open profile or list of patients again)</h2>
   </header>
 
-  <form [formGroup]="newPatientForm">
+  <form [formGroup]="newTestGroupForm">
     <mat-vertical-stepper>
       <mat-step label="User Info" state="phone">
         <div class="form-section">
@@ -45,14 +45,6 @@
       <mat-step label="Other Details" state="chat">
         <div class="form-section">
           <div class="form-group">
-            <!--          <mat-form-field>-->
-            <!--            <mat-label>Date Of Birth</mat-label>-->
-            <!--            <input-->
-            <!--              matInput-->
-            <!--              formControlName="birthday"-->
-            <!--              class="form-control"-->
-            <!--              [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }" />-->
-            <!--          </mat-form-field>-->
             <mat-form-field>
               <mat-label>Date of birth</mat-label>
               <input matInput [matDatepicker]="dp" formControlName="birthday">

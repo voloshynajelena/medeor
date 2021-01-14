@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {Client, Test, User} from 'src/app/types';
 import {MatDialog} from '@angular/material/dialog';
 import {NewPatientComponent} from '../new-patient/new-patient.component';
 import {ClientService} from '../../services/client.service';
+import {Client, Test, User} from 'src/app/types';
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
@@ -21,7 +21,6 @@ import {ClientService} from '../../services/client.service';
   ],
 })
 export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  // full array of last tests
   tests: Test[] = [
     {
       id: '1',
@@ -54,19 +53,18 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
       date: new Date('12.04.2020'),
     },
   ];
-  // end code for last-tests-widget component
   displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new', 'remove'];
   dataSource: MatTableDataSource<Client>;
   user: User;
   expandedElement: any;
   @Input() clients: Client[];
-  // следим за атрибутами сортировки и пагинации
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private router: Router,
-              private dialog: MatDialog,
-              private clientService: ClientService) {}
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private clientService: ClientService) {}
 
   ngOnInit(): void{
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -81,6 +79,14 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.dataSource.sort = this.sort;
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource?.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   goToClient(event: Event, id): void {
     event.stopPropagation();
     this.router.navigate([`client/${id}`]);
@@ -89,14 +95,6 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   removeClient(event: Event, id): void {
     event.stopPropagation();
     this.clientService.deleteClient(id).subscribe();
-  }
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource?.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   openCreateNewPatientOverlay(): void {
