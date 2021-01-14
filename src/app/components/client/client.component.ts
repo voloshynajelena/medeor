@@ -30,7 +30,6 @@ export class ClientComponent implements OnInit {
   clientChipTags: string[] = [];
 
   constructor(
-    private clientService: ClientService,
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
@@ -61,48 +60,50 @@ export class ClientComponent implements OnInit {
     return nowDate - dobDate;
   }
 
-  addTag(event: MatChipInputEvent) {
+  addTag(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value.trim();
 
-    if (value) this.clientChipTags.push(value);
+    if (value) {
+      this.clientChipTags.push(value);
+    }
 
     input.value = '';
   }
 
-  removeTag(tagName: string) {
+  removeTag(tagName: string): void {
     const tags = this.clientChipTags;
     const index = tags.indexOf(tagName);
 
-    if (index != -1) {
+    if (index !== -1) {
       tags.splice(index, 1);
     }
   }
 
-  enableEditMode() {
+  enableEditMode(): void {
     this.resetFormData();
     this.editMode = true;
   }
 
-  disableEditMode() {
+  disableEditMode(): void {
     this.editMode = false;
   }
 
-  resetFormData() {
-    this.clientForm = new FormGroup({     
-      'surname': new FormControl(this.client.surname, [Validators.required]),
-      'name': new FormControl(this.client.name, [Validators.required]),
-      'sex': new FormControl(this.client.sex),
-      'birthday': new FormControl(this.client.birthday, [Validators.required]),
-      'email': new FormControl(this.client.email, [Validators.required, Validators.email]),
-      'phone': new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(12)]),
-      'pregnancy': new FormControl(this.client.pregnancy)
+  resetFormData(): void {
+    this.clientForm = new FormGroup({
+      surname: new FormControl(this.client.surname, [Validators.required]),
+      name: new FormControl(this.client.name, [Validators.required]),
+      sex: new FormControl(this.client.sex),
+      birthday: new FormControl(this.client.birthday, [Validators.required]),
+      email: new FormControl(this.client.email, [Validators.required, Validators.email]),
+      phone: new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(12)]),
+      pregnancy: new FormControl(this.client.pregnancy)
     });
 
     this.clientChipTags = this.client.tags.map(t => t);
   }
 
-  submit() {
+  submit(): void {
     this.sending = true;
 
     const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -137,12 +138,12 @@ export class ClientComponent implements OnInit {
     });
   }
 
-  acceptToRemove() {
+  acceptToRemove(): void {
     const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: this.client});
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.clientService.deletePatient(this.clientId).subscribe(resp => {
+        this.clientService.deleteClient(this.clientId).subscribe(resp => {
           this.client = null;
           this.router.navigateByUrl('/');
         });

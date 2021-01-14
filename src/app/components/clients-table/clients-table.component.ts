@@ -9,7 +9,6 @@ import {Client, Test, User} from 'src/app/types';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPatientComponent } from '../new-patient/new-patient.component';
 import { ClientService } from '../../services/client.service';
-import { DataService } from '../../services/data.service';
 import { RemovePatientModalComponent } from '../remove-patient-modal/remove-patient-modal.component';
 
 export const TESTS: Test[] = [
@@ -71,15 +70,10 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(
-    private router: Router,
-    private dialog: MatDialog,
-    private clientService: ClientService) {}
-
   constructor(private router: Router,
               private dialog: MatDialog,
-              private clientService: ClientService,
-              private dataService: DataService) {}
+              private clientService: ClientService
+  ) {}
 
 
   ngOnInit(): void{
@@ -115,7 +109,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.clientService.deletePatient(client.id).subscribe(resp => {
+        this.clientService.deleteClient(client.id).subscribe(resp => {
           const user = JSON.parse(localStorage.getItem('currentUser'));
           this.dataService.getClientsData(user.id).subscribe(data => {
             this.dataSource.data = data.clients;
@@ -123,14 +117,6 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
         });
       }
     });
-  }
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource?.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   openCreateNewPatientOverlay(): void {
@@ -149,6 +135,6 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((data: Client) => {
       this.clients.push(data);
       this.dataSource.data = this.clients;
-    })
+    });
   }
 }
