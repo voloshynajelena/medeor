@@ -4,19 +4,19 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
-import {NewPatientComponent} from '../new-patient/new-patient.component';
-import {ITestsGroup, User} from '../../types';
+import {ITestsGroup, User} from '../../../types';
+import { NewTestComponent } from '../new-test/new-test.component';
 
 @Component({
-  selector: 'app-grouped-tests-table',
-  templateUrl: './grouped-tests-table.component.html',
-  styleUrls: ['./grouped-tests-table.component.less']
+  selector: 'app-tests-table',
+  templateUrl: './tests-table.component.html',
+  styleUrls: ['./tests-table.component.less']
 })
-export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  displayedColumns: string[] = ['id', 'name', 'description', 'open'];
+export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
+  displayedColumns: string[] = ['id', 'name', 'code', 'description', 'open'];
   dataSource: MatTableDataSource<ITestsGroup>;
   user: User;
-  @Input() testsGroups: ITestsGroup[] = [];
+  @Input() tests: ITestsGroup[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -29,7 +29,7 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
   }
 
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource(this.testsGroups);
+    this.dataSource = new MatTableDataSource(this.tests);
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -50,9 +50,9 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
   }
 
   openCreateNewTestGroupOverlay(): void {
-    this.dialog.open(NewPatientComponent, {
-      width: '90%',
-      height: '95%',
+    this.dialog.open(NewTestComponent, {
+      width: '60%',
+      height: '60%',
       maxWidth: '100%',
       hasBackdrop: true,
       autoFocus: false,

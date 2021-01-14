@@ -12,9 +12,9 @@ export class TestsService {
 
   user = JSON.parse(localStorage.getItem('currentUser'));
   urlTests = `${API_URL}${API_ENDPOINTS.tests}`;
-  urlTestsGroups = `${API_URL}${API_ENDPOINTS.testsGroups}`;
-  urlTestsTemplates = `${API_URL}${API_ENDPOINTS.testsTemplates}`;
-  urlTestsGroupsTemplates = `${API_URL}${API_ENDPOINTS.testsGroupsTemplates}`;
+  urlTestsGroups = `${API_URL}${API_ENDPOINTS.testGroups}`;
+  urlTestsTemplates = `${API_URL}${API_ENDPOINTS.testTemplates}`;
+  urlTestsGroupsTemplates = `${API_URL}${API_ENDPOINTS.testGroupTemplates}`;
 
   getTests(id: string): Observable<any>  {
     return this.http.get(this.urlTests, {
@@ -26,14 +26,13 @@ export class TestsService {
       headers: { authorization: this.user?.token },
       params: { id } });
   }
-  getTestsTemplates(id: string): Observable<any>  {
-    return this.http.get(this.urlTestsTemplates, {
-      headers: { authorization: this.user?.token },
-      params: { id } });
+  getTestsTemplates(): Observable<any>  {
+    return this.http.get(this.urlTestsTemplates);
   }
-  getTestsGroupsTemplates(id: string): Observable<any>  {
-    return this.http.get(this.urlTestsGroupsTemplates, {
-      headers: { authorization: this.user?.token },
-      params: { id } });
+  createTestTemplates(data): Observable<any>  {
+    return this.http.post(this.urlTestsTemplates, { ...data  });
+  }
+  getTestsGroupsTemplates(): Observable<any>  {
+    return this.http.get(this.urlTestsGroupsTemplates);
   }
 }

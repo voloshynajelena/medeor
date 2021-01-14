@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 
 import {API_ENDPOINTS, API_URL} from '../constants';
 import {Observable, of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
 
 
 @Injectable({
