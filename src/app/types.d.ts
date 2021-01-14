@@ -45,6 +45,7 @@ export interface Analyzes {
   category: string;
   groups: string[];
 }
+
 export interface Test {
   id: string;
   name: string;
@@ -52,5 +53,44 @@ export interface Test {
 }
 
 export interface Response {
+  error: string;
+}
+
+export interface ITest {
+  typeId: string;
+  id?: string;
+  code?: string;
+  value: string;
+  refValue?: IRefValue;
+  title?: ITranslation;
+  description?: ITranslation;
+  unit?: ITranslation;
+}
+
+interface IRefValue {
+  max: string;
+  min: string;
+  specialRefs: { [name: string]: IRefValue };
+}
+
+export interface ITranslation {
+  ru?: string;
+  en?: string;
+  ua?: string;
+}
+
+export interface ITestsGroup {
+  typeId: string;
+  id: string;
+  date: string;
+  clientId?: string;
+  doctorId?: string;
+  name?: ITranslation;
+  description?: ITranslation;
+  tests: ITest[];
+  error?: IErrorMessage;
+}
+
+export interface IErrorMessage {
   error: string;
 }
