@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {Client, Test, User} from 'src/app/types';
+import { Client, Test, User } from 'src/app/types';
 
 import { MatDialog } from '@angular/material/dialog';
 import { NewPatientComponent } from '../new-patient/new-patient.component';
@@ -111,7 +111,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
       if (result) {
         this.clientService.deleteClient(client.id).subscribe(resp => {
           const user = JSON.parse(localStorage.getItem('currentUser'));
-          this.dataService.getClientsData(user.id).subscribe(data => {
+          this.clientService.getClients(user.id).subscribe(data => {
             this.dataSource.data = data.clients;
           });
         });

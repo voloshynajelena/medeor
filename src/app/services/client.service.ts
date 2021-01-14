@@ -20,7 +20,7 @@ export class ClientService {
   createClient(data: ClientDataInput): Observable<any> {
     return this.http.post<Client>(this.urlClient, { ...data  });
   }
-  
+
   updatePatient(data: any): Observable<any> {
     return this.http.put<Client>(this.urlClient, { ...data  });
   }
