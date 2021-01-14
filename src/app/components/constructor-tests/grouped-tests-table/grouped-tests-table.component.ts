@@ -4,19 +4,19 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
-import {NewPatientComponent} from '../new-patient/new-patient.component';
-import {ITestsGroup, User} from '../../types';
+import {ITestsGroup, User} from '../../../types';
+import { NewTestGroupComponent } from '../new-test-group/new-test-group.component';
 
 @Component({
-  selector: 'app-tests-table',
-  templateUrl: './tests-table.component.html',
-  styleUrls: ['./tests-table.component.less']
+  selector: 'app-grouped-tests-table',
+  templateUrl: './grouped-tests-table.component.html',
+  styleUrls: ['./grouped-tests-table.component.less']
 })
-export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  displayedColumns: string[] = ['id', 'name', 'code', 'description', 'open'];
+export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChanges {
+  displayedColumns: string[] = ['id', 'name', 'description', 'open'];
   dataSource: MatTableDataSource<ITestsGroup>;
   user: User;
-  @Input() tests: ITestsGroup[] = [];
+  @Input() testsGroups: ITestsGroup[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -29,7 +29,7 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource(this.tests);
+    this.dataSource = new MatTableDataSource(this.testsGroups);
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -50,7 +50,7 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   openCreateNewTestGroupOverlay(): void {
-    this.dialog.open(NewPatientComponent, {
+    this.dialog.open(NewTestGroupComponent, {
       width: '90%',
       height: '95%',
       maxWidth: '100%',

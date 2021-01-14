@@ -1,44 +1,41 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {ClientService} from '../../services/client.service';
+import {ClientService} from '../../../services/client.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {first} from 'rxjs/operators';
-import {Client, Response} from '../../types';
+import {Client, ITest, Response} from '../../../types';
+import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
-  selector: 'app-new-test-group',
-  templateUrl: './new-test-group.component.html',
-  styleUrls: ['./new-test-group.component.less']
+  selector: 'app-new-test',
+  templateUrl: './new-test.component.html',
+  styleUrls: ['./new-test.component.less']
 })
-export class NewTestGroupComponent implements OnInit {
+export class NewTestComponent implements OnInit {
+
   errorValidation = '';
   errorHttp = '';
   message = '';
   newTestGroupForm: FormGroup;
   loading = false;
   submitted = false;
-  newTest: Client;
+  newTest: ITest;
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private clientService: ClientService,
-    private dialogRef: MatDialogRef<NewTestGroupComponent>,
+    private testService: TestsService,
+    private dialogRef: MatDialogRef<NewTestComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: {user: {userId: string, token: string}},
   ) { }
 
   ngOnInit(): void {
     this.newTestGroupForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', Validators.required],
-      sex: ['', Validators.required],
-      birthday: ['', Validators.required],
-      phone: [''],
-      pregnancy: [''],
-      photo: [''],
-      analyzes: [[]],
+      code: ['', Validators.required],
+      refValue: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      unit: ['', Validators.required],
     });
   }
   get f(): any { return this.newTestGroupForm.controls; }
@@ -63,15 +60,15 @@ export class NewTestGroupComponent implements OnInit {
     this.errorHttp = '';
     this.message = '';
     this.loading = true;
-    this.clientService.createClient(this.newTestGroupForm.value)
+    this.testService.createTestTemplates(this.newTestGroupForm.value)
       .pipe(first())
       .subscribe(
-        (data: Client | Response) => {
+        (data: ITest | Response) => {
           if ((data as Response).error) {
             this.errorHttp = (data as Response).error;
           } else {
-            this.newTest = data as Client;
-            this.message = `Patient ${(data as Client).name} ${(data as Client).surname} created`;
+            this.newTest = data as ITest;
+            this.message = `Test ${(data as ITest).title} created`;
           }
           this.loading = false;
         },

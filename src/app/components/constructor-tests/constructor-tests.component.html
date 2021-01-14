@@ -1,9 +1,9 @@
 <h1>Constructor</h1>
   <div class="container">
-    <div *ngIf="!loading; else spinner" class="constructor-section">
+    <div *ngIf="!loadingTestGroups; else spinner" class="constructor-section">
       <app-grouped-tests-table [testsGroups]="testsGroups"></app-grouped-tests-table>
     </div>
-      <div *ngIf="!loading; else spinner" class="constructor-section">
+      <div *ngIf="!loadingTests; else spinner" class="constructor-section">
       <app-tests-table [tests]="tests"></app-tests-table>
     </div>
   </div>
