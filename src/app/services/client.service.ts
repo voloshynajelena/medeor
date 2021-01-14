@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Client, ClientDataInput} from '../types';
 import {HttpClient} from '@angular/common/http';
+
 import {API_ENDPOINTS, API_URL} from '../constants';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +20,15 @@ export class ClientService {
   createClient(data: ClientDataInput): Observable<any> {
     return this.http.post<Client>(this.urlClient, { ...data  });
   }
+  
+  updatePatient(data: any): Observable<any> {
+    return this.http.put<Client>(this.urlClient, { ...data  });
+  }
 
   deleteClient(id: string): Observable<any> {
     return this.http.delete<any>(this.urlClient,  {params: {id}});
   }
+
 
   getClientData(id: string): Observable<any> {
     return this.http.get(this.urlClient, {

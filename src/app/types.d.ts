@@ -11,7 +11,7 @@ export interface User {
 }
 
 export interface Client {
-  doctorID: string;
+  doctorId: string;
   id: string;
   name: string;
   surname: string;
@@ -20,17 +20,21 @@ export interface Client {
   pregnancy: string;
   phone: string;
   email: string;
+  birthday: string;
   photo?: string;
   analyzes?: Analyzes[];
+  tags?: any[];
 }
 export interface ClientDataInput {
-  name: string;
-  surname: string;
-  sex: string;
-  age: string;
-  pregnancy: string;
-  phone: string;
-  email: string;
+  id: string;
+  name?: string;
+  surname?: string;
+  sex?: string;
+  age?: string;
+  pregnancy?: string;
+  phone?: string;
+  email?: string;
+  tags?: string[];
 }
 
 export interface Analyzes {

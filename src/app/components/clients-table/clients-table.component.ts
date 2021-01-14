@@ -4,10 +4,48 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatDialog} from '@angular/material/dialog';
-import {NewPatientComponent} from '../new-patient/new-patient.component';
-import {ClientService} from '../../services/client.service';
 import {Client, Test, User} from 'src/app/types';
+
+import { MatDialog } from '@angular/material/dialog';
+import { NewPatientComponent } from '../new-patient/new-patient.component';
+import { ClientService } from '../../services/client.service';
+import { DataService } from '../../services/data.service';
+import { RemovePatientModalComponent } from '../remove-patient-modal/remove-patient-modal.component';
+
+export const TESTS: Test[] = [
+  {
+    id: '1',
+    name: 'General blood test',
+    date: new Date('12.09.2020'),
+  },
+  {
+    id: '2',
+    name: 'Blood cholesterol test',
+    date: new Date('10.04.2020'),
+  },
+  {
+    id: '3',
+    name: 'Blood glucose test',
+    date: new Date('12.04.2020'),
+  },
+  {
+    id: '4',
+    name: 'Chromosome testing',
+    date: new Date('6.14.2020'),
+  },
+  { // test element
+    id: '5',
+    name: '5',
+    date: new Date('12.04.2020'),
+  },
+  { // test element
+    id: '6',
+    name: '6',
+    date: new Date('12.04.2020'),
+  },
+];
+
+
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
@@ -20,39 +58,11 @@ import {Client, Test, User} from 'src/app/types';
     ]),
   ],
 })
+
 export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  tests: Test[] = [
-    {
-      id: '1',
-      name: 'General blood test',
-      date: new Date('12.09.2020'),
-    },
-    {
-      id: '2',
-      name: 'Blood cholesterol test',
-      date: new Date('10.04.2020'),
-    },
-    {
-      id: '3',
-      name: 'Blood glucose test',
-      date: new Date('12.04.2020'),
-    },
-    {
-      id: '4',
-      name: 'Chromosome testing',
-      date: new Date('6.14.2020'),
-    },
-    { // test element
-      id: '5',
-      name: '5',
-      date: new Date('12.04.2020'),
-    },
-    { // test element
-      id: '6',
-      name: '6',
-      date: new Date('12.04.2020'),
-    },
-  ];
+
+  tests = TESTS;
+
   displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new', 'remove'];
   dataSource: MatTableDataSource<Client>;
   user: User;
@@ -65,6 +75,12 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     private router: Router,
     private dialog: MatDialog,
     private clientService: ClientService) {}
+
+  constructor(private router: Router,
+              private dialog: MatDialog,
+              private clientService: ClientService,
+              private dataService: DataService) {}
+
 
   ngOnInit(): void{
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -92,13 +108,33 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.router.navigate([`client/${id}`]);
   }
 
-  removeClient(event: Event, id): void {
+  removeClient(event: Event, client: Client): void {
     event.stopPropagation();
-    this.clientService.deleteClient(id).subscribe();
+
+    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: client});
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.clientService.deletePatient(client.id).subscribe(resp => {
+          const user = JSON.parse(localStorage.getItem('currentUser'));
+          this.dataService.getClientsData(user.id).subscribe(data => {
+            this.dataSource.data = data.clients;
+          });
+        });
+      }
+    });
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource?.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   openCreateNewPatientOverlay(): void {
-    this.dialog.open(NewPatientComponent, {
+    const dialogRef = this.dialog.open(NewPatientComponent, {
       width: '90%',
       height: '95%',
       maxWidth: '100%',
@@ -109,5 +145,10 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
         user: this.user,
       }
     });
+
+    dialogRef.afterClosed().subscribe((data: Client) => {
+      this.clients.push(data);
+      this.dataSource.data = this.clients;
+    })
   }
 }

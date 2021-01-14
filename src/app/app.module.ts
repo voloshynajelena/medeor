@@ -31,10 +31,15 @@ import { NewPatientComponent } from './components/new-patient/new-patient.compon
 import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
 import { UserIconComponent } from './components/user-icon/user-icon.component';
 import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
+
 import { ConstructorTestsComponent } from './components/constructor-tests/constructor-tests.component';
 import { GroupedTestsTableComponent } from './components/grouped-tests-table/grouped-tests-table.component';
 import { NewTestGroupComponent } from './components/new-test-group/new-test-group.component';
 import { TestsTableComponent } from './components/tests-table/tests-table.component';
+import { RemovePatientModalComponent } from './components/remove-patient-modal/remove-patient-modal.component';
+import { TagsComponent } from './components/tags/tags.component';
+import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
+
 
 @NgModule({
   declarations: [
@@ -55,10 +60,15 @@ import { TestsTableComponent } from './components/tests-table/tests-table.compon
     HelpMenuComponent,
     UserIconComponent,
     ContactUsModalComponent,
+
     ConstructorTestsComponent,
     GroupedTestsTableComponent,
     NewTestGroupComponent,
     TestsTableComponent,
+
+    RemovePatientModalComponent,
+    TagsComponent,
+    ModalDeleteAllTagsComponent,
   ],
   imports: [
     BrowserModule,
