@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {API_URL} from '../constants';
+import {API_ENDPOINTS, API_URL} from '../constants';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
@@ -9,15 +9,31 @@ import {HttpClient} from '@angular/common/http';
 export class TestsService {
 
   constructor(private http: HttpClient) { }
-  // get userId and token from local storage
+
   user = JSON.parse(localStorage.getItem('currentUser'));
+  urlTests = `${API_URL}${API_ENDPOINTS.tests}`;
+  urlTestsGroups = `${API_URL}${API_ENDPOINTS.testsGroups}`;
+  urlTestsTemplates = `${API_URL}${API_ENDPOINTS.testsTemplates}`;
+  urlTestsGroupsTemplates = `${API_URL}${API_ENDPOINTS.testsGroupsTemplates}`;
 
-  urlTests = `${API_URL}/testsGroups`;
-
-  getTestsGroups(id: string): Observable<any>  {
+  getTests(id: string): Observable<any>  {
     return this.http.get(this.urlTests, {
       headers: { authorization: this.user?.token },
       params: { id } });
   }
-
+  getTestsGroups(id: string): Observable<any>  {
+    return this.http.get(this.urlTestsGroups, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
+  }
+  getTestsTemplates(id: string): Observable<any>  {
+    return this.http.get(this.urlTestsTemplates, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
+  }
+  getTestsGroupsTemplates(id: string): Observable<any>  {
+    return this.http.get(this.urlTestsGroupsTemplates, {
+      headers: { authorization: this.user?.token },
+      params: { id } });
+  }
 }

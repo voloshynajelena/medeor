@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { API_URL } from '../constants';
+import {API_ENDPOINTS, API_URL} from '../constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<any>;
     public currentUser: Observable<any>;
 
-    url = `${API_URL}/login`;
+    url = `${API_URL}${API_ENDPOINTS.login}`;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));

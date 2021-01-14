@@ -34,6 +34,7 @@ import { ContactUsModalComponent } from './components/contact-us-modal/contact-u
 import { ConstructorTestsComponent } from './components/constructor-tests/constructor-tests.component';
 import { GroupedTestsTableComponent } from './components/grouped-tests-table/grouped-tests-table.component';
 import { NewTestGroupComponent } from './components/new-test-group/new-test-group.component';
+import { TestsTableComponent } from './components/tests-table/tests-table.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { NewTestGroupComponent } from './components/new-test-group/new-test-grou
     ConstructorTestsComponent,
     GroupedTestsTableComponent,
     NewTestGroupComponent,
+    TestsTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Client, ClientDataInput} from '../types';
 import {HttpClient} from '@angular/common/http';
-import {API_URL} from '../constants';
+import {API_ENDPOINTS, API_URL} from '../constants';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,8 @@ import {Observable} from 'rxjs';
 })
 export class ClientService {
   user = JSON.parse(localStorage.getItem('currentUser'));
-  urlClient = `${API_URL}/client`;
-  urlClients = `${API_URL}/clients`;
+  urlClient = `${API_URL}${API_ENDPOINTS.client}`;
+  urlClients = `${API_URL}${API_ENDPOINTS.clients}`;
 
   constructor(private http: HttpClient) {}
 
