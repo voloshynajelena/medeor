@@ -34,6 +34,7 @@ import { ContactUsModalComponent } from './components/contact-us-modal/contact-u
 import { RemovePatientModalComponent } from './components/remove-patient-modal/remove-patient-modal.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/
     RemovePatientModalComponent,
     TagsComponent,
     ModalDeleteAllTagsComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
