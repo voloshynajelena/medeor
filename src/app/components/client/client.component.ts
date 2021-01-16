@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from 'src/app/types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -18,8 +18,11 @@ import { TESTS } from 'src/app/components/clients-table/clients-table.component'
 })
 export class ClientComponent implements OnInit {
 
+  private exp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
   clientId: string;
   client: Client;
+  userAvatar: string;
   tests = TESTS;
 
   editMode = false;
@@ -47,6 +50,7 @@ export class ClientComponent implements OnInit {
     this.clientService.getClientData(this.clientId).subscribe(
       (data: any) => {
         this.client = data;
+        this.userAvatar = data.photo;
         this.resetFormData();
       }
     );
@@ -80,16 +84,32 @@ export class ClientComponent implements OnInit {
   }
 
   enableEditMode(): void {
-    this.resetFormData();
     this.editMode = true;
+    this.clientForm.markAllAsTouched();
+    this.clientForm.updateValueAndValidity();
   }
-
+  
   disableEditMode(): void {
     this.editMode = false;
+    this.resetFormData();
+  }
+
+  setAvatar(url: string) {
+    if (url.match(this.exp)) {
+      const img = new Image();
+
+      img.addEventListener('error', event => this.client.photo = '');
+      img.addEventListener('load', event => this.client.photo = url);
+
+      img.src = url;
+    } else this.client.photo = '';
   }
 
   resetFormData(): void {
+    this.client.photo = this.userAvatar;
+
     this.clientForm = new FormGroup({
+      photo: new FormControl(this.client.photo),
       surname: new FormControl(this.client.surname, [Validators.required]),
       name: new FormControl(this.client.name, [Validators.required]),
       sex: new FormControl(this.client.sex),
@@ -113,6 +133,8 @@ export class ClientComponent implements OnInit {
     for (const key in controls) {
       formData[key] = controls[key].value;
     }
+
+    formData.photo = this.userAvatar = this.client.photo;
 
     this.clientService.updatePatient({
       userId: user.userId,

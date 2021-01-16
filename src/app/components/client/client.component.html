@@ -4,7 +4,7 @@
         <div class="client-card-title__fullname">{{client.name | uppercase}} {{client.surname | uppercase}}</div>
         <mat-card-actions>
             <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
-                <button mat-raised-button color="primary" (click)="submit()" [disabled]="sending">
+                <button mat-raised-button color="primary" (click)="submit()" [disabled]="clientForm.invalid || sending">
                     <ng-template [ngIf]="sending" [ngIfElse]="saveText">
                         <mat-spinner class="custom-spinner" diameter="20"></mat-spinner>
                         Saving
@@ -25,19 +25,29 @@
                     Edit data
                 </button>
                 <button mat-raised-button color="warn" (click)="acceptToRemove()">
-                    <mat-icon>person_remove</mat-icon>
+                    <mat-icon>delete</mat-icon>
                     Remove patient
                 </button>
             </ng-template>
         </mat-card-actions>
     </div>
-    <mat-divider></mat-divider>
     <mat-card-content>
         <form class="client-card-grid" [formGroup]="clientForm">
             <div class="client-card-grid__col">
                 <app-user-icon class="user-icon" [userData]="client"></app-user-icon>
             </div>
             <div class="client-card-grid__col">
+                <div class="client-info-row" *ngIf="editMode">
+                    <div class="client-info-row__item">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Avatar URL</mat-label>
+                            <input formControlName="photo" matInput #avatarUrl (input)="setAvatar($event.target.value)">
+                            <button mat-icon-button matSuffix *ngIf="avatarUrl.value" (click)="setAvatar(avatarUrl.value = '')">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="client-info-row">
                     <div class="client-info-row__item">
                         <mat-form-field *ngIf="editMode; else clientLastname" appearance="fill">
