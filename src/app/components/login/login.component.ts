@@ -25,18 +25,18 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService
-    ) {}
+  ) { }
 
-    ngOnInit(): void {
-      this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required],
-      });
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
 
-      // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
-// convenience getter for easy access to form fields
+  // convenience getter for easy access to form fields
   get f(): any { return this.loginForm.controls; }
 
   onSubmit(): void {
@@ -44,20 +44,24 @@ export class LoginComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)
-        .pipe(first())
-        .subscribe(
-            (data) => {
-              this.store.dispatch(setUserData({id: data?.userId}));
-              this.router.navigate([this.returnUrl]);
-            },
-            error => {
-                this.error = error;
-                this.loading = false;
-            });
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data?.error) {
+            this.submitted = false;
+            return this.loading = false;
+          }
+          this.store.dispatch(setUserData({ id: data?.userId }));
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
   }
 }
