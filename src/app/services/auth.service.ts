@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {API_ENDPOINTS, API_URL} from '../constants';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { API_ENDPOINTS, API_URL } from '../constants';
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -11,7 +12,7 @@ export class AuthenticationService {
 
     url = `${API_URL}${API_ENDPOINTS.login}`;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private notification: NotificationService) {
         this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -22,12 +23,29 @@ export class AuthenticationService {
 
     login(login, pass): Observable<any> {
         return this.http.get<any>(this.url, { params: { login, pass } })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+            .pipe(
+                map(user => {
+
+                    if (user?.error) {
+                        this.notification.throwError(user.error)
+                        return user
+                    }
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                    return user;
+                }),
+                catchError((err) => {
+                    console.log('error caught in service')
+                    console.error(err);
+
+                    //Handle the error here
+
+                    this.notification.throwError(err);
+                    //Rethrow it back to component
+                    return throwError(err.message);
+
+                }))
     }
 
     logout(): void {
