@@ -16,7 +16,7 @@ import { RemovePatientModalComponent } from 'src/app/components/remove-patient-m
 })
 export class UserSettingsComponent implements OnInit {
 
-  private exp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  private urlExp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
 
   userForm: FormGroup;
   data: User;
@@ -76,7 +76,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   setAvatar(url: string) {
-    if (url.match(this.exp)) {
+    if (url.match(this.urlExp)) {
       const img = new Image();
 
       img.addEventListener('error', event => this.data.photo = '');

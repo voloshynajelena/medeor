@@ -18,7 +18,7 @@ import { TESTS } from 'src/app/components/clients-table/clients-table.component'
 })
 export class ClientComponent implements OnInit {
 
-  private exp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  private urlExp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
 
   clientId: string;
   client: Client;
@@ -95,7 +95,7 @@ export class ClientComponent implements OnInit {
   }
 
   setAvatar(url: string) {
-    if (url.match(this.exp)) {
+    if (url.match(this.urlExp)) {
       const img = new Image();
 
       img.addEventListener('error', event => this.client.photo = '');
