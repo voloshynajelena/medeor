@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {TestsService} from '../../services/tests.service';
-import {ITestsGroup, ITest} from '../../types';
+import { TestsService } from '../../services/tests.service';
+import { ITestsGroup, ITest } from '../../types';
 
 @Component({
   selector: 'app-constructor-tests',
@@ -16,20 +16,20 @@ export class ConstructorTestsComponent implements OnInit {
   user = JSON.parse(localStorage.getItem('currentUser'));
   constructor(
     private testsService: TestsService
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadingTestGroups = true;
     this.loadingTests = true;
-    this.testsService.getTestsGroups(this.testsService.user.id).subscribe(
-      (response: {data: ITestsGroup[]}) => {
+    this.testsService.getTestsGroups(this.user.id).subscribe(
+      (response: { data: ITestsGroup[] }) => {
         this.testsGroups = response?.data;
         this.loadingTestGroups = false;
       }
     );
 
     this.testsService.getTestsTemplates().subscribe(
-      (response: {data: ITest[]}) => {
+      (response: { data: ITest[] }) => {
         this.tests = response?.data;
         this.loadingTests = false;
       }
