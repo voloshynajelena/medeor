@@ -15,32 +15,32 @@ export const TESTS: Test[] = [
   {
     id: '1',
     name: 'General blood test',
-    date: new Date('12.09.2020'),
+    date: new Date('12/09/2020'),
   },
   {
     id: '2',
     name: 'Blood cholesterol test',
-    date: new Date('10.04.2020'),
+    date: new Date('10/04/2020'),
   },
   {
     id: '3',
     name: 'Blood glucose test',
-    date: new Date('12.04.2020'),
+    date: new Date('12/04/2020'),
   },
   {
     id: '4',
     name: 'Chromosome testing',
-    date: new Date('6.14.2020'),
+    date: new Date('06/14/2020'),
   },
   { // test element
     id: '5',
     name: '5',
-    date: new Date('12.04.2020'),
+    date: new Date('12/04/2020'),
   },
   { // test element
     id: '6',
     name: '6',
-    date: new Date('12.04.2020'),
+    date: new Date('12/04/2020'),
   },
 ];
 
