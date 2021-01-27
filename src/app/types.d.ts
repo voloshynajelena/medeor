@@ -16,7 +16,6 @@ export interface Client {
   name: string;
   surname: string;
   sex: string;
-  age: string;
   pregnancy: string;
   phone: string;
   email: string;
@@ -25,12 +24,13 @@ export interface Client {
   analyzes?: Analyzes[];
   tags?: any[];
 }
+
 export interface ClientDataInput {
   id: string;
   name?: string;
   surname?: string;
   sex?: string;
-  age?: string;
+  birthday?: string;
   pregnancy?: string;
   phone?: string;
   email?: string;

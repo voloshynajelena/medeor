@@ -1,5 +1,6 @@
 export const API_URL = 'https://api-medeor.herokuapp.com';
-
+export const WIKI_URL = 'https://medeor.atlassian.net/wiki/spaces/MEDEOR/';
+export const FF_AVATAR = false;
 export const API_ENDPOINTS = {
   main: '/',
   user: '/user',
@@ -24,3 +25,10 @@ export enum AllTagsEnum {
   covid = 'Covid',
   exCovid = 'ex Covid',
 }
+
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+}
+
+export const dateFormat = 'd MMM, y';

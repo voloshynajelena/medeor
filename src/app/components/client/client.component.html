@@ -37,7 +37,7 @@
                 <app-user-icon class="user-icon" [userData]="client"></app-user-icon>
             </div>
             <div class="client-card-grid__col">
-                <div class="client-info-row" *ngIf="editMode">
+                <div class="client-info-row" *ngIf="editMode && isAvatarFeatureEnabled">
                     <div class="client-info-row__item">
                         <mat-form-field appearance="fill">
                             <mat-label>Avatar URL</mat-label>
@@ -73,14 +73,14 @@
                     </div>
                     <div class="client-info-row__item">
                         <mat-form-field *ngIf="editMode; else clientSex" appearance="fill">
-                            <mat-label>Sex</mat-label>
+                            <mat-label>Gender</mat-label>
                             <mat-select formControlName="sex">
-                                <mat-option value="male">Male</mat-option>
-                                <mat-option value="female">Female</mat-option>
+                                <mat-option value="male">{{ gender.MALE }}</mat-option>
+                                <mat-option value="female">{{ gender.FEMALE }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <ng-template #clientSex>
-                            <h5 class="client-info-row__title">Sex</h5>
+                            <h5 class="client-info-row__title">Gender</h5>
                             <div class="client-info-row__content">{{client.sex | uppercase}}</div>
                         </ng-template>
                     </div>
