@@ -1,15 +1,16 @@
-import { AfterViewInit, Component, ViewChild, OnChanges, Input, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AfterViewInit, Component, ViewChild, OnChanges, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Client, Test, User } from 'src/app/types';
 
-import { MatDialog } from '@angular/material/dialog';
-import { NewPatientComponent } from '../new-patient/new-patient.component';
 import { ClientService } from '../../services/client.service';
-import { RemovePatientModalComponent } from '../remove-patient-modal/remove-patient-modal.component';
+import { getAge } from '../../utils/date';
+import { NewPatientComponent } from '../new-patient/new-patient.component';
+import { dateFormat, Gender } from 'src/app/constants';
 
 export const TESTS: Test[] = [
   {
@@ -49,6 +50,7 @@ export const TESTS: Test[] = [
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
   styleUrls: ['./clients-table.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -60,19 +62,22 @@ export const TESTS: Test[] = [
 
 export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
-  tests = TESTS;
-
-  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new', 'remove'];
-  dataSource: MatTableDataSource<Client>;
   user: User;
+  tests = TESTS;
+  dateFormat: string = dateFormat;
+  gender: typeof Gender = Gender;
+  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new'];
+  dataSource: MatTableDataSource<Client>;
   expandedElement: any;
+  getAge = getAge;
+
   @Input() clients: Client[];
+
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private router: Router,
-              private dialog: MatDialog,
-              private clientService: ClientService
+              private dialog: MatDialog
   ) {}
 
 
@@ -100,23 +105,6 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   goToClient(event: Event, id): void {
     event.stopPropagation();
     this.router.navigate([`client/${id}`]);
-  }
-
-  removeClient(event: Event, client: Client): void {
-    event.stopPropagation();
-
-    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: client});
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.clientService.deleteClient(client.id).subscribe(resp => {
-          const user = JSON.parse(localStorage.getItem('currentUser'));
-          this.clientService.getClients(user.id).subscribe(data => {
-            this.dataSource.data = data.clients;
-          });
-        });
-      }
-    });
   }
 
   openCreateNewPatientOverlay(): void {

@@ -46,7 +46,6 @@ export class NewPatientComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.newPatientForm.invalid) {
       this.errorValidation = 'Ошибка при заполнении формы';
       for (const controlName in this.newPatientForm.controls) {

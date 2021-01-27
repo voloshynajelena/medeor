@@ -234,7 +234,6 @@ export class TagsComponent {
 
   // tags duplication validator
   duplicateTagsValidator(control: FormControl): ValidationErrors {
-    console.log('-----', this.tags);
     const newTag = control.value; // new tag
 
     if (this.tags && this.tags?.indexOf(newTag) >= 0) {

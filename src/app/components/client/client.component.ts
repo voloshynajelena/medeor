@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from 'src/app/types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -7,8 +7,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ClientService } from 'src/app/services/client.service';
+import { getAge } from '../../utils/date';
 import { RemovePatientModalComponent } from 'src/app/components/remove-patient-modal/remove-patient-modal.component';
 import { TESTS } from 'src/app/components/clients-table/clients-table.component';
+import { FF_AVATAR, Gender } from 'src/app/constants';
 
 
 @Component({
@@ -30,7 +32,9 @@ export class ClientComponent implements OnInit {
 
   clientForm: FormGroup;
   clientChipTags: string[] = [];
-
+  gender: typeof Gender = Gender;
+  isAvatarFeatureEnabled = FF_AVATAR;
+  getAge = getAge;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,13 +44,10 @@ export class ClientComponent implements OnInit {
 ) { }
 
   ngOnInit(): void {
-    // достаем ID клиента из адресной строки и записываем в созданную выше переменную
     this.route.params.subscribe(({clientId}) => {
       this.clientId = clientId;
     });
 
-    // используем ID клиента для получения данных клиента
-    // поскольку данные нужно ждать - подписываемся на сервис и когда данные прийдут - запишем их
     this.clientService.getClientData(this.clientId).subscribe(
       (data: any) => {
         this.client = data;
@@ -54,13 +55,6 @@ export class ClientComponent implements OnInit {
         this.resetFormData();
       }
     );
-  }
-
-  getAge(dob: string): number {
-    const dobDate = new Date(dob).getFullYear();
-    const nowDate = new Date().getFullYear();
-
-    return nowDate - dobDate;
   }
 
   addTag(event: MatChipInputEvent): void {
@@ -109,13 +103,13 @@ export class ClientComponent implements OnInit {
     this.client.photo = this.userAvatar;
 
     this.clientForm = new FormGroup({
-      photo: new FormControl(this.client.photo),
       surname: new FormControl(this.client.surname, [Validators.required]),
       name: new FormControl(this.client.name, [Validators.required]),
       sex: new FormControl(this.client.sex),
       birthday: new FormControl(this.client.birthday, [Validators.required]),
       email: new FormControl(this.client.email, [Validators.required, Validators.email]),
-      phone: new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(12)]),
+      phone: new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6)]),
+      photo: new FormControl(this.client.photo),
       pregnancy: new FormControl(this.client.pregnancy)
     });
 

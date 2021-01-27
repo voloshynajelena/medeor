@@ -1,29 +1,18 @@
-<!-- last test widget -->
-<div class="last-test-container">
-
-    <!-- last test header -->
-    <div class="last-test-header">
-
-        <!-- last test icon -->
-        <div class="last-test-icon">
+<div class="container">
+    <div class="header">
+        <div class="icon">
             <span class="material-icons">
                 list_alt
             </span>
         </div>
-
-        <!-- last test data -->
-        <div class="last-test-data">
-            <div class="last-test-name">{{ test.name }}</div>
-            <div class="last-test-date">{{ test.date | date: 'd MMM, y' }}</div>
+        <div class="data">
+            <div class="name">{{ test.name }}</div>
+            <div class="date">{{ test.date | date: dateFormat }}</div>
         </div>
-
     </div>
-
-    <!-- last test buttons -->
-    <div class="last-test-action-buttons">
-        <button class="last-test-copy-but" mat-stroked-button color="primary">+ Copy</button>
-        <button class="last-test-open-but" mat-stroked-button color="primary">Open</button>
-        <button class="last-test-print-but" mat-raised-button color="primary">Print</button>
+    <div class="action-buttons">
+        <button class="copy-btn" mat-stroked-button color="primary">+ Copy</button>
+        <button class="open-btn" mat-stroked-button color="primary">Open</button>
+        <button class="print-btn" mat-raised-button color="primary">Print</button>
     </div>
-
 </div>
