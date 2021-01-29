@@ -5,11 +5,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/types';
 import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.less']
+  styleUrls: ['./change-password.component.less'],
+  animations: [
+    trigger('showHide', [
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('0.3s', style({ opacity: 1 })),
+      ]),
+      transition('* => void', [
+        animate('0.3s', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class ChangePasswordComponent implements OnInit {
 
@@ -25,7 +37,7 @@ export class ChangePasswordComponent implements OnInit {
   userFull: User;
   // current password
   currentPass: string;
-  //new user password
+  // new user password
   newPass: string;
   // new user with changed password
   newUser: {id: string; pass: string};
@@ -35,6 +47,10 @@ export class ChangePasswordComponent implements OnInit {
   changeError = false;
   // loader for button submit
   loader = false;
+  // icons done
+  isOldValid = false;
+  isNewValid = false;
+  isConfirmValid = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -151,6 +167,36 @@ export class ChangePasswordComponent implements OnInit {
     }
   }
 
+  // show-hide icon done for old pass
+   oldPassOninput(){
+    if(this.f.oldPass.valid) {
+      this.isOldValid = true;
+    }
+    if(this.f.oldPass.invalid) {
+      this.isOldValid = false;
+    }
+  }
+
+  // show-hide icon done for new pass
+  newPassOninput(){
+    if(this.f.newPass.valid) {
+      this.isNewValid = true;
+    }
+    if(this.f.newPass.invalid) {
+      this.isNewValid = false;
+    }
+  }
+
+  // show-hide icon done for confirm pass
+  confirmPassOninput(){
+    if(this.f.confirmPass.valid) {
+      this.isConfirmValid = true;
+    }
+    if(this.f.confirmPass.invalid) {
+      this.isConfirmValid = false;
+    }
+  }
+
   // cancel button
   cancelChange() {
     // hide error message
@@ -161,6 +207,11 @@ export class ChangePasswordComponent implements OnInit {
 
     //loader stop
     this.loader = false;
+
+    // hide icons done
+    this.isOldValid = false;
+    this.isNewValid = false;
+    this.isConfirmValid = false;
   }
 
   // submit form
@@ -212,6 +263,11 @@ export class ChangePasswordComponent implements OnInit {
       this.changePasswordForm.controls[control].setErrors(null);
       this.changePasswordForm.controls[control].updateValueAndValidity();
     }
+
+    // 7 // hide icons done
+    this.isOldValid = false;
+    this.isNewValid = false;
+    this.isConfirmValid = false;
   }
 
   // contact us if error
