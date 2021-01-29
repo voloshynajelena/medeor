@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { DataService } from 'src/app/services/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/types';
+import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
 
 @Component({
   selector: 'app-change-password',
@@ -12,62 +17,211 @@ export class ChangePasswordComponent implements OnInit {
   hideOld = true;
   hideNew = true;
   hideConfirm = true;
-
   // form group
   changePasswordForm: FormGroup;
+  // user data from local storage
+  user: {userId: string; token: string};
+  // user data from server
+  userFull: User;
+  // current password
+  currentPass: string;
+  //new user password
+  newPass: string;
+  // new user with changed password
+  newUser: {id: string; pass: string};
+  // show message if pass is changed
+  changeSuccess = false;
+  // show message if error of pass change
+  changeError = false;
+  // loader for button submit
+  loader = false;
 
   constructor(
     private formBuilder: FormBuilder,
+    private dataService: DataService,
+    private userService: UserService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
+    // get userId and token from local storage
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    // get current user data
+    this.dataService.getUserData(this.user.userId).subscribe(
+      data => {
+        this.userFull = data;
+        console.log('userFull on init ----->', this.userFull);
+
+        // get current user password
+        this.currentPass = this.userFull.pass;
+      }
+    );
 
     // form builder
     this.changePasswordForm = this.formBuilder.group({
-      oldPass: ['', Validators.required],
-      newPass: ['', [Validators.required, Validators.minLength(6)]],
+      oldPass: ['', [Validators.required, this.currentPasswordCheck.bind(this)]],
+      newPass: ['', [Validators.required, Validators.minLength(6), this.newPasswordNotAsOld.bind(this)]],
       confirmPass: ['', Validators.required],
+    }, {
+      validator: Validators.compose([
+        this.confirmNewPassword,
+      ])
     });
   }
   
   // convenience getter for easy access to form fields
   get f(): any { return this.changePasswordForm.controls; }
 
-  // reset form (button cancel)
-  resetForm() {
-    this.changePasswordForm.reset();
+  // validator for old password - is entered value a real current password
+  currentPasswordCheck(control: FormControl): ValidationErrors {
+    const value = control.value;
+    const currentPassword = this.currentPass;
+
+    if (value === currentPassword) {
+      return null;
+    }
+    return { oldPassNotCorrect: 'Incorrect current password'}
+  }
+  
+  // validator for new password - it shouldn't be the same as old 
+  newPasswordNotAsOld(control: FormControl): ValidationErrors {
+    const value = control.value;
+    const currentPassword = this.currentPass;
+
+    if (value !== currentPassword) {
+      return null;
+    }
+    return { newPassNotAsOld: 'New password must be different from old'}
+  }
+  
+  // validator to confirm new password
+  confirmNewPassword(group: FormGroup): ValidationErrors {
+    const valueConfirm = group.controls['confirmPass'].value;
+    const valueNewPass = group.controls['newPass'].value;
+    const valueConfirmCtrl = group.controls['confirmPass'];
+
+    if (valueConfirm === valueNewPass) {
+      return null;
+    }
+    valueConfirmCtrl.setErrors({'confirmPassNoMatch': 'Does not match to new password'});
+  }
+
+  // get error message for old pass input
+  getErrorMessageOldPass() {
+    // error if current password is missing
+    if (this.f.oldPass.hasError('required')) {
+      return 'Old password is required';
+    }
+
+    // error if current password is incorrect
+    if(this.f.oldPass.getError('oldPassNotCorrect')) {
+      return this.f.oldPass.getError('oldPassNotCorrect');
+    }
+  }
+
+  // get error message for new pass input
+  getErrorMessageNewPass() {
+    // error if new password is missing
+    if(this.f.newPass.hasError('required')) {
+      return 'New password is required';
+    }
+
+    // error if new password is less then 6 symbols
+    if(this.f.newPass.hasError('minlength')) {
+      return 'Password must be at least 6 characters';
+    }
+
+    // error if new pass is the same as current
+    if(this.f.newPass.getError('newPassNotAsOld')) {
+      return this.f.newPass.getError('newPassNotAsOld');
+    }
+  }
+
+  // get error message for confirm pass input
+  getErrorMessageConfirmPass() {
+    // error if confirm pass is missing
+    if (this.f.confirmPass.hasError('required')) {
+      return 'Confirmation a new password is required';
+    }
+
+    // error if confirm pass doesnt match to a new pass
+    if(this.f.confirmPass.getError('confirmPassNoMatch')) {
+      return this.f.confirmPass.getError('confirmPassNoMatch');
+    }
+  }
+
+  // cancel button
+  cancelChange() {
+    // hide error message
+    this.changeError = false;
+
+    // hide success message
+    this.changeSuccess = false;
+
+    //loader stop
+    this.loader = false;
   }
 
   // submit form
   changePassword() {
-      // stop here if form is invalid
-      if (this.changePasswordForm.invalid) {
-        console.log('Form is NOT submitted!');
-        return;
-      }
-      console.log('Form is submitted!');
-      // this.changePasswordForm.reset();
-  }
+    // 0 // stop here if form is invalid
+    if (this.changePasswordForm.invalid) {
+      return;
+    }
 
-  // get error meassage for old password input
-  getErrorMessageOldPass() {
-    if (this.f.oldPass.hasError('required')) {
-      return 'Old password is required';
+    // 1 // loader start
+    this.loader = true;
+
+    // 2 // new pass initialization
+    this.newPass = this.changePasswordForm.controls['newPass'].value;
+
+    // 3 // user with new pass initialization
+    this.newUser = {
+      id: this.user.userId,
+      pass: this.newPass,
+    }
+
+    // 4 // send new pass to server
+    this.userService.updatePatch(this.newUser).subscribe(
+      data => {
+        //change data for front end untill page will reload
+        this.userFull = data;
+        this.currentPass = this.userFull.pass;
+
+        // show success message
+        this.changeSuccess = true;
+
+        //loader stop
+        this.loader = false;
+
+        // hide success message after 2 sec
+        setTimeout(() => {this.changeSuccess = false}, 2000);
+      },
+      error => {
+        // show error message
+        this.changeError = true;
+      },
+    );
+
+    // 5 // reset form after submitting
+    this.changePasswordForm.reset();
+
+    // 6 // set errors to null and update validators
+    for(const control in this.changePasswordForm.controls) {
+      this.changePasswordForm.controls[control].setErrors(null);
+      this.changePasswordForm.controls[control].updateValueAndValidity();
     }
   }
 
-  // get error meassage for new password input
-  getErrorMessageNewPass() {
-    if (this.f.newPass.hasError('required')) {
-      return 'New password is required';
-    }
-    return this.f.newPass.hasError('minlength') ? 'Password must be at least 6 characters' : '';
-  }
+  // contact us if error
+  contactUsModalOpen() {
+    this.dialog.open(ContactUsModalComponent, {data: this.userFull});
 
-  // get error meassage for confirm password input
-  getErrorMessageConfirmPass() {
-    if (this.f.confirmPass.hasError('required')) {
-      return 'Confirmation a new password is required';
-    }
+    // hide error message
+    this.changeError = false;
+
+    //loader stop
+    this.loader = false;
   }
 }
