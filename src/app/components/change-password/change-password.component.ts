@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/types';
@@ -32,7 +31,7 @@ export class ChangePasswordComponent implements OnInit {
   // form group
   changePasswordForm: FormGroup;
   // user data from local storage
-  user: {userId: string; token: string};
+  user: { userId: string; token: string };
   // user data from server
   userFull: User;
   // current password
@@ -40,7 +39,7 @@ export class ChangePasswordComponent implements OnInit {
   // new user password
   newPass: string;
   // new user with changed password
-  newUser: {id: string; pass: string};
+  newUser: { id: string; pass: string };
   // show message if pass is changed
   changeSuccess = false;
   // show message if error of pass change
@@ -54,7 +53,6 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dataService: DataService,
     private userService: UserService,
     private dialog: MatDialog,
   ) { }
@@ -64,11 +62,9 @@ export class ChangePasswordComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     // get current user data
-    this.dataService.getUserData(this.user.userId).subscribe(
+    this.userService.getUserData(this.user.userId).subscribe(
       data => {
         this.userFull = data;
-        console.log('userFull on init ----->', this.userFull);
-
         // get current user password
         this.currentPass = this.userFull.pass;
       }
@@ -85,7 +81,7 @@ export class ChangePasswordComponent implements OnInit {
       ])
     });
   }
-  
+
   // convenience getter for easy access to form fields
   get f(): any { return this.changePasswordForm.controls; }
 
@@ -97,9 +93,9 @@ export class ChangePasswordComponent implements OnInit {
     if (value === currentPassword) {
       return null;
     }
-    return { oldPassNotCorrect: 'Incorrect current password'}
+    return { oldPassNotCorrect: 'Incorrect current password' }
   }
-  
+
   // validator for new password - it shouldn't be the same as old 
   newPasswordNotAsOld(control: FormControl): ValidationErrors {
     const value = control.value;
@@ -108,9 +104,9 @@ export class ChangePasswordComponent implements OnInit {
     if (value !== currentPassword) {
       return null;
     }
-    return { newPassNotAsOld: 'New password must be different from old'}
+    return { newPassNotAsOld: 'New password must be different from old' }
   }
-  
+
   // validator to confirm new password
   confirmNewPassword(group: FormGroup): ValidationErrors {
     const valueConfirm = group.controls['confirmPass'].value;
@@ -120,7 +116,7 @@ export class ChangePasswordComponent implements OnInit {
     if (valueConfirm === valueNewPass) {
       return null;
     }
-    valueConfirmCtrl.setErrors({'confirmPassNoMatch': 'Does not match to new password'});
+    valueConfirmCtrl.setErrors({ 'confirmPassNoMatch': 'Does not match to new password' });
   }
 
   // get error message for old pass input
@@ -131,7 +127,7 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     // error if current password is incorrect
-    if(this.f.oldPass.getError('oldPassNotCorrect')) {
+    if (this.f.oldPass.getError('oldPassNotCorrect')) {
       return this.f.oldPass.getError('oldPassNotCorrect');
     }
   }
@@ -139,17 +135,17 @@ export class ChangePasswordComponent implements OnInit {
   // get error message for new pass input
   getErrorMessageNewPass() {
     // error if new password is missing
-    if(this.f.newPass.hasError('required')) {
+    if (this.f.newPass.hasError('required')) {
       return 'New password is required';
     }
 
     // error if new password is less then 6 symbols
-    if(this.f.newPass.hasError('minlength')) {
+    if (this.f.newPass.hasError('minlength')) {
       return 'Password must be at least 6 characters';
     }
 
     // error if new pass is the same as current
-    if(this.f.newPass.getError('newPassNotAsOld')) {
+    if (this.f.newPass.getError('newPassNotAsOld')) {
       return this.f.newPass.getError('newPassNotAsOld');
     }
   }
@@ -162,37 +158,37 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     // error if confirm pass doesnt match to a new pass
-    if(this.f.confirmPass.getError('confirmPassNoMatch')) {
+    if (this.f.confirmPass.getError('confirmPassNoMatch')) {
       return this.f.confirmPass.getError('confirmPassNoMatch');
     }
   }
 
   // show-hide icon done for old pass
-   oldPassOninput(){
-    if(this.f.oldPass.valid) {
+  oldPassOninput() {
+    if (this.f.oldPass.valid) {
       this.isOldValid = true;
     }
-    if(this.f.oldPass.invalid) {
+    if (this.f.oldPass.invalid) {
       this.isOldValid = false;
     }
   }
 
   // show-hide icon done for new pass
-  newPassOninput(){
-    if(this.f.newPass.valid) {
+  newPassOninput() {
+    if (this.f.newPass.valid) {
       this.isNewValid = true;
     }
-    if(this.f.newPass.invalid) {
+    if (this.f.newPass.invalid) {
       this.isNewValid = false;
     }
   }
 
   // show-hide icon done for confirm pass
-  confirmPassOninput(){
-    if(this.f.confirmPass.valid) {
+  confirmPassOninput() {
+    if (this.f.confirmPass.valid) {
       this.isConfirmValid = true;
     }
-    if(this.f.confirmPass.invalid) {
+    if (this.f.confirmPass.invalid) {
       this.isConfirmValid = false;
     }
   }
@@ -247,7 +243,7 @@ export class ChangePasswordComponent implements OnInit {
         this.loader = false;
 
         // hide success message after 2 sec
-        setTimeout(() => {this.changeSuccess = false}, 2000);
+        setTimeout(() => { this.changeSuccess = false }, 2000);
       },
       error => {
         // show error message
@@ -259,7 +255,7 @@ export class ChangePasswordComponent implements OnInit {
     this.changePasswordForm.reset();
 
     // 6 // set errors to null and update validators
-    for(const control in this.changePasswordForm.controls) {
+    for (const control in this.changePasswordForm.controls) {
       this.changePasswordForm.controls[control].setErrors(null);
       this.changePasswordForm.controls[control].updateValueAndValidity();
     }
@@ -272,7 +268,7 @@ export class ChangePasswordComponent implements OnInit {
 
   // contact us if error
   contactUsModalOpen() {
-    this.dialog.open(ContactUsModalComponent, {data: this.userFull});
+    this.dialog.open(ContactUsModalComponent, { data: this.userFull });
 
     // hide error message
     this.changeError = false;
