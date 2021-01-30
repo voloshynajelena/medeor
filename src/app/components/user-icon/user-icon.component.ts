@@ -9,6 +9,7 @@ import { User } from 'src/app/types';
 export class UserIconComponent implements OnInit {
 
   @Input('userData') data: User;
+  hideImage = false;
 
   constructor() { }
 

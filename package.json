@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
     "@ngrx/store": "8.1.0",
+    "dateformat": "^4.4.1",
+    "ramda": "^0.27.1",
     "ng-click-outside": "^7.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

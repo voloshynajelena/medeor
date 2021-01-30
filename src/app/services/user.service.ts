@@ -1,25 +1,40 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '../constants';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { API_ENDPOINTS, API_URL } from '../constants';
+import { Observable } from 'rxjs';
+import { User } from '../types';
+import { HttpService } from './http.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpService,
+        private httpClient: HttpClient,
 
-    getAll(): Observable<any> {
-        return this.http.get<any[]>(`${API_URL}/users`);
-    }
-    update(user): Observable<any> {
-        return this.http.put(`${API_URL}/user`, user);
-    }
+    ) { }
+
+    urlUser = `${API_URL}${API_ENDPOINTS.user}`;
+
     updatePatch(user): Observable<any> {
-        return this.http.patch(`${API_URL}/user`, user);
+        return this.httpClient.patch(`${API_URL}/user`, user);
     }
-    register(user): Observable<any> {
-        return this.http.post(`${API_URL}/user`, user);
+
+    update(user): Observable<User> {
+        return this.http.put(this.urlUser, user);
     }
-    delete(id): Observable<any> {
-        return this.http.delete(`${API_URL}/user`, {params: {id}});
+
+    register(user): Observable<User> {
+        return this.http.post(this.urlUser, user);
     }
+
+    delete(id): Observable<User[]> {
+        return this.http.delete(this.urlUser, { params: { id } });
+    }
+
+    getUserData(id: string): Observable<User> {
+        return this.http.get(this.urlUser, {
+            params: { id }
+        });
+    }
+
 }

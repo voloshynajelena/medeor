@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
+import { WIKI_URL } from 'src/app/constants';
 import { User } from 'src/app/types';
 
 @Component({
@@ -9,14 +10,11 @@ import { User } from 'src/app/types';
   templateUrl: './help-menu.component.html',
   styleUrls: ['./help-menu.component.less']
 })
-export class HelpMenuComponent implements OnInit {
-
+export class HelpMenuComponent {
+  wikiUrl: string = WIKI_URL;
   @Input() user: User;
 
   constructor(private dialog: MatDialog) { }
-
-  ngOnInit(): void {
-  }
 
   contactUsModalOpen() {
     this.dialog.open(ContactUsModalComponent, {data: this.user});

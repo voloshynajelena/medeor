@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
 import { Client } from 'src/app/types';
+import {ClientService} from '../../services/client.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +12,12 @@ export class ProfileComponent implements OnInit {
   loading = false;
   user = JSON.parse(localStorage.getItem('currentUser'));
   constructor(
-    private dataService: DataService,
+    private clientService: ClientService,
     ) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.dataService.getClientsData(this.user?.userId).subscribe(
+    this.clientService.getClients(this.user?.userId).subscribe(
       (data: any) => {
         this.clients = data.clients;
         this.loading = false;
