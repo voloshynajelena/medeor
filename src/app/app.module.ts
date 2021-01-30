@@ -39,8 +39,9 @@ import { TestsTableComponent } from './components/constructor-tests/tests-table/
 import { RemovePatientModalComponent } from './components/remove-patient-modal/remove-patient-modal.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
-import { NewTestComponent } from './components/constructor-tests/new-test/new-test.component';
 
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { NewTestComponent } from './components/constructor-tests/new-test/new-test.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NewTestComponent } from './components/constructor-tests/new-test/new-te
     RemovePatientModalComponent,
     TagsComponent,
     ModalDeleteAllTagsComponent,
+    ChangePasswordComponent,
     NewTestComponent,
   ],
   imports: [
@@ -88,4 +90,4 @@ import { NewTestComponent } from './components/constructor-tests/new-test/new-te
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
