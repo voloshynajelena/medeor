@@ -169,12 +169,7 @@
             </div>
         </form>
         <div class="client-info-row__item" *ngIf="!editMode">
-            <h2 class="client-info-row__title">Tests</h2>
-            <div class="client-info-row__content">
-                <div class="client-test">
-                    <app-last-tests-widget *ngFor="let test of tests" class="client-test__item" [test]="test"></app-last-tests-widget>
-                </div>
-            </div>
+            <app-patient-tests-table></app-patient-tests-table>
         </div>
     </mat-card-content>
 </mat-card>

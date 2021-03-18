@@ -49,6 +49,8 @@ export interface Test {
   id: string;
   name: string;
   date: Date;
+  marked?: boolean;
+  conclusion?: string;
 }
 
 export interface Response {
