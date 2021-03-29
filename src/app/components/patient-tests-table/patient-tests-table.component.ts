@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { TESTS } from '../clients-table/clients-table.component';
-import {PageEvent} from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
 
@@ -15,7 +15,7 @@ import { FormControl } from '@angular/forms';
 export class PatientTestsTableComponent implements OnInit {
   //patients tests array
   tests = TESTS;
-  
+
   //checkboxes
   allComplete: boolean = false;
   mainCheckboxDisabled: boolean = false;
@@ -50,18 +50,19 @@ export class PatientTestsTableComponent implements OnInit {
   ngOnInit(): void {
     //descending sorting by date on init
     this.tests.sort((a, b) => {
-      let dateA: any = new Date(a.date);
-      let dateB: any = new Date(b.date);
+      let dateA: any = new Date(a.date).getTime();
+      let dateB: any = new Date(b.date).getTime();
 
       return dateB - dateA;
     });
+
     this.sortedDescending = true;
 
     //pagination - tests per page on init
     this.filteredTests = this.tests.slice(0, this.defaultTestsPerPage);
 
     //main checkbox disabled if no tests added
-    if(!this.tests.length) {
+    if (!this.tests.length) {
       this.mainCheckboxDisabled = true;
     } else {
       this.mainCheckboxDisabled = false;
@@ -71,13 +72,13 @@ export class PatientTestsTableComponent implements OnInit {
   // fuction on key up while typing search
   // checkboxes behavior
   // block 'no tests found'
-  searchKeyUpFunction(){
+  searchKeyUpFunction() {
     this.search.trim();
 
     this.foundTests = this.tests.filter(
       test => test.name.toLowerCase().includes(this.search.toLowerCase())
     );
-    
+
     //if no search
     if (!this.search.trim()) {
       this.testsNotFound = false;
@@ -85,7 +86,7 @@ export class PatientTestsTableComponent implements OnInit {
 
       // main checkbox behavior if no search (for ex. query was deleted)
       let allTestsMarked = this.filteredTests.every(t => t.marked);
-      if(allTestsMarked){
+      if (allTestsMarked) {
         this.allComplete = true;
       } else {
         this.allComplete = false;
@@ -94,11 +95,11 @@ export class PatientTestsTableComponent implements OnInit {
     }
 
     //'no tests found'
-    if(this.foundTests.length) {
+    if (this.foundTests.length) {
       this.testsNotFound = false;
       this.mainCheckboxDisabled = false;
     }
-    if(!this.foundTests.length) {
+    if (!this.foundTests.length) {
       this.testsNotFound = true;
       this.mainCheckboxDisabled = true;
     }
@@ -116,7 +117,7 @@ export class PatientTestsTableComponent implements OnInit {
   onPaginateChange(data: PageEvent) {
 
     //tests per page when user changes options to view
-    this.filteredTests = this.tests.slice(data.pageIndex*data.pageSize, data.pageIndex*data.pageSize + data.pageSize);
+    this.filteredTests = this.tests.slice(data.pageIndex * data.pageSize, data.pageIndex * data.pageSize + data.pageSize);
     this.allComplete = false;
 
     //if all tests marked
@@ -149,7 +150,7 @@ export class PatientTestsTableComponent implements OnInit {
 
       //btn 'Print checked' - disabled and active
       let markedTests = this.filteredTests.filter(t => t.marked).length;
-      if(markedTests) {
+      if (markedTests) {
         this.testsChecked = true;
       } else {
         this.testsChecked = false;
@@ -157,7 +158,7 @@ export class PatientTestsTableComponent implements OnInit {
     }
 
     //if search is applied
-    if(this.search.trim()) {
+    if (this.search.trim()) {
       //tests found in search
       this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
@@ -167,7 +168,7 @@ export class PatientTestsTableComponent implements OnInit {
 
       //btn 'Print checked' - disabled and active
       let markedTests = this.foundTests.filter(t => t.marked).length;
-      if(markedTests) {
+      if (markedTests) {
         this.testsChecked = true;
       } else {
         this.testsChecked = false;
@@ -177,7 +178,7 @@ export class PatientTestsTableComponent implements OnInit {
     //count number of checked tests
     this.allMarkedTests = this.tests.filter(t => t.marked).length;
   }
-  
+
   //main checkbox behavior if some checkboxes marked - changes to "-"
   someComplete(): boolean {
     if (this.tests == null) {
@@ -190,12 +191,12 @@ export class PatientTestsTableComponent implements OnInit {
     }
 
     //if search is applied
-    if(this.search.trim()) {
+    if (this.search.trim()) {
       //tests found in search
       this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
       );
-      
+
       return this.foundTests.filter(t => t.marked).length > 0 && !this.allComplete;
     }
   }
@@ -213,7 +214,7 @@ export class PatientTestsTableComponent implements OnInit {
 
       //btn 'Print checked' - disabled and active
       let markedTests = this.filteredTests.filter(t => t.marked).length;
-      if(markedTests) {
+      if (markedTests) {
         this.testsChecked = true;
       } else {
         this.testsChecked = false;
@@ -221,7 +222,7 @@ export class PatientTestsTableComponent implements OnInit {
     }
 
     //if search is applied
-    if(this.search.trim()) {
+    if (this.search.trim()) {
       //tests found in search
       this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
@@ -232,7 +233,7 @@ export class PatientTestsTableComponent implements OnInit {
 
       //btn 'Print checked' - disabled and active
       let markedTests = this.foundTests.filter(t => t.marked).length;
-      if(markedTests) {
+      if (markedTests) {
         this.testsChecked = true;
       } else {
         this.testsChecked = false;
@@ -261,28 +262,14 @@ export class PatientTestsTableComponent implements OnInit {
   //sorting by date
   sortByDate() {
 
-    if (this.sortedDescending) {
+    this.tests.sort((a, b) => {
+      let dateA: any = new Date(a.date).getTime();
+      let dateB: any = new Date(b.date).getTime();
 
-      //ascenging sorting
-      this.tests.sort((a, b) => {
-        let dateA: any = new Date(a.date);
-        let dateB: any = new Date(b.date);
-
-        return dateA - dateB;
-      });
-      this.sortedDescending = false;
-      
-    } else if (!this.sortedDescending) {
-    
-      //descending sorting
-      this.tests.sort((a, b) => {
-        let dateA: any = new Date(a.date);
-        let dateB: any = new Date(b.date);
-
-        return dateB - dateA;
-      });
-      this.sortedDescending = true;
-    }
+      return this.sortedDescending ? dateA - dateB : dateB - dateA;
+    });
+    this.sortedDescending = !this.sortedDescending;
+    this.filteredTests = this.tests;
   }
 
   //print current test
