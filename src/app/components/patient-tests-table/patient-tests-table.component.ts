@@ -37,6 +37,7 @@ export class PatientTestsTableComponent implements OnInit {
   pageEvent: PageEvent;
 
   //for tests filter
+  foundTests: any[] = [];
   search = '';
   testsNotFound: boolean = false;
 
@@ -51,52 +52,78 @@ export class PatientTestsTableComponent implements OnInit {
     this.tests.sort((a, b) => {
       let dateA: any = new Date(a.date);
       let dateB: any = new Date(b.date);
+
       return dateB - dateA;
     });
     this.sortedDescending = true;
 
     //pagination - tests per page on init
     this.filteredTests = this.tests.slice(0, this.defaultTestsPerPage);
+
+    //main checkbox disabled if no tests added
+    if(!this.tests.length) {
+      this.mainCheckboxDisabled = true;
+    } else {
+      this.mainCheckboxDisabled = false;
+    }
   }
 
-  //filter - no tests found
-  noTestsFound(){
+  // fuction on key up while typing search
+  // checkboxes behavior
+  // block 'no tests found'
+  searchKeyUpFunction(){
     this.search.trim();
 
-    const foundTests = this.tests.filter(
+    this.foundTests = this.tests.filter(
       test => test.name.toLowerCase().includes(this.search.toLowerCase())
     );
-
+    
+    //if no search
     if (!this.search.trim()) {
       this.testsNotFound = false;
+      this.mainCheckboxDisabled = false;
+
+      // main checkbox behavior if no search (for ex. query was deleted)
+      let allTestsMarked = this.filteredTests.every(t => t.marked);
+      if(allTestsMarked){
+        this.allComplete = true;
+      } else {
+        this.allComplete = false;
+      }
       return;
     }
 
-    if(foundTests.length) {
+    //'no tests found'
+    if(this.foundTests.length) {
       this.testsNotFound = false;
       this.mainCheckboxDisabled = false;
     }
-    if(!foundTests.length) {
+    if(!this.foundTests.length) {
       this.testsNotFound = true;
       this.mainCheckboxDisabled = true;
+    }
+
+    //main checkbox behavior if search
+    let allFoundTestsMarked = this.foundTests.every(t => t.marked);
+    if (allFoundTestsMarked) {
+      this.allComplete = true;
+    } else {
+      this.allComplete = false;
     }
   }
 
   //pagination
   onPaginateChange(data: PageEvent) {
+
     //tests per page when user changes options to view
     this.filteredTests = this.tests.slice(data.pageIndex*data.pageSize, data.pageIndex*data.pageSize + data.pageSize);
     this.allComplete = false;
 
-    //make all checkboxes unmarked on page changing
-    // this.tests.forEach(t => t.marked = false);
-
-    //btn 'Print checked' - disabled and active
-    let markedTests = this.filteredTests.filter(t => t.marked).length;
-    if(markedTests) {
-      this.testsChecked = true;
-    } else {
-      this.testsChecked = false;
+    //if all tests marked
+    let allTestsMarked = this.filteredTests.every(t => t.marked);
+    if (allTestsMarked) {
+      //remain main checkbox cheked
+      this.allComplete = true;
     }
 
     //count number of checked tests
@@ -132,14 +159,14 @@ export class PatientTestsTableComponent implements OnInit {
     //if search is applied
     if(this.search.trim()) {
       //tests found in search
-      let foundTests = this.tests.filter(
+      this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
       );
 
-      this.allComplete = foundTests != null && foundTests.every(t => t.marked);
+      this.allComplete = this.foundTests != null && this.foundTests.every(t => t.marked);
 
       //btn 'Print checked' - disabled and active
-      let markedTests = foundTests.filter(t => t.marked).length;
+      let markedTests = this.foundTests.filter(t => t.marked).length;
       if(markedTests) {
         this.testsChecked = true;
       } else {
@@ -165,11 +192,11 @@ export class PatientTestsTableComponent implements OnInit {
     //if search is applied
     if(this.search.trim()) {
       //tests found in search
-      let foundTests = this.tests.filter(
+      this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
       );
       
-      return foundTests.filter(t => t.marked).length > 0 && !this.allComplete;
+      return this.foundTests.filter(t => t.marked).length > 0 && !this.allComplete;
     }
   }
 
@@ -196,15 +223,15 @@ export class PatientTestsTableComponent implements OnInit {
     //if search is applied
     if(this.search.trim()) {
       //tests found in search
-      let foundTests = this.tests.filter(
+      this.foundTests = this.tests.filter(
         test => test.name.toLowerCase().includes(this.search.toLowerCase())
       );
 
-      foundTests.forEach(t => t.marked = marked);
+      this.foundTests.forEach(t => t.marked = marked);
       this.allComplete = marked;
 
       //btn 'Print checked' - disabled and active
-      let markedTests = foundTests.filter(t => t.marked).length;
+      let markedTests = this.foundTests.filter(t => t.marked).length;
       if(markedTests) {
         this.testsChecked = true;
       } else {
@@ -240,6 +267,7 @@ export class PatientTestsTableComponent implements OnInit {
       this.tests.sort((a, b) => {
         let dateA: any = new Date(a.date);
         let dateB: any = new Date(b.date);
+
         return dateA - dateB;
       });
       this.sortedDescending = false;
@@ -250,6 +278,7 @@ export class PatientTestsTableComponent implements OnInit {
       this.tests.sort((a, b) => {
         let dateA: any = new Date(a.date);
         let dateB: any = new Date(b.date);
+
         return dateB - dateA;
       });
       this.sortedDescending = true;
