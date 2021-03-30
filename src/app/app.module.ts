@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material/material.module';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 // Helpers
 import { initialState, metaReducers, reducers } from './state/reducers';
@@ -41,7 +42,12 @@ import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
 
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+
+import { PatientTestsTableComponent } from './components/patient-tests-table/patient-tests-table.component';
+import { TestsFilterPipe } from './pipes/tests-filter.pipe';
+
 import { NewTestComponent } from './components/constructor-tests/new-test/new-test.component';
+
 
 @NgModule({
   declarations: [
@@ -72,7 +78,10 @@ import { NewTestComponent } from './components/constructor-tests/new-test/new-te
     TagsComponent,
     ModalDeleteAllTagsComponent,
     ChangePasswordComponent,
+    PatientTestsTableComponent,
+    TestsFilterPipe,
     NewTestComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -83,6 +92,7 @@ import { NewTestComponent } from './components/constructor-tests/new-test/new-te
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, { metaReducers, initialState }),
+    MatPaginatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
