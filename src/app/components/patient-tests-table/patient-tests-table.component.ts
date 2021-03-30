@@ -269,7 +269,7 @@ export class PatientTestsTableComponent implements OnInit {
       return this.sortedDescending ? dateA - dateB : dateB - dateA;
     });
     this.sortedDescending = !this.sortedDescending;
-    this.filteredTests = this.tests;
+    this.filteredTests = this.tests.slice(0, this.defaultTestsPerPage);
   }
 
   //print current test

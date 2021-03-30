@@ -168,8 +168,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   constructor(private router: Router,
 
     private dialog: MatDialog,
-    private clientService: ClientService,
-    private dataService: DataService) { }
+    private clientService: ClientService) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -182,25 +181,6 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  removeClient(event: Event, client: Client): void {
-    event.stopPropagation();
-
-    // this.clientService.deletePatient(id).subscribe();
-
-    const dialogRef = this.dialog.open(RemovePatientModalComponent, { data: client });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.clientService.deletePatient(client.id).subscribe(resp => {
-          const user = JSON.parse(localStorage.getItem('currentUser'));
-          this.dataService.getClientsData(user.id).subscribe(data => {
-            this.dataSource.data = data.clients;
-          });
-        });
-      }
-    });
   }
 
   applyFilter(event: Event): void {
