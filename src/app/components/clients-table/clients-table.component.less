@@ -1,10 +1,25 @@
+.table-list {
+  display: flex;
+  align-items: center;
+}
+
 table {
     width: 100%;
 }
 
-.table-list {
-  display: flex;
-  align-items: center;
+.user-icon {
+  width: 30px;
+  vertical-align: middle;
+}
+
+.male-icon {
+  position: relative;
+  left: 3px;
+}
+
+.female-icon {
+  position: relative;
+  left: -5px;
 }
 
 .mat-form-field {
@@ -13,54 +28,27 @@ table {
     margin-right: 20px;
 }
 
-.table-avatar {
-    width: 40px;
-    height: 40px;
-}
-
-  tr.example-detail-row {
+  tr.detail-row {
     height: 0;
   }
 
-  tr.example-element-row:not(.example-expanded-row):hover {
+  tr.element-row:not(.expanded-row):hover {
     background: whitesmoke;
   }
 
-  tr.example-element-row:not(.example-expanded-row):active {
+  tr.element-row:not(.expanded-row):active {
     background: #efefef;
   }
 
-  .example-element-row td {
+  .element-row td {
     border-bottom-width: 0;
   }
 
-  .example-element-detail {
+  .element-detail {
     overflow: hidden;
     // display: flex;
   }
 
-  .example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    padding: 8px;
-    font-weight: lighter;
-    margin: 8px 0;
-    height: 104px;
-  }
-
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  }
-
-  .example-element-description {
-    padding: 16px;
-  }
-
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
   // last test widgets block styles
   .last-test-widgets-block {
     width: 100%;
@@ -100,8 +88,4 @@ table {
     padding: 0;
   }
 
-.user-icon {
-  width: 30px;
-  vertical-align: middle;
-}
   //end last test widgets block styles

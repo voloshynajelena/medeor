@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -7,7 +7,8 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-contact-us-modal',
   templateUrl: './contact-us-modal.component.html',
-  styleUrls: ['./contact-us-modal.component.less']
+  styleUrls: ['./contact-us-modal.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactUsModalComponent implements OnInit {
 
@@ -21,12 +22,12 @@ export class ContactUsModalComponent implements OnInit {
   userEmail: string;
 
   contactUs : FormGroup = new FormGroup({
-    "userName": new FormControl(this.data.name, Validators.required),
-    "userEmail": new FormControl(this.data.email, [
+    userName: new FormControl(this.data.name, Validators.required),
+    userEmail: new FormControl(this.data.email, [
       Validators.required,
       Validators.email
     ]),
-    "message": new FormControl('', Validators.required)
+    message: new FormControl('', Validators.required)
   });
 
   constructor(
@@ -39,7 +40,7 @@ export class ContactUsModalComponent implements OnInit {
 
   submit() {
     this.pending = true;
-
+// TODO: create mailService
     setTimeout(() => {
       this.userName = this.inputName.nativeElement.value;
       this.userEmail = this.inputEmail.nativeElement.value;

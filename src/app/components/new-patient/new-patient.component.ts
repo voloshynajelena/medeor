@@ -46,7 +46,6 @@ export class NewPatientComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.newPatientForm.invalid) {
       this.errorValidation = 'Ошибка при заполнении формы';
       for (const controlName in this.newPatientForm.controls) {
@@ -63,7 +62,7 @@ export class NewPatientComponent implements OnInit {
     this.errorHttp = '';
     this.message = '';
     this.loading = true;
-    this.clientService.createPatient(this.newPatientForm.value)
+    this.clientService.createClient(this.newPatientForm.value)
       .pipe(first())
       .subscribe(
         (data: Client | Response) => {

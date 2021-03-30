@@ -1,13 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/services/auth.service';
 
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { User } from 'src/app/types';
 
 @Component({
   selector: 'app-user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.less']
+  styleUrls: ['./user-menu.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {
 

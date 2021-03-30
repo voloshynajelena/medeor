@@ -32,12 +32,22 @@ import { NewPatientComponent } from './components/new-patient/new-patient.compon
 import { HelpMenuComponent } from './components/header/help-menu/help-menu.component';
 import { UserIconComponent } from './components/user-icon/user-icon.component';
 import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
+
+import { ConstructorTestsComponent } from './components/constructor-tests/constructor-tests.component';
+import { GroupedTestsTableComponent } from './components/constructor-tests/grouped-tests-table/grouped-tests-table.component';
+import { NewTestGroupComponent } from './components/constructor-tests/new-test-group/new-test-group.component';
+import { TestsTableComponent } from './components/constructor-tests/tests-table/tests-table.component';
 import { RemovePatientModalComponent } from './components/remove-patient-modal/remove-patient-modal.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ModalDeleteAllTagsComponent } from './components/modal-delete-all-tags/modal-delete-all-tags.component';
+
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+
 import { PatientTestsTableComponent } from './components/patient-tests-table/patient-tests-table.component';
 import { TestsFilterPipe } from './pipes/tests-filter.pipe';
+
+import { NewTestComponent } from './components/constructor-tests/new-test/new-test.component';
+
 
 @NgModule({
   declarations: [
@@ -58,12 +68,20 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     HelpMenuComponent,
     UserIconComponent,
     ContactUsModalComponent,
+
+    ConstructorTestsComponent,
+    GroupedTestsTableComponent,
+    NewTestGroupComponent,
+    TestsTableComponent,
+
     RemovePatientModalComponent,
     TagsComponent,
     ModalDeleteAllTagsComponent,
     ChangePasswordComponent,
     PatientTestsTableComponent,
     TestsFilterPipe,
+    NewTestComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -82,4 +100,4 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
