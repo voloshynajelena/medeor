@@ -1,98 +1,165 @@
 <div class="container">
-    <header>
-      <h1><mat-icon>person</mat-icon> Create new Test </h1>
-    </header>
-  
-    <form [formGroup]="newTestGroupForm">
-          <div class="form-section">
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Code</mat-label>
-                <input
-                  required
-                  matInput
-                  formControlName="code"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
-                <mat-error *ngIf="f.code.invalid">{{getErrorMessage(f.code)}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Ref value</mat-label>
-                <input
-                  required
-                  matInput
-                  formControlName="refValue"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.refValue.errors }" />
-                <mat-error *ngIf="f.refValue.invalid">{{getErrorMessage(f.refValue)}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Title</mat-label>
-                <input
-                  required
-                  matInput
-                  formControlName="title"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
-                <mat-error *ngIf="f.title.invalid">{{getErrorMessage(f.title)}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Description</mat-label>
-                <input
-                  required
-                  matInput
-                  formControlName="description"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.description.errors }" />
-                <mat-error *ngIf="f.description.invalid">{{getErrorMessage(f.description)}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Unit</mat-label>
-                <input
-                  required
-                  matInput
-                  formControlName="unit"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.unit.errors }" />
-                <mat-error *ngIf="f.unit.invalid">{{getErrorMessage(f.unit)}}</mat-error>
-              </mat-form-field>
-            </div>
-          </div>
+  <header>
+    <h1><mat-icon>person</mat-icon> Create new Test </h1>
+  </header>
 
-          <p class="error-message" *ngIf="errorValidation">
-            {{ errorValidation }}
-          </p>
-          <p class="error-message" *ngIf="errorHttp">
-            {{ errorHttp }}
-          </p>
-          <p *ngIf="message">
-            {{ message }}
-          </p>
-          <div class="action-buttons">
-            <ng-template [ngIf]="loading" #loadingTemplate>
-              <mat-spinner [diameter]="24"></mat-spinner>
-            </ng-template>
-            <button mat-raised-button
-                    color="primary"
-                    [disabled]="loading"
-                    (click)="onSubmit()">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              CREATE
-            </button>
-            <button mat-button
-                    color="primary"
-                    (click)="closeOverlay()">
-              CLOSE
-            </button>
-          </div>
-    </form>
+  <form>
+    <div class="client-info-row">
+      <div class="client-info-row__item">
+        <mat-tab-group [selectedIndex]="titleTabIndex.value" (selectedIndexChange)="titleTabIndex.setValue($event)" headerPosition="below" animationDuration="0ms" [formGroup]="titleCtrl">
+          <mat-tab label="RU">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Заголовок</mat-label>
+                  <input matInput formControlName="ru">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="UA">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Заголовок</mat-label>
+                  <input matInput formControlName="ua">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="EN">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Title</mat-label>
+                  <input matInput formControlName="en">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="client-info-row__item">
+        <mat-form-field appearance="fill">
+          <mat-label>Code</mat-label>
+          <input matInput [formControl]="codeCtrl">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="client-info-row">
+      <div class="client-info-row__item">
+        <mat-tab-group [selectedIndex]="titleTabIndex.value" (selectedIndexChange)="titleTabIndex.setValue($event)" headerPosition="below" animationDuration="0ms" [formGroup]="descriptionCtrl">
+          <mat-tab label="RU">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Описание</mat-label>
+                  <textarea matInput rows="5" formControlName="ru"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="UA">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Опис</mat-label>
+                  <textarea matInput rows="5" formControlName="ua"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="EN">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput rows="5" formControlName="en"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+    <div class="client-info-row">
+      <div class="client-info-row__item">
+        <mat-tab-group [selectedIndex]="titleTabIndex.value" (selectedIndexChange)="titleTabIndex.setValue($event)" headerPosition="below" animationDuration="0ms" [formGroup]="unitCtrl">
+          <mat-tab label="RU">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Единица измерения</mat-label>
+                  <input matInput formControlName="ru">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="UA">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Одиниця виміру</mat-label>
+                  <input matInput formControlName="ua">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="EN">
+            <div class="client-info-row">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Unit</mat-label>
+                  <input matInput formControlName="en">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="client-info-row__item">
+        <mat-form-field appearance="fill" [formGroup]="refValueCtrl" >
+          <mat-label>Min</mat-label>
+          <input matInput formControlName="min">
+        </mat-form-field>
+      </div>
+      <div class="client-info-row__item">
+        <mat-form-field appearance="fill" [formGroup]="refValueCtrl">
+          <mat-label>Max</mat-label>
+          <input matInput formControlName="max">
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <footer class="footer">
+      <button class="footer-btn" mat-raised-button color="primary" [disabled]="loading" (click)="submit()">
+        <ng-template [ngIf]="loading" [ngIfElse]="saveText">
+          <mat-spinner class="custom-spinner" diameter="20"></mat-spinner>
+          Creating
+        </ng-template>
+        <ng-template #saveText>
+          <mat-icon>add_circle</mat-icon>
+          Create
+        </ng-template>
+      </button>
+      <button [mat-dialog-close]="testsList" class="footer-btn" mat-raised-button color="warn">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+  </footer>
+
+  <div class="after-create" *ngIf="submitted">
+    <h2 class="after-create__title">Test was created. Would you like create another test?</h2>
+    <div class="after-create-buttons">
+      <button class="footer-btn" mat-raised-button color="primary" (click)="closeAfterSubmitModal()">
+        <mat-icon>add_circle</mat-icon>
+        Create another
+      </button>
+      <button [mat-dialog-close]="testsList" class="footer-btn" mat-raised-button color="warn">
+        <mat-icon>cancel</mat-icon>
+        Close
+      </button>
+    </div>
   </div>
-  
+</div>

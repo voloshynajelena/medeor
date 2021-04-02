@@ -1,11 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ClientService} from '../../../services/client.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {first} from 'rxjs/operators';
-import {Client, ITest, Response} from '../../../types';
-import { TestsService } from 'src/app/services/tests.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {TestTemplatesInterface, Translation} from './test-templates.interface';
+import {TestsService} from '../../../services/tests.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-test',
@@ -14,76 +12,115 @@ import { TestsService } from 'src/app/services/tests.service';
 })
 export class NewTestComponent implements OnInit {
 
-  errorValidation = '';
-  errorHttp = '';
-  message = '';
-  newTestGroupForm: FormGroup;
-  loading = false;
-  submitted = false;
-  newTest: ITest;
+  public loading = false;
+  public submitted = false;
+
+  public titleTabIndex = new FormControl(0);
+
+  public testsList: any[];
+
+  // ##########################################
+
+  public codeCtrl = new FormControl('', Validators.required);
+
+  public titleCtrl = new FormGroup({
+    ru: new FormControl('', Validators.required),
+    ua: new FormControl(''),
+    en: new FormControl('')
+  });
+
+  public descriptionCtrl = new FormGroup({
+    ru: new FormControl(''),
+    ua: new FormControl(''),
+    en: new FormControl('')
+  });
+
+  public unitCtrl = new FormGroup({
+    ru: new FormControl(''),
+    ua: new FormControl(''),
+    en: new FormControl('')
+  });
+
+  public refValueCtrl = new FormGroup({
+    min: new FormControl(''),
+    max: new FormControl('')
+  });
+
+  // ##########################################
+
   constructor(
-    private formBuilder: FormBuilder,
-    private testService: TestsService,
-    private dialogRef: MatDialogRef<NewTestComponent>,
-    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<NewTestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {user: {userId: string, token: string}},
+    private testsService: TestsService,
+    private _snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
-    this.newTestGroupForm = this.formBuilder.group({
-      code: ['', Validators.required],
-      refValue: ['', Validators.required],
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      unit: ['', Validators.required],
-    });
-  }
-  get f(): any { return this.newTestGroupForm.controls; }
+  // ##########################################
 
-  onSubmit(): void {
-    this.submitted = true;
+  ngOnInit(): void {}
 
-    // stop here if form is invalid
-    if (this.newTestGroupForm.invalid) {
-      this.errorValidation = 'Ошибка при заполнении формы';
-      for (const controlName in this.newTestGroupForm.controls) {
-        if (this.newTestGroupForm.controls.hasOwnProperty(controlName)){
-          const errorMessage = this.getErrorMessage(this.newTestGroupForm.get(controlName) as FormControl);
-          if (errorMessage) {
-            this.errorValidation = errorMessage;
-          }
-        }
-      }
-      return;
+  // ##########################################
+
+  public submit(): void {
+    this.titleCtrl.markAllAsTouched();
+    this.codeCtrl.markAsTouched();
+
+    if (this.titleCtrl.invalid) {
+      this.titleTabIndex.setValue(0);
     }
-    this.errorValidation = '';
-    this.errorHttp = '';
-    this.message = '';
-    this.loading = true;
-    this.testService.createTestTemplates(this.newTestGroupForm.value)
-      .pipe(first())
-      .subscribe(
-        (data: ITest | Response) => {
-          if ((data as Response).error) {
-            this.errorHttp = (data as Response).error;
-          } else {
-            this.newTest = data as ITest;
-            this.message = `Test ${(data as ITest).title} created`;
-          }
+
+    if (this.titleCtrl.valid && this.codeCtrl.valid) {
+      const data = this.getFormData();
+
+      this.loading = true;
+
+      this.testsService.createTestTemplates(data).subscribe(
+        (resp) => {
           this.loading = false;
+          this.submitted = true;
+
+          this.titleCtrl.reset();
+          this.codeCtrl.reset();
+          this.descriptionCtrl.reset();
+          this.unitCtrl.reset();
+          this.refValueCtrl.reset();
+
+          if (resp?.data?.length) {
+            this.testsList = resp.data;
+          }
         },
-        error => {
-          this.errorHttp = error;
+        (error) => {
           this.loading = false;
-        });
-  }
-  getErrorMessage(control: FormControl): string {
-    if (control.hasError('required')) {
-      return 'You must enter a value';
+          this._snackBar.open('Error. Data was not saved!', 'Hide');
+        }
+      );
     }
-    return control.hasError('email') ? 'Not a valid email' : '';
   }
-  closeOverlay(): void {
-    this.dialogRef.close();
+
+  public closeAfterSubmitModal(): void {
+    this.submitted = false;
+  }
+
+  // ##########################################
+
+  private getFormData(): TestTemplatesInterface {
+    return {
+      code: this.codeCtrl.value,
+      title: this.getCtrlValues(this.titleCtrl.controls) as Translation,
+      description: this.getCtrlValues(this.descriptionCtrl.controls) as Translation,
+      unit: this.getCtrlValues(this.unitCtrl.controls) as Translation,
+      // @ts-ignore
+      refValue: this.getCtrlValues(this.refValueCtrl.controls)
+    };
+  }
+
+  private getCtrlValues(controls: {}): {} {
+    const result = {};
+
+    Object.keys(controls).forEach((key) => {
+      result[key] = controls[key].value;
+    });
+
+    return result;
   }
 }
