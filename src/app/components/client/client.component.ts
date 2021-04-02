@@ -82,7 +82,7 @@ export class ClientComponent implements OnInit {
     this.clientForm.markAllAsTouched();
     this.clientForm.updateValueAndValidity();
   }
-  
+
   disableEditMode(): void {
     this.editMode = false;
     this.resetFormData();
@@ -112,8 +112,6 @@ export class ClientComponent implements OnInit {
       photo: new FormControl(this.client.photo),
       pregnancy: new FormControl(this.client.pregnancy)
     });
-
-    this.clientChipTags = this.client.tags.map(t => t);
   }
 
   submit(): void {

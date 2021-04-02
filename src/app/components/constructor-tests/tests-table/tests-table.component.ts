@@ -13,7 +13,7 @@ import { NewTestComponent } from '../new-test/new-test.component';
   styleUrls: ['./tests-table.component.less']
 })
 export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  displayedColumns: string[] = ['id', 'name', 'code', 'description', 'open'];
+  displayedColumns: string[] = ['name', 'code', 'description', 'open'];
   dataSource: MatTableDataSource<ITestsGroup>;
   user: User;
   @Input() tests: ITestsGroup[] = [];
@@ -50,15 +50,22 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   openCreateNewTestGroupOverlay(): void {
-    this.dialog.open(NewTestComponent, {
+    const dialogRef = this.dialog.open(NewTestComponent, {
       width: '60%',
-      height: '60%',
-      maxWidth: '100%',
+      maxWidth: '800px',
       hasBackdrop: true,
       autoFocus: false,
       restoreFocus: false,
       data: {
         user: this.user,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((testsList: any[]) => {
+      if (testsList?.length) {
+        this.dataSource = new MatTableDataSource(testsList);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }
     });
   }
