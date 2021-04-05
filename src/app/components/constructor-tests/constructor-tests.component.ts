@@ -21,7 +21,7 @@ export class ConstructorTestsComponent implements OnInit {
   ngOnInit(): void {
     this.loadingTestGroups = true;
     this.loadingTests = true;
-    this.testsService.getTestsGroups(this.user.id).subscribe(
+    this.testsService.getTestsGroupsTemplates().subscribe(
       (response: { data: ITestsGroup[] }) => {
         this.testsGroups = response?.data;
         this.loadingTestGroups = false;

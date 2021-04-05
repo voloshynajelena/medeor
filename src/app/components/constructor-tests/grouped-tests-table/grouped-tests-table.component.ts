@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
-import {ITestsGroup, User} from '../../../types';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { ITestsGroup, User } from '../../../types';
 import { NewTestGroupComponent } from '../new-test-group/new-test-group.component';
 
 @Component({
@@ -22,9 +22,9 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
 
   constructor(
     private router: Router,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
@@ -44,16 +44,15 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
     }
   }
 
-  goToClient(event: Event, id): void {
+  showTestGroupDetail(event: Event, testGroup): void {
     event.stopPropagation();
-    this.router.navigate([`test/${id}`]);
+    console.log("testGroup--->", testGroup)
   }
 
   openCreateNewTestGroupOverlay(): void {
     this.dialog.open(NewTestGroupComponent, {
-      width: '90%',
-      height: '95%',
-      maxWidth: '100%',
+      width: '600%',
+      maxWidth: '800px',
       hasBackdrop: true,
       autoFocus: false,
       restoreFocus: false,
