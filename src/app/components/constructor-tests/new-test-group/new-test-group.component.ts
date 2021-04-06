@@ -1,10 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ClientService} from '../../../services/client.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {first} from 'rxjs/operators';
-import {Client, Response} from '../../../types';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TestGroupTemplatesInterface, Translation } from './test-templates.interface';
+import { TestsService } from '../../../services/tests.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-test-group',
@@ -12,81 +11,110 @@ import {Client, Response} from '../../../types';
   styleUrls: ['./new-test-group.component.less']
 })
 export class NewTestGroupComponent implements OnInit {
-  errorValidation = '';
-  errorHttp = '';
-  message = '';
-  newTestGroupForm: FormGroup;
-  loading = false;
-  submitted = false;
-  newTest: Client;
+
+  public loading = false;
+  public submitted = false;
+
+  public titleTabIndex = new FormControl(0);
+
+  public testsList: any[];
+
+  // ##########################################
+
+  public testsCtrl = new FormControl('', Validators.required);
+
+  public titleCtrl = new FormGroup({
+    ru: new FormControl('', Validators.required),
+    ua: new FormControl(''),
+    en: new FormControl('')
+  });
+
+  public descriptionCtrl = new FormGroup({
+    ru: new FormControl(''),
+    ua: new FormControl(''),
+    en: new FormControl('')
+  });
+
+  // public unitCtrl = new FormGroup({
+  //   ru: new FormControl(''),
+  //   ua: new FormControl(''),
+  //   en: new FormControl('')
+  // });
+
+  // public refValueCtrl = new FormGroup({
+  //   min: new FormControl(''),
+  //   max: new FormControl('')
+  // });
+
+  // ##########################################
+
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private clientService: ClientService,
-    private dialogRef: MatDialogRef<NewTestGroupComponent>,
-    public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: {user: {userId: string, token: string}},
+    public dialogRef: MatDialogRef<NewTestGroupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { user: { userId: string, token: string } },
+    private testsService: TestsService,
+    private _snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
-    this.newTestGroupForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', Validators.required],
-      sex: ['', Validators.required],
-      birthday: ['', Validators.required],
-      phone: [''],
-      pregnancy: [''],
-      photo: [''],
-      analyzes: [[]],
-    });
-  }
-  get f(): any { return this.newTestGroupForm.controls; }
+  // ##########################################
 
-  onSubmit(): void {
-    this.submitted = true;
+  ngOnInit(): void { }
 
-    // stop here if form is invalid
-    if (this.newTestGroupForm.invalid) {
-      this.errorValidation = 'Ошибка при заполнении формы';
-      for (const controlName in this.newTestGroupForm.controls) {
-        if (this.newTestGroupForm.controls.hasOwnProperty(controlName)){
-          const errorMessage = this.getErrorMessage(this.newTestGroupForm.get(controlName) as FormControl);
-          if (errorMessage) {
-            this.errorValidation = errorMessage;
-          }
-        }
-      }
-      return;
+  // ##########################################
+
+  public submit(): void {
+    this.titleCtrl.markAllAsTouched();
+    this.testsCtrl.markAsTouched();
+
+    if (this.titleCtrl.invalid) {
+      this.titleTabIndex.setValue(0);
     }
-    this.errorValidation = '';
-    this.errorHttp = '';
-    this.message = '';
-    this.loading = true;
-    this.clientService.createClient(this.newTestGroupForm.value)
-      .pipe(first())
-      .subscribe(
-        (data: Client | Response) => {
-          if ((data as Response).error) {
-            this.errorHttp = (data as Response).error;
-          } else {
-            this.newTest = data as Client;
-            this.message = `Patient ${(data as Client).name} ${(data as Client).surname} created`;
-          }
+
+    if (this.titleCtrl.valid && this.testsCtrl.valid) {
+      const data = this.getFormData();
+      this.loading = true;
+
+      this.testsService.createTestGroupTemplate(data).subscribe(
+        (resp) => {
           this.loading = false;
+          this.submitted = true;
+
+          this.titleCtrl.reset();
+          this.testsCtrl.reset();
+          this.descriptionCtrl.reset();
+
+          if (resp?.data?.length) {
+            this.testsList = resp.data;
+          }
         },
-        error => {
-          this.errorHttp = error;
+        (error) => {
           this.loading = false;
-        });
-  }
-  getErrorMessage(control: FormControl): string {
-    if (control.hasError('required')) {
-      return 'You must enter a value';
+          this._snackBar.open('Error. Data was not saved!', 'Hide');
+        }
+      );
     }
-    return control.hasError('email') ? 'Not a valid email' : '';
   }
-  closeOverlay(): void {
-    this.dialogRef.close();
+
+  public closeAfterSubmitModal(): void {
+    this.submitted = false;
+  }
+
+  // ##########################################
+
+  private getFormData(): TestGroupTemplatesInterface {
+    return {
+      tests: this.testsCtrl?.value?.split?.(',').map?.((code: string) => ({ typeId: code.trim() })),
+      name: this.getCtrlValues(this.titleCtrl.controls) as Translation,
+      description: this.getCtrlValues(this.descriptionCtrl.controls) as Translation,
+    };
+  }
+
+  private getCtrlValues(controls: {}): {} {
+    const result = {};
+
+    Object.keys(controls).forEach((key) => {
+      result[key] = controls[key].value;
+    });
+
+    return result;
   }
 }
