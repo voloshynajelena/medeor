@@ -83,13 +83,14 @@
                 <mat-form-field *ngIf="editMode; else userPhone" appearance="fill">
                   <mat-label>Phone</mat-label>
                   <input matInput formControlName="phone" #inputNumber>
+                  <span matPrefix>+</span>
                   <mat-error *ngIf="userForm.controls['phone'].errors?.required">This field is required</mat-error>
                   <mat-error *ngIf="userForm.controls['phone'].errors?.pattern">Please use numbers</mat-error>
                   <mat-error *ngIf="userForm.controls['phone'].errors?.minlength">You need enter 12 numbers ({{inputNumber.value?.length}}/12)</mat-error>
                 </mat-form-field>
                 <ng-template #userPhone>
                   <h5 class="client-info-row__title">Phone</h5>
-                  <div class="client-info-row__content">{{data.phone}}</div>
+                  <div class="client-info-row__content">+{{data.phone}}</div>
                 </ng-template>
               </div>
             </div>
@@ -106,7 +107,7 @@
                   </ng-template>
                 </button>
                 <button mat-raised-button color="warn" (click)="disableEditMode()">
-                  <mat-icon>cancel</mat-icon> 
+                  <mat-icon>cancel</mat-icon>
                   Cancel
                 </button>
               </ng-template>
@@ -116,7 +117,7 @@
                   Remove profile
                 </button>
                 <button mat-raised-button color="primary" (click)="enableEditMode()">
-                  <mat-icon>edit</mat-icon> 
+                  <mat-icon>edit</mat-icon>
                   Edit data
                 </button>
               </ng-template>
