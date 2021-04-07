@@ -14,14 +14,12 @@ export class UserMenuComponent {
 
   @Input() user: User;
 
-  currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
 
-  logout(): void {
+  public logout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
