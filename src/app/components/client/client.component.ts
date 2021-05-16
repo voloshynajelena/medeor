@@ -22,19 +22,31 @@ export class ClientComponent implements OnInit {
 
   private urlExp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
 
-  clientId: string;
-  client: Client;
-  userAvatar: string;
-  tests = TESTS;
+  private clientId: string;
 
-  editMode = false;
-  sending = false;
+  public client: Client;
+  public userAvatar: string;
+  public tests = TESTS;
 
-  clientForm: FormGroup;
+  public editMode = false;
+  public sending = false;
+
+  public clientForm = new FormGroup({
+    surname: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
+    sex: new FormControl(''),
+    birthday: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6)]),
+    photo: new FormControl(''),
+    pregnancy: new FormControl('')
+  });
+
   clientChipTags: string[] = [];
-  gender: typeof Gender = Gender;
-  isAvatarFeatureEnabled = FF_AVATAR;
+  public gender: typeof Gender = Gender;
+  public isAvatarFeatureEnabled = FF_AVATAR;
   getAge = getAge;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -88,7 +100,7 @@ export class ClientComponent implements OnInit {
     this.resetFormData();
   }
 
-  setAvatar(url: string) {
+  setAvatar(url: string): void {
     if (url.match(this.urlExp)) {
       const img = new Image();
 
@@ -96,22 +108,19 @@ export class ClientComponent implements OnInit {
       img.addEventListener('load', event => this.client.photo = url);
 
       img.src = url;
-    } else this.client.photo = '';
+    } else {
+      this.client.photo = '';
+    }
   }
 
   resetFormData(): void {
     this.client.photo = this.userAvatar;
 
-    this.clientForm = new FormGroup({
-      surname: new FormControl(this.client.surname, [Validators.required]),
-      name: new FormControl(this.client.name, [Validators.required]),
-      sex: new FormControl(this.client.sex),
-      birthday: new FormControl(this.client.birthday, [Validators.required]),
-      email: new FormControl(this.client.email, [Validators.required, Validators.email]),
-      phone: new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6)]),
-      photo: new FormControl(this.client.photo),
-      pregnancy: new FormControl(this.client.pregnancy)
-    });
+    for (const key in this.client) {
+      if ( this.clientForm.controls.hasOwnProperty(key) ) {
+        this.clientForm.controls[key].setValue(this.client[key]);
+      }
+    }
   }
 
   submit(): void {
@@ -123,7 +132,9 @@ export class ClientComponent implements OnInit {
     const formData = JSON.parse(JSON.stringify(this.client));
 
     for (const key in controls) {
-      formData[key] = controls[key].value;
+      if ( controls.hasOwnProperty(key) ) {
+        formData[key] = controls[key].value;
+      }
     }
 
     formData.photo = this.userAvatar = this.client.photo;

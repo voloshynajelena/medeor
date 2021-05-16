@@ -17,19 +17,29 @@ import { RemovePatientModalComponent } from 'src/app/components/remove-patient-m
 export class UserSettingsComponent implements OnInit {
 
   private urlExp = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  private user;
 
-  userForm: FormGroup;
-  data: User;
-  user;
-  userAvatar: string;
+  public userForm = new FormGroup({
+    photo: new FormControl(''),
+    surname: new FormControl('', [Validators.required]),
+    specialties: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
+    location: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(12)])
+  });
 
-  editMode = false;
-  sending = false;
+  public data: User;
+  public userAvatar: string;
+
+  public editMode = false;
+  public sending = false;
 
   constructor(
-    private userService: UserService, 
+    private userService: UserService,
     private router: Router,
     public dialog: MatDialog,
+    // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
     private authenticationService: AuthenticationService,
   ) {
@@ -62,20 +72,18 @@ export class UserSettingsComponent implements OnInit {
   }
 
   resetFormData(): void {
-    this.data.photo = this.userAvatar;
+    const userData = this.data;
 
-    this.userForm = new FormGroup({
-      photo: new FormControl(this.data.photo),
-      surname: new FormControl(this.data.surname, [Validators.required]),
-      specialties: new FormControl(this.data.specialties, [Validators.required]),
-      name: new FormControl(this.data.name, [Validators.required]),
-      location: new FormControl(this.data.location, [Validators.required]),
-      email: new FormControl(this.data.email, [Validators.required, Validators.email]),
-      phone: new FormControl(this.data.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(12)])
-    });
+    userData.photo = this.userAvatar;
+
+    for (const key in userData) {
+      if ( this.userForm.controls.hasOwnProperty(key) ) {
+        this.userForm.controls[key].setValue(userData[key]);
+      }
+    }
   }
 
-  setAvatar(url: string) {
+  setAvatar(url: string): void {
     if (url.match(this.urlExp)) {
       const img = new Image();
 
@@ -83,17 +91,21 @@ export class UserSettingsComponent implements OnInit {
       img.addEventListener('load', event => this.data.photo = url);
 
       img.src = url;
-    } else this.data.photo = '';
+    } else {
+      this.data.photo = '';
+    }
   }
 
-  submit() {
+  submit(): void {
     this.sending = true;
 
     const controls = this.userForm.controls;
     const formData = JSON.parse(JSON.stringify(this.data));
 
     for (const key in controls) {
-      formData[key] = controls[key].value;
+      if ( controls.hasOwnProperty(key) ) {
+        formData[key] = controls[key].value;
+      }
     }
 
     formData.photo = this.userAvatar = this.data.photo;
@@ -106,7 +118,9 @@ export class UserSettingsComponent implements OnInit {
       this.sending = false;
 
       for (const key in controls) {
-        this.data[key] = controls[key].value;
+        if ( controls.hasOwnProperty(key) ) {
+          this.data[key] = controls[key].value;
+        }
       }
 
       this.disableEditMode();
@@ -123,7 +137,7 @@ export class UserSettingsComponent implements OnInit {
       if (result) {
         this.userService.delete(this.user.userdId).subscribe(resp => {
           this.user = null;
-          
+
           this.authenticationService.logout();
           this.router.navigate(['/login']);
         });

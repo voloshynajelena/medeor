@@ -13,7 +13,7 @@ export class UserService {
 
     ) { }
 
-    urlUser = `${API_URL}${API_ENDPOINTS.user}`;
+    urlUser: string = `${API_URL}${API_ENDPOINTS.user}`;
 
     updatePatch(user): Observable<any> {
         return this.httpClient.patch(`${API_URL}/user`, user);
@@ -24,7 +24,7 @@ export class UserService {
     }
 
     register(user): Observable<User> {
-        return this.http.post(this.urlUser, user);
+        return this.httpClient.post(this.urlUser, user);
     }
 
     delete(id): Observable<User[]> {

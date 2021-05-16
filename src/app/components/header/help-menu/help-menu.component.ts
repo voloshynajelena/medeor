@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
@@ -11,12 +11,13 @@ import { User } from 'src/app/types';
   styleUrls: ['./help-menu.component.less']
 })
 export class HelpMenuComponent {
-  wikiUrl: string = WIKI_URL;
+  public wikiUrl: string = WIKI_URL;
+
   @Input() user: User;
 
   constructor(private dialog: MatDialog) { }
 
-  contactUsModalOpen() {
+  public contactUsModalOpen(): void {
     this.dialog.open(ContactUsModalComponent, {data: this.user});
   }
 

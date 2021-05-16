@@ -210,7 +210,7 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().subscribe((data: Client) => {
-      this.clients.push(data);
+      this.clients?.push?.(data);
       this.dataSource.data = this.clients;
     });
   }

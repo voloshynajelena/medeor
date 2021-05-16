@@ -1,4 +1,4 @@
-<span class="date-now"><mat-icon [matMenuTriggerFor]="calendar">date_range</mat-icon>{{ date | date: 'd MMMM YYYY, EEEE | HH:mm'}}</span>
+<span class="date-now"><mat-icon [matMenuTriggerFor]="calendar">date_range</mat-icon>{{ date | async | date: 'd MMMM YYYY, EEEE | HH:mm'}}</span>
 
 <mat-menu #calendar xPosition="after">
     <mat-calendar (click)="$event.stopPropagation()"></mat-calendar>

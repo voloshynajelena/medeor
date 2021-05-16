@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import {startWith} from 'rxjs/internal/operators/startWith';
 
 @Component({
   selector: 'app-date-now',
@@ -7,12 +11,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DateNowComponent implements OnInit {
 
-  date = new Date();
+  public date: Observable<Date> = interval(1000).pipe( startWith(0), map(() => new Date()) );
 
   constructor() {}
 
-  ngOnInit(): void {
-    setInterval(() => this.date = new Date(), 1000);
-  }
+  ngOnInit(): void {}
 
 }
