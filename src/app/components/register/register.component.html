@@ -9,12 +9,12 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>First name*</mat-label>
               <input
                 matInput
                 formControlName="name"
-                class="form-control"
+                class="form-control full-width_mobile"
                 [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
               />
             </mat-form-field>
@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>Last name*</mat-label>
               <input
                 matInput
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>E-mail*</mat-label>
               <input
                 matInput
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>Phone*</mat-label>
               <input
                 matInput
@@ -109,7 +109,7 @@
         </div>
         <div class="form-group">
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>Password*</mat-label>
               <input
                 matInput
@@ -127,7 +127,7 @@
             </div>
           </div>
           <div class="form-group_container">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>Confirm*</mat-label>
               <input
                 matInput

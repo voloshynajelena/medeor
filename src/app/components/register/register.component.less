@@ -1,17 +1,27 @@
 @import "../../../styles/colors.less";
+@import "../../../styles/variables.less";
 
 :host {
   ::ng-deep mat-card {
+    margin: 10% auto;
     max-width: 800px;
     width: 100%;
-    margin: 10% auto;
+    box-sizing: border-box;
     text-align: center;
+
+    @media screen and (max-width: @mobile-width) {
+      margin: 0 auto;
+    }
   }
 }
 
 .registration-container {
   display: flex;
   justify-content: space-around;
+
+  @media screen and (max-width: @mobile-width) {
+    flex-direction: column-reverse;
+  }
 }
 
 .invalid-feedback {
@@ -35,11 +45,25 @@
     &_title {
       color: @color-black-third;
     }
+
+    @media screen and (max-width: @mobile-width) {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: @mobile-width) {
+    flex-direction: column;
   }
 }
 
 .full-width {
   width: 100%;
+}
+
+.full-width_mobile {
+  @media screen and (max-width: @mobile-width) {
+    width: 100%;
+  }
 }
 
 .image-description {
@@ -62,4 +86,9 @@
 img {
   margin-top: 50px;
   max-width: 100%;
+
+  @media screen and (max-width: @mobile-width) {
+    width: 300px;
+    max-width: 50%;
+  }
 }
