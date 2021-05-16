@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { Observable, throwError, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
 
@@ -16,19 +16,18 @@ export class HttpService {
     private pipeCallback(data: any): Observable<any> {
 
         if (data?.error) {
-            this.notification.throwError(data.error)
+            this.notification.throwError(data.error);
         };
         return data;
     }
 
-    private errorHandler(err): Observable<never> {
-        console.log('error caught in service')
-        console.error('error: ', err);
+    private errorHandler(err): Observable<any> {
+        console.warn('error caught in service')
+        console.error('Error: ', err);
 
         this.notification.throwError(err);
         //Rethrow it back to component
-        return throwError(err);
-
+        throw err;
     }
 
     public get(url = '/', options = {}): Observable<any> {
