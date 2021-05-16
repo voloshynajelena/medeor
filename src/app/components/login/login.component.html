@@ -11,7 +11,7 @@
       srcset=""
     />
   </div>
-  <form [formGroup]="loginForm">
+  <form (keydown)="EnterSubmit($event)" [formGroup]="loginForm">
     <div class="form-group">
       <mat-form-field appearance="fill">
         <mat-label>Email address</mat-label>
