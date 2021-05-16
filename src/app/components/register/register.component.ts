@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/auth.service';
@@ -37,12 +37,20 @@ export class RegisterComponent implements OnInit {
             email: ['', Validators.required],
             phone: ['', Validators.required],
             pass: ['', [Validators.required, Validators.minLength(6)]],
+            confirm: ['', [Validators.required, this.compareToValidator()]],
             photo: [''],
         });
     }
 
+
+    compareToValidator() {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            return control.value !== this.f?.pass?.value ? { compareTo: { value: control.value } } : null;
+        };
+    }
+
     // convenience getter for easy access to form fields
-    get f(): any { return this.registerForm.controls; }
+    get f(): any { return this.registerForm?.controls; }
 
     onSubmit(): void {
         this.submitted = true;

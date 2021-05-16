@@ -128,10 +128,31 @@
           </div>
           <div class="form-group_container">
             <mat-form-field appearance="fill">
-              <mat-label>Link to photo</mat-label>
-              <input matInput formControlName="photo" class="form-control" />
+              <mat-label>Confirm*</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="confirm"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"
+              />
             </mat-form-field>
+            <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
+              <div *ngIf="f.confirm.errors.compareTo">
+                Those passwords didn’t match. Try again.
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Link to photo</mat-label>
+            <input
+              matInput
+              formControlName="photo"
+              class="form-control full-width"
+            />
+          </mat-form-field>
         </div>
         <div class="form-group form-controls">
           <button
