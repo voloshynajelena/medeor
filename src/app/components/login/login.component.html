@@ -1,24 +1,34 @@
 <mat-card>
-<div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<h2 class="form-signin-heading">Login</h2>
-<form [formGroup]="loginForm">
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div class="header">
+    <div class="header_logo">Medeor</div>
+  </div>
+  <h2 class="title">Login</h2>
+  <div class="image-container">
+    <img
+      src="https://image.freepik.com/free-vector/male-female-doctors-cartoon-characters_105783-113.jpg"
+      alt="doctor image"
+      srcset=""
+    />
+  </div>
+  <form (keydown)="EnterSubmit($event)" [formGroup]="loginForm">
     <div class="form-group">
       <mat-form-field appearance="fill">
         <mat-label>Email address</mat-label>
-        <input 
-          matInput 
-          placeholder="Email address" 
-          formControlName="username" 
-          class="form-control" 
-          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" 
+        <input
+          matInput
+          placeholder="Email address"
+          formControlName="username"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
         />
         <button mat-icon-button matSuffix>
           <mat-icon>person</mat-icon>
         </button>
-        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
-        </div>
       </mat-form-field>
+      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+        <div *ngIf="f.username.errors.required">Username is required</div>
+      </div>
     </div>
     <div class="form-group">
       <mat-form-field appearance="fill">
@@ -26,39 +36,52 @@
         <input
           matInput
           [type]="hide ? 'password' : 'text'"
-          formControlName="password" 
-          class="form-control" 
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" 
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
         />
         <button
           mat-icon-button
           matSuffix
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-        </div>
       </mat-form-field>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+    </div>
+    <div class="form-group about-private">
+      Not your computer? Use a private browsing window to sign in.<br />
+      <a
+        href="https://support.google.com/accounts?p=signin_privatebrowsing&amp;hl=en"
+        >Learn more</a
+      >
     </div>
     <div class="form-group">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onSubmit()"
-          [disabled]="loading">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Login
-        </button>
-        <button
-          mat-button
-          color="primary"
-          routerLink="/register"
-          [disabled]="loading">
-            Register
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSubmit()"
+        [disabled]="loading"
+      >
+        <span
+          *ngIf="loading"
+          class="spinner-border spinner-border-sm mr-1"
+        ></span>
+        Login
+      </button>
+      <button
+        mat-button
+        color="primary"
+        routerLink="/register"
+        [disabled]="loading"
+      >
+        Register
       </button>
     </div>
-</form>
+  </form>
 </mat-card>

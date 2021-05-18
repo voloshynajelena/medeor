@@ -37,6 +37,12 @@ export class LoginComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f(): any { return this.loginForm.controls; }
 
+  EnterSubmit(event): void {
+    if (event.keyCode === 13) {
+      this.onSubmit();
+    }
+  }
+
   onSubmit(): void {
     this.submitted = true;
 

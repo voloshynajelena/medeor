@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
-import {ITestsGroup, User} from '../../../types';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { ITestsGroup, User } from '../../../types';
 import { NewTestComponent } from '../new-test/new-test.component';
 
 @Component({
@@ -22,9 +22,9 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog) {}
+    private dialog: MatDialog) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
