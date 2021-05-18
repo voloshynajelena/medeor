@@ -15,13 +15,13 @@
                     </ng-template>
                 </button>
                 <button mat-raised-button color="warn" (click)="disableEditMode()">
-                    <mat-icon>cancel</mat-icon> 
+                    <mat-icon>cancel</mat-icon>
                     Cancel
                 </button>
             </ng-template>
             <ng-template #editModeButtons>
                 <button mat-raised-button color="primary" (click)="enableEditMode()">
-                    <mat-icon>edit</mat-icon> 
+                    <mat-icon>edit</mat-icon>
                     Edit data
                 </button>
                 <button mat-raised-button color="warn" (click)="acceptToRemove()">
@@ -153,26 +153,6 @@
                         <ng-template #clientPregnancy>
                             <h5 class="client-info-row__title">Pregnancy</h5>
                             <div class="client-info-row__content">{{client.pregnancy ? client.pregnancy : 'No'}}</div>
-                        </ng-template>
-                    </div>
-                </div>
-                <div class="client-info-row">
-                    <div class="client-info-row__item">
-                        <mat-form-field *ngIf="editMode; else clientTags" appearance="fill">
-                            <mat-label>Other</mat-label>
-                            <mat-chip-list #tagList aria-label="Fruit selection">
-                                <mat-chip *ngFor="let tag of clientChipTags" [selectable]="false" [removable]="true" (removed)="removeTag(tag)">
-                                    {{tag}} <mat-icon matChipRemove>cancel</mat-icon>
-                                </mat-chip>
-                                <input placeholder="New tag..." [matChipInputFor]="tagList" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addTag($event)">
-                            </mat-chip-list>
-                            <mat-hint>Enter new tag and tap to "Enter".</mat-hint>
-                        </mat-form-field>
-                        <ng-template #clientTags>
-                            <ng-template [ngIf]="client.tags.length">
-                                <h5 class="client-info-row__title">Other</h5>
-                                <div class="client-info-row__content">{{client.tags.join(', ')}}</div>
-                            </ng-template>
                         </ng-template>
                     </div>
                 </div>
