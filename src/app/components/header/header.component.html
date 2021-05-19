@@ -1,21 +1,23 @@
-<mat-toolbar>
-    <button
-      mat-button
-      mat-icon-button
-      (click)="menu.emit(null)"
-      aria-label="Menu">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    <div class="header-right-grid">
-      <div class="header-right-grid__col">
-        <app-date-now></app-date-now>
-      </div>
-      <div class="header-right-grid__col">
-        <app-help-menu [user]="data"></app-help-menu>
-      </div>
-      <div class="header-right-grid__col">
-        <app-user-menu *ngIf="data" [user]="data"></app-user-menu>
-      </div>
+<mat-toolbar class="header">
+  <button
+    mat-button
+    mat-icon-button
+    (click)="menu.emit(null)"
+    aria-label="Menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div class="header_logo"><a href="/" class="header_logo_link">Medeor</a></div>
+  <span class="spacer"></span>
+  <div class="header-right-grid">
+    <div class="header-right-grid__col">
+      <app-date-now></app-date-now>
     </div>
+    <div class="header-right-grid__col">
+      <app-help-menu [user]="data"></app-help-menu>
+    </div>
+    <div class="header-right-grid__col">
+      <app-user-menu *ngIf="data" [user]="data"></app-user-menu>
+    </div>
+  </div>
 </mat-toolbar>
