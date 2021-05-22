@@ -19,7 +19,7 @@
   </button>
 </div>
 
-<div class="mat-elevation-z8" *ngIf="dataSource">
+<div class="mat-elevation-z8 test_table-container" *ngIf="dataSource">
   <table mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
     <ng-container matColumnDef="name">
@@ -49,9 +49,11 @@
             color="primary"
             (click)="goToClient($event, row.id)"
           >
-            Edit
+            <mat-icon>edit</mat-icon>
           </button>
-          <button mat-raised-button color="warn">Remove</button>
+          <button mat-raised-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </td>
     </ng-container>
