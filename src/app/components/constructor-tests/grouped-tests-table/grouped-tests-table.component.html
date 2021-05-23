@@ -23,8 +23,15 @@
   <table mat-table [dataSource]="dataSource" matSort>
     <!-- ID Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>TypeID</th>
-      <td mat-cell class="test-group_cell" *matCellDef="let row">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="mobile-hide">
+        TypeID
+      </th>
+      <td
+        mat-cell
+        class="test-group_cell"
+        *matCellDef="let row"
+        class="mobile-hide"
+      >
         {{ row.typeId }}
       </td>
     </ng-container>
