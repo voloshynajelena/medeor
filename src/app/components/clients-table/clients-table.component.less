@@ -1,3 +1,5 @@
+@import "../../../styles/variables.less";
+
 .table-list {
   display: flex;
   align-items: center;
@@ -5,13 +7,25 @@
   margin: 0 auto;
 }
 
-table {
-  width: 100%;
-}
-
 .table-container {
   margin: 0 auto;
   max-width: 850px;
+  min-width: 330px;
+
+  table {
+    width: 100%;
+
+    th,
+    td {
+      max-width: 200px;
+      min-width: 20px;
+      width: auto;
+      padding: 0 5px;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 .user-icon {
@@ -53,7 +67,6 @@ tr.element-row:not(.expanded-row):active {
 
 .element-detail {
   overflow: hidden;
-  // display: flex;
 }
 
 // last test widgets block styles
@@ -81,7 +94,6 @@ tr.element-row:not(.expanded-row):active {
 .last-tests-block-headline {
   padding: 7px 0;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.28);
-  // border-top: 1px dotted rgba(0, 0, 0, 0.28);
   margin-top: 22px;
 }
 .last-tests-block-headline h2 {
@@ -96,3 +108,8 @@ tr.element-row:not(.expanded-row):active {
 }
 
 //end last test widgets block styles
+.mobile-hide {
+  @media screen and (max-width: @mobile-width) {
+    display: none;
+  }
+}
