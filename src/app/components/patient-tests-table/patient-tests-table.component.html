@@ -111,7 +111,7 @@
     </div>
   </div>
 
-  <!-- if no tests -->
+  <!-- no tests -->
   <div *ngIf="!tests.length" class="no-tests-added">
     <p>No tests added.</p>
   </div>
@@ -175,7 +175,7 @@
     Print all {{ numberPatientTests }} tests
   </button>
 
-  <!-- print checked button -->
+  <!-- print checked button & tooltip-->
   <span
     #tooltip="matTooltip"
     matTooltip="Choose tests to print them"
@@ -194,5 +194,10 @@
       Print checked
     </button>
   </span>
+
+  <!-- pdf check -->
+  <button mat-raised-button (click)="generatePdf()">
+    Open PDF
+  </button>
 </div>
 <!-- end print buttons -->

@@ -116,6 +116,17 @@ export class ClientComponent implements OnInit {
   resetFormData(): void {
     this.client.photo = this.userAvatar;
 
+    this.clientForm = new FormGroup({
+      surname: new FormControl(this.client.surname, [Validators.required]),
+      name: new FormControl(this.client.name, [Validators.required]),
+      sex: new FormControl(this.client.sex),
+      birthday: new FormControl(this.client.birthday, [Validators.required]),
+      email: new FormControl(this.client.email, [Validators.required, Validators.email]),
+      phone: new FormControl(this.client.phone, [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6)]),
+      photo: new FormControl(this.client.photo),
+      pregnancy: new FormControl(this.client.pregnancy)
+    });
+
     for (const key in this.client) {
       if ( this.clientForm.controls.hasOwnProperty(key) ) {
         this.clientForm.controls[key].setValue(this.client[key]);
