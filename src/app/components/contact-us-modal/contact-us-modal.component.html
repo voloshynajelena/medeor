@@ -42,7 +42,7 @@
         </form>
     </div>
     <div mat-dialog-actions align="end">
-        <button class="form-button" mat-raised-button color="primary" [disabled]="contactUs.invalid || pending" (click)="submit()">
+        <button class="form-button" mat-raised-button color="accent" [disabled]="contactUs.invalid || pending" (click)="submit()">
             <mat-spinner *ngIf="pending; else submitText" class="custom-spinner" diameter="20"></mat-spinner>
             <ng-template #submitText>Submit</ng-template>
         </button>
