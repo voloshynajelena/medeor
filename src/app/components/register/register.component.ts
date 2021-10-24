@@ -11,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
     styleUrls: ['./register.component.less'],
 })
 export class RegisterComponent implements OnInit {
+    hidePass = true;
+    hideConfirmPass = true;
     registerForm: FormGroup;
     loading = false;
     submitted = false;
