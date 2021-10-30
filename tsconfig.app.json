@@ -9,6 +9,9 @@
     "src/main.ts",
     "src/polyfills.ts"
   ],
+  "styles": [
+    "src/styles/theme.scss"
+  ],
   "include": [
     "src/**/*.d.ts"
   ]

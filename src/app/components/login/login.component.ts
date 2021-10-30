@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        (data: any) => {
           if (data?.error) {
             this.submitted = false;
             return this.loading = false;
@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
+          console.log('ERROR:', error);
           this.error = error;
           this.loading = false;
         });

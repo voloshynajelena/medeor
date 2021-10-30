@@ -3,15 +3,32 @@
 .table-list {
   display: flex;
   align-items: center;
-  max-width: 850px;
+  width: 90%;
   margin: 0 auto;
 }
-
+.action-container {
+  display: flex;
+  ::ng-deep {
+    mat-card {
+      width: 100%;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
 .table-container {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  max-width: 850px;
   min-width: 330px;
-
+  ::ng-deep {
+    mat-card {
+      margin: 0 auto;
+      width: 90%;
+    }
+  }
   table {
     width: 100%;
 

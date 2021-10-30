@@ -27,7 +27,6 @@ export class ClientService {
     return this.http.delete(this.urlClient, { params: { id } });
   }
 
-
   getClientData(id: string): Observable<any> {
     return this.http.get(this.urlClient, {
       params: { id }

@@ -1,3 +1,20 @@
+<div class="action-container"
+*ngIf="!clients?.length || !dataSource">
+  <mat-card>
+  <button
+  mat-button
+  color="primary"
+  alt="add new user"
+  (click)="openCreateNewPatientOverlay()"
+>
+  <mat-icon> add </mat-icon> ADD NEW CLIENT
+</button>
+  </mat-card>
+</div>
+<div
+  class="table-container"
+  *ngIf="clients?.length && dataSource"
+>
 <div class="table-list">
   <mat-form-field>
     <mat-label>Search</mat-label>
@@ -17,10 +34,7 @@
     <mat-icon> person_add </mat-icon>
   </button>
 </div>
-<div
-  class="mat-elevation-z8 table-container"
-  *ngIf="clients?.length && dataSource"
->
+<mat-card>
   <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="mobile-hide">
@@ -197,4 +211,5 @@
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</mat-card>
 </div>
