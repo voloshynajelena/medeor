@@ -35,7 +35,6 @@ export class RegisterComponent implements OnInit {
             name: ['', Validators.required],
             surname: ['', Validators.required],
             location: [''],
-            specialties: [''],
             email: ['', Validators.required],
             phone: ['', Validators.required],
             pass: ['', [Validators.required, Validators.minLength(6)]],
@@ -65,11 +64,15 @@ export class RegisterComponent implements OnInit {
         this.userService.register(this.registerForm.value)
             .pipe(first())
             .subscribe(
-                data => {
+                (data: any) => {
+                  if (!data) {
+                    this.submitted = false;
+                    return this.loading = false;
+                  }
                     this.router.navigate(['/login'], { queryParams: { registered: true } });
                 },
                 error => {
-                    console.log('ERROR:', error)
+                    console.log('ERROR:', error);
                     this.error = error;
                     this.loading = false;
                 });

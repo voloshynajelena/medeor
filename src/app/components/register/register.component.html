@@ -33,7 +33,7 @@
                     <div class="form-group_container">
                         <mat-form-field appearance="fill" class="full-width_mobile">
                             <mat-label>E-mail*</mat-label>
-                            <input matInput formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                            <input matInput formControlName="email" name="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                         </mat-form-field>
                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                             <div *ngIf="f.email.errors.required">Email is required</div>
@@ -42,7 +42,7 @@
                     <div class="form-group_container">
                         <mat-form-field appearance="fill" class="full-width_mobile">
                             <mat-label>Phone*</mat-label>
-                            <input matInput formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                            <input matInput formControlName="phone" name="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
                         </mat-form-field>
                         <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                             <div *ngIf="f.phone.errors.required">Phone is required</div>
@@ -53,7 +53,7 @@
                     <div class="form-group_container full-width">
                         <mat-form-field appearance="fill" class="full-width">
                             <mat-label>Location</mat-label>
-                            <input matInput formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                            <input matInput formControlName="location" name="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
                         </mat-form-field>
                         <div *ngIf="submitted && f.location.errors" s class="invalid-feedback">
                             <div *ngIf="f.location.errors.required">Location is required</div>
@@ -61,19 +61,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="form-group_container full-width">
-                        <mat-form-field appearance="fill" class="full-width">
-                            <mat-label>Specialties</mat-label>
-                            <input matInput formControlName="specialties" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.specialties.errors }">
-                        </mat-form-field>
-                        <div *ngIf="submitted && f.specialties.errors" class="invalid-feedback">
-                            <div *ngIf="f.specialties.errors.required">Specialties is required</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <div class="form-group_container">
-                        <mat-form-field appearance="fill" class="full-width_mobile">
+                        <mat-form-field appearance="fill" class="full-width_mobile" class="password-block">
                             <mat-label>Password*</mat-label>
                             <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="pass" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.pass.errors }">
                             <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
@@ -88,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group_container">
-                        <mat-form-field appearance="fill" class="full-width_mobile">
+                        <mat-form-field appearance="fill" class="full-width_mobile" class="password-block">
                             <mat-label>Confirm*</mat-label>
                             <input matInput [type]="hideConfirmPass ? 'password' : 'text'" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }">
                             <button mat-icon-button matSuffix (click)="hideConfirmPass = !hideConfirmPass" [attr.aria-label]="'Hide Confirm password'" [attr.aria-pressed]="hideConfirmPass">
