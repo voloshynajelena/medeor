@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.submitted = true;
 
     if (this.loginForm.invalid) {
@@ -51,21 +51,22 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        (data: any) => {
-          if (data?.error) {
-            this.submitted = false;
-            return this.loading = false;
-          }
-          this.store.dispatch(setUserData({ id: data?.userId }));
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          console.log('ERROR:', error);
-          this.error = error;
-          this.loading = false;
-        });
+    try {
+      const data = await this.authenticationService.login(this.f.username.value, this.f.password.value)
+
+      if (data?.error) {
+        this.submitted = false;
+        this.loading = false;
+        return;
+      }
+
+      this.store.dispatch(setUserData({ id: data?.userId }));
+      this.router.navigate([this.returnUrl]);
+
+    } catch (error) {
+      console.log('ERROR:', error);
+      this.error = error;
+      this.loading = false;
+    }
   }
 }

@@ -21,31 +21,35 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(login, pass): Observable<any> {
-        return this.http.get<any>(this.url, { params: { login, pass } })
-            .pipe(
-                map(user => {
+    async login(login, pass): Promise<any> {
+        try {
+            const user: any = await this.http.get(this.url, { params: { login, pass } }).toPromise()
 
-                    if (user?.error) {
-                        this.notification.throwError(user.error)
-                        return user
-                    }
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-                    return user;
-                }),
-                catchError((err) => {
-                    console.log('error caught in service')
-                    console.error(err);
+            if (user?.error) {
+                this.notification.throwError(user.error)
+                return user
+            }
 
-                    //Handle the error here
+            /**
+             * Store user details and jwt token in local storage 
+             * to keep user logged in between page refreshes
+             */
 
-                    this.notification.throwError(err);
-                    //Rethrow it back to component
-                    return throwError(err.message);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            return user;
 
-                }))
+        } catch (err) {
+            console.log('error caught in service')
+            console.error(err);
+
+            //Handle the error here
+
+            this.notification.throwError(err);
+            //Rethrow it back to component
+            return throwError(err.message);
+        }
+
     }
 
     logout(): void {
