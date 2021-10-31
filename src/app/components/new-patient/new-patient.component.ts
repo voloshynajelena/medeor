@@ -18,6 +18,7 @@ export class NewPatientComponent implements OnInit {
   newPatientForm: FormGroup;
   loading = false;
   submitted = false;
+  maxDate = new Date();
   newClient: Client;
   constructor(
     private formBuilder: FormBuilder,

@@ -1,134 +1,107 @@
 <div class="container">
-  <header>
-    <h1><mat-icon>person</mat-icon> Create new patient </h1>
-    <h2>(you can create new patient and then open profile or list of patients again)</h2>
-  </header>
+    <header>
+        <h1>
+            <mat-icon>person</mat-icon> Create new patient </h1>
+        <h2>(you can create new patient and then open profile or list of patients again)</h2>
+    </header>
 
-  <form [formGroup]="newPatientForm">
-  <mat-vertical-stepper>
-      <mat-step label="User Info" state="phone">
-        <div class="form-section">
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>First name</mat-label>
-              <input
-                required
-                matInput
-                formControlName="name"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-              <mat-error *ngIf="f.name.invalid">{{getErrorMessage(f.name)}}</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Last name</mat-label>
-              <input
-                required
-                matInput
-                formControlName="surname"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.surname.errors }" />
-              <mat-error *ngIf="f.surname.invalid">{{getErrorMessage(f.surname)}}</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-radio-group
-              color="primary"
-              formControlName="sex">
-              <mat-radio-button value="male" checked>Male</mat-radio-button>
-              <mat-radio-button value="female">Female</mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-      </mat-step>
-      <mat-step label="Other Details" state="chat">
-        <div class="form-section">
-          <div class="form-group">
-<!--          <mat-form-field>-->
-<!--            <mat-label>Date Of Birth</mat-label>-->
-<!--            <input-->
-<!--              matInput-->
-<!--              formControlName="birthday"-->
-<!--              class="form-control"-->
-<!--              [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }" />-->
-<!--          </mat-form-field>-->
-            <mat-form-field>
-              <mat-label>Date of birth</mat-label>
-              <input matInput [matDatepicker]="dp" formControlName="birthday">
-              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-              <mat-datepicker #dp
-                              startView="multi-year"
-                              panelClass="example-month-picker">
-              </mat-datepicker>
-            </mat-form-field>
-        </div>
-        </div>
-      </mat-step>
-      <mat-step  label="Contact Info" state="chat">
-        <div class="form-section">
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>E-mail</mat-label>
-              <input
-                matInput
-                required
-                formControlName="email"
-                class="form-control"
-                placeholder="pat@example.com"
-                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-              <mat-error *ngIf="f.email.invalid">{{getErrorMessage(f.email)}}</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Phone</mat-label>
-              <input
-                required
-                matInput
-                formControlName="phone"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
-            </mat-form-field>
-          </div>
-        </div>
-      </mat-step>
-      <mat-step label="Send">
-<!--        <ng-template matStepLabel>Done</ng-template>-->
-        <p class="error-message" *ngIf="errorValidation">
-          {{ errorValidation }}
-        </p>
-        <p class="error-message" *ngIf="errorHttp">
-          {{ errorHttp }}
-        </p>
-        <p *ngIf="message">
-          {{ message }}
-        </p>
-        <div class="action-buttons">
-          <ng-template [ngIf]="loading" #loadingTemplate>
-            <mat-spinner [diameter]="24"></mat-spinner>
-          </ng-template>
-          <button mat-raised-button
-                  color="primary"
-                  [disabled]="loading"
-                  (click)="onSubmit()">
+    <form [formGroup]="newPatientForm">
+        <mat-vertical-stepper>
+            <mat-step label="User Info" state="phone">
+                <div class="form-section">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>First name</mat-label>
+                            <input required matInput formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                            <mat-error *ngIf="f.name.invalid">{{getErrorMessage(f.name)}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Last name</mat-label>
+                            <input required matInput formControlName="surname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }" />
+                            <mat-error *ngIf="f.surname.invalid">{{getErrorMessage(f.surname)}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-radio-group color="primary" formControlName="sex">
+                            <mat-radio-button value="male" checked>Male</mat-radio-button>
+                            <mat-radio-button value="female">Female</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step label="Other Details" state="chat">
+                <div class="form-section">
+                    <div class="form-group">
+                        <!--          <mat-form-field>-->
+                        <!--            <mat-label>Date Of Birth</mat-label>-->
+                        <!--            <input-->
+                        <!--              matInput-->
+                        <!--              formControlName="birthday"-->
+                        <!--              class="form-control"-->
+                        <!--              [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }" />-->
+                        <!--          </mat-form-field>-->
+                        <mat-form-field>
+                            <mat-label>Date of birth</mat-label>
+                            <input matInput [matDatepicker]="dp" [max]="maxDate" formControlName="birthday">
+
+
+                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                            <mat-datepicker #dp startView="multi-year" panelClass="example-month-picker">
+                            </mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step label="Contact Info" state="chat">
+                <div class="form-section">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>E-mail</mat-label>
+                            <input matInput required formControlName="email" class="form-control" placeholder="pat@example.com" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                            <mat-error *ngIf="f.email.invalid">{{getErrorMessage(f.email)}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>Phone</mat-label>
+                            <input required matInput formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step label="Send">
+                <!--        <ng-template matStepLabel>Done</ng-template>-->
+                <p class="error-message" *ngIf="errorValidation">
+                    {{ errorValidation }}
+                </p>
+                <p class="error-message" *ngIf="errorHttp">
+                    {{ errorHttp }}
+                </p>
+                <p *ngIf="message">
+                    {{ message }}
+                </p>
+                <div class="action-buttons">
+                    <ng-template [ngIf]="loading" #loadingTemplate>
+                        <mat-spinner [diameter]="24"></mat-spinner>
+                    </ng-template>
+                    <button mat-raised-button color="primary" [disabled]="loading" (click)="onSubmit()">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             CREATE
           </button>
-          <button mat-button
-                  color="primary"
-                  (click)="closeOverlay()">
+                    <button mat-button color="primary" (click)="closeOverlay()">
             CLOSE
           </button>
-        </div>
-      </mat-step>
-      <!-- Icon overrides. -->
-      <ng-template matStepperIcon="phone">
-        <mat-icon>call_end</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="chat">
-        <mat-icon>forum</mat-icon>
-      </ng-template>
-  </mat-vertical-stepper>
-  </form>
+                </div>
+            </mat-step>
+            <!-- Icon overrides. -->
+            <ng-template matStepperIcon="phone">
+                <mat-icon>call_end</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="chat">
+                <mat-icon>forum</mat-icon>
+            </ng-template>
+        </mat-vertical-stepper>
+    </form>
 </div>
