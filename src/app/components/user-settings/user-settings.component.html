@@ -3,7 +3,38 @@
     <h1>My settings</h1>
     <mat-tab-group class="vertical" animationDuration="0" #settingsTab (selectedTabChange)="tabChangeHandler($event)">
       <mat-tab label="Profile">
-        <h2>Profile</h2>
+        <div class="header-container">
+          
+          <h2>Profile</h2>
+          <div class="client-card-grid__action" align="end">
+            <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
+              <button mat-raised-button color="primary" (click)="submit()" [disabled]="userForm.invalid || sending">
+                <ng-template [ngIf]="sending" [ngIfElse]="saveText">
+                  <mat-spinner class="custom-spinner" diameter="20"></mat-spinner>
+                  Saving
+                </ng-template>
+                <ng-template #saveText>
+                  <mat-icon>save</mat-icon>
+                  Save
+                </ng-template>
+              </button>
+              <button mat-raised-button color="warn" (click)="disableEditMode()">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </ng-template>
+            <ng-template #editModeButtons>
+              <button mat-raised-button color="warn" (click)="acceptToRemove()">
+                <mat-icon>delete</mat-icon>
+                Remove profile
+              </button>
+              <button mat-raised-button color="primary" (click)="enableEditMode()">
+                <mat-icon>edit</mat-icon>
+                Edit data
+              </button>
+            </ng-template>
+          </div>
+        </div>
         <form class="client-card-grid" *ngIf="data" [formGroup]="userForm">
           <div class="client-card-grid__col">
             <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
@@ -92,34 +123,6 @@
                   <div class="client-info-row__content">{{data.phone}}</div>
                 </ng-template>
               </div>
-            </div>
-            <div class="client-card-grid__action" align="end">
-              <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
-                <button mat-raised-button color="primary" (click)="submit()" [disabled]="userForm.invalid || sending">
-                  <ng-template [ngIf]="sending" [ngIfElse]="saveText">
-                    <mat-spinner class="custom-spinner" diameter="20"></mat-spinner>
-                    Saving
-                  </ng-template>
-                  <ng-template #saveText>
-                    <mat-icon>save</mat-icon>
-                    Save
-                  </ng-template>
-                </button>
-                <button mat-raised-button color="warn" (click)="disableEditMode()">
-                  <mat-icon>cancel</mat-icon>
-                  Cancel
-                </button>
-              </ng-template>
-              <ng-template #editModeButtons>
-                <button mat-raised-button color="warn" (click)="acceptToRemove()">
-                  <mat-icon>delete</mat-icon>
-                  Remove profile
-                </button>
-                <button mat-raised-button color="primary" (click)="enableEditMode()">
-                  <mat-icon>edit</mat-icon>
-                  Edit data
-                </button>
-              </ng-template>
             </div>
           </div>
         </form>
