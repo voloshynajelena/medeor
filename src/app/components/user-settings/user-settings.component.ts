@@ -2,12 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { User } from 'src/app/types';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from 'src/app/services/auth.service';
 import { RemovePatientModalComponent } from 'src/app/components/remove-patient-modal/remove-patient-modal.component';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {take} from 'rxjs/operators';
+
+export enum TabLabelEnum {
+  PROFILE = 'Profile',
+  NOTIFICATION = 'Notification',
+  SECURITY = 'Security'
+}
 
 @Component({
   selector: 'app-user-settings',
@@ -42,6 +50,7 @@ export class UserSettingsComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     private _snackBar: MatSnackBar,
     private authenticationService: AuthenticationService,
+    private route: ActivatedRoute
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -57,6 +66,9 @@ export class UserSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      this.setTabRouterParam(params.activeTab);
+    });
   }
 
   enableEditMode(): void {
@@ -143,5 +155,19 @@ export class UserSettingsComponent implements OnInit {
         });
       }
     });
+  }
+
+  setTabRouterParam(selectTab?: string): void {
+    this.router.navigate(
+      [],
+      {
+        queryParams: { activeTab: selectTab || TabLabelEnum.PROFILE }
+      }).then();
+  }
+
+  tabChangeHandler(event: MatTabChangeEvent): void {
+    const tabName = event.tab.textLabel;
+
+    this.router.navigate([], {queryParams: { activeTab: tabName }}).then();
   }
 }
