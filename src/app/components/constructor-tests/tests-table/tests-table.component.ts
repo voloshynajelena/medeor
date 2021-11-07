@@ -6,6 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ITestsGroup, User } from '../../../types';
 import { NewTestComponent } from '../new-test/new-test.component';
+import { HttpService } from 'src/app/services/http.service';
+import { TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-tests-table',
@@ -22,7 +24,9 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private http: HttpService,
+    private testsService: TestsService ) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -68,5 +72,10 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
         this.dataSource.sort = this.sort;
       }
     });
+  }
+
+  //delete test
+  deleteTest(id) {
+    this.testsService.removeTest(id).subscribe();
   }
 }

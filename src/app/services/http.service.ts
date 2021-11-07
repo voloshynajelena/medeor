@@ -54,7 +54,7 @@ export class HttpService {
 
     public delete(url = '/', options = {}): Observable<any> {
         const propsOption = { ...this.defaultOptions, ...options }
-        return this.http.post(url, propsOption).pipe(
+        return this.http.delete(url, propsOption).pipe(
             map(this.pipeCallback.bind(this)),
             catchError(this.errorHandler.bind(this)));
     }
