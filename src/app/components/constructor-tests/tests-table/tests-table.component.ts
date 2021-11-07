@@ -76,10 +76,6 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   //delete test
   deleteTest(id) {
-    console.log('id ---->', id);
-    this.testsService.removeTest(id).subscribe(
-      i => console.log(i),
-      e => console.log(e)
-    );
+    this.testsService.removeTest(id).subscribe();
   }
 }
