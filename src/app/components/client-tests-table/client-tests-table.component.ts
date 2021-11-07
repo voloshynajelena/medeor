@@ -13,12 +13,12 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 // iterface for sorting
 interface ISortData { pageIndex: number; pageSize: number; }
 @Component({
-  selector: 'app-patient-tests-table',
-  templateUrl: './patient-tests-table.component.html',
-  styleUrls: ['./patient-tests-table.component.less']
+  selector: 'app-client-tests-table',
+  templateUrl: './client-tests-table.component.html',
+  styleUrls: ['./client-tests-table.component.less']
 })
-export class PatientTestsTableComponent implements OnInit {
-  // patients tests array
+export class ClientTestsTableComponent implements OnInit {
+  // clients tests array
   tests = TESTS;
 
   // checkboxes
@@ -33,7 +33,7 @@ export class PatientTestsTableComponent implements OnInit {
   testsChecked = false;
 
   // for pagination
-  numberPatientTests: number = this.tests.length;
+  numberClientTests: number = this.tests.length;
   defaultTestsPerPage = 5;
   filteredTests: any[] = [];
   pageSizeOptions = [5, 10, 25, 100, this.tests.length];
@@ -310,10 +310,10 @@ export class PatientTestsTableComponent implements OnInit {
       content: [
         // if you don't need styles, you can use a simple string to define a paragraph
         'This is a standard paragraph, using default style',
-    
+
         // using a { text: '...' } object lets you set styling properties
         { text: 'This paragraph will have a bigger font', fontSize: 15 },
-    
+
         // if you set the value of text to an array instead of a string, you'll be able
         // to style any part individually
         {
@@ -327,7 +327,7 @@ export class PatientTestsTableComponent implements OnInit {
         'Значение внешней переменной: ' + this.someContent
       ]
     };
-    
+
     pdfMake.createPdf(documentDefinition).open();
   }
 }

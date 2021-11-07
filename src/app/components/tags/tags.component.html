@@ -4,7 +4,7 @@
   <!-- tags block -->
   <div class="tags-block">
     <mat-form-field class="tags-list" [class.active-tag-block]="isActive">
-      <mat-label>Patient tags</mat-label>
+      <mat-label>Additional information</mat-label>
 
       <!-- no tags block -->
       <div class="is-no-tags-added" *ngIf="!tags.length" [class.is-no-tags-added-hide]="isNoAddedTagsHide">
@@ -75,10 +75,10 @@
   <!-- buttons to edit tags -  -->
   <div class="buttons-edit-block">
     <div class="buttons-edit-group">
-      
-      <button mat-button 
-      class="edit-btn" 
-      (click)="inputEnable()" 
+
+      <button mat-button
+      class="edit-btn"
+      (click)="inputEnable()"
       *ngIf="editBtnDisplay; else saveBtnDisplay"
       #tooltip="matTooltip"
       matTooltip="Edit tags or add new"
@@ -92,8 +92,8 @@
       </button>
 
       <ng-template #saveBtnDisplay>
-        <button mat-button 
-        class="edit-btn" 
+        <button mat-button
+        class="edit-btn"
         (click)="saveTags()"
         #tooltip="matTooltip"
         matTooltip="Save changes"
@@ -107,8 +107,8 @@
         </button>
       </ng-template>
 
-      <button mat-button class="edit-btn" 
-      (click)="openDialogRemoveAllTags()" 
+      <button mat-button class="edit-btn"
+      (click)="openDialogRemoveAllTags()"
       #tooltip="matTooltip"
       matTooltip="Delete ALL tags"
       [matTooltipPosition]="position.value"

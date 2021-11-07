@@ -145,14 +145,14 @@
     <!-- show all tests - addition to paginator -->
     <div class="show-all-tests" (click)="showAllTests()">
       Show all
-      {{ numberPatientTests }}
+      {{ numberClientTests }}
       tests
     </div>
 
     <!-- paginator -->
     <mat-paginator
       (page)="pageEvent = $event; onPaginateChange($event)"
-      [length]="numberPatientTests"
+      [length]="numberClientTests"
       [pageSize]="defaultTestsPerPage"
       [showFirstLastButtons]="showFirstLastButtons"
       [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : {}"
@@ -172,7 +172,7 @@
     (click)="printAllTests()"
   >
     <span class="material-icons"> print </span>
-    Print all {{ numberPatientTests }} tests
+    Print all {{ numberClientTests }} tests
   </button>
 
   <!-- print checked button & tooltip-->

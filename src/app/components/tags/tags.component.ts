@@ -50,7 +50,7 @@ export class TagsComponent {
   //option to hide 'no tags block' is false by default
   isNoAddedTagsHide = false;
 
-  //show edit (pencil) button and hide check mark button by default 
+  //show edit (pencil) button and hide check mark button by default
   editBtnDisplay = true;
 
   filteredTags: Observable<string[]>;
@@ -97,11 +97,11 @@ export class TagsComponent {
   saveTags(): void {
 
     // send data to server
-    this.clientService.updatePatient({
+    this.clientService.updateClient({
       id: this.client,
       tags: this.tags,
     }).subscribe();
-    
+
     // input disable
     this.tagCtrl.disable();
 
@@ -131,7 +131,7 @@ export class TagsComponent {
     this.tags = [];
 
     // send data to server
-    this.clientService.updatePatient({
+    this.clientService.updateClient({
       id: this.client,
       tags: this.tags,
     }).subscribe();

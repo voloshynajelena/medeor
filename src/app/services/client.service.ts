@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Client, ClientDataInput } from '../types';
+import { ClientDataInput } from '../types';
 import { API_ENDPOINTS, API_URL } from '../constants';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 
 
@@ -19,7 +19,7 @@ export class ClientService {
     return this.http.post(this.urlClient, { ...data });
   }
 
-  updatePatient(data: any): Observable<any> {
+  updateClient(data: any): Observable<any> {
     return this.http.put(this.urlClient, { ...data });
   }
 

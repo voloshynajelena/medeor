@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from 'src/app/types';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ClientService } from 'src/app/services/client.service';
 import { getAge } from '../../utils/date';
-import { RemovePatientModalComponent } from 'src/app/components/remove-patient-modal/remove-patient-modal.component';
+import { RemoveClientModalComponent } from 'src/app/components/remove-client-modal/remove-client-modal.component';
 import { TESTS } from 'src/app/components/clients-table/clients-table.component';
 import { FF_AVATAR, Gender } from 'src/app/constants';
 
@@ -150,7 +150,7 @@ export class ClientComponent implements OnInit {
 
     formData.photo = this.userAvatar = this.client.photo;
 
-    this.clientService.updatePatient({
+    this.clientService.updateClient({
       userId: user.userId,
       token: user.token,
       ...formData,
@@ -174,7 +174,7 @@ export class ClientComponent implements OnInit {
   }
 
   acceptToRemove(): void {
-    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: this.client});
+    const dialogRef = this.dialog.open(RemoveClientModalComponent, {data: this.client});
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {

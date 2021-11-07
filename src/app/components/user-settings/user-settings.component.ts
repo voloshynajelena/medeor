@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { User } from 'src/app/types';
 import { UserService } from '../../services/user.service';
 import { AuthenticationService } from 'src/app/services/auth.service';
-import { RemovePatientModalComponent } from 'src/app/components/remove-patient-modal/remove-patient-modal.component';
+import { RemoveClientModalComponent } from 'src/app/components/remove-client-modal/remove-client-modal.component';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {take} from 'rxjs/operators';
 
@@ -143,7 +143,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   acceptToRemove(): void {
-    const dialogRef = this.dialog.open(RemovePatientModalComponent, {data: this.data});
+    const dialogRef = this.dialog.open(RemoveClientModalComponent, {data: this.data});
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {

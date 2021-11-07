@@ -9,7 +9,7 @@ import { Client, Test, User } from 'src/app/types';
 
 import { ClientService } from '../../services/client.service';
 import { getAge } from '../../utils/date';
-import { NewPatientComponent } from '../new-patient/new-patient.component';
+import { NewClientComponent } from '../new-client/new-client.component';
 import { dateFormat, Gender } from 'src/app/constants';
 
 export const TESTS: Test[] = [
@@ -196,8 +196,8 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.router.navigate([`client/${id}`]);
   }
 
-  openCreateNewPatientOverlay(): void {
-    const dialogRef = this.dialog.open(NewPatientComponent, {
+  openCreateNewClientOverlay(): void {
+    const dialogRef = this.dialog.open(NewClientComponent, {
       width: '90%',
       height: '95%',
       maxWidth: '100%',
