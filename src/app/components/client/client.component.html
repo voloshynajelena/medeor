@@ -26,7 +26,7 @@
                 </button>
                 <button mat-raised-button color="warn" (click)="acceptToRemove()">
                     <mat-icon>delete</mat-icon>
-                    Remove patient
+                    Remove client
                 </button>
             </ng-template>
         </mat-card-actions>
@@ -159,7 +159,7 @@
             </div>
         </form>
         <div class="client-info-row__item" *ngIf="!editMode">
-            <app-patient-tests-table></app-patient-tests-table>
+            <app-client-tests-table></app-client-tests-table>
         </div>
     </mat-card-content>
 </mat-card>
