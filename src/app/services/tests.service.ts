@@ -38,4 +38,7 @@ export class TestsService {
   createTestGroupTemplate(data): Observable<any> {
     return this.http.post(this.urlTestsGroupsTemplates, { ...data });
   }
+  removeTest(typeId): Observable<any> {
+    return this.http.delete(this.urlTestsTemplates, { params: { typeId } });
+  }
 }
