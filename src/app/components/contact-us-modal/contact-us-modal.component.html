@@ -33,7 +33,7 @@
             <div class="form-grid__item">
                 <mat-form-field class="example-full-width">
                     <mat-label>Leave a comment</mat-label>
-                    <textarea #userMessageInput matInput formControlName="message" placeholder="Ex. It makes me feel..."></textarea>
+                    <textarea matInput formControlName="message" placeholder="Ex. It makes me feel..."></textarea>
                     <mat-error *ngIf="contactUs.controls['message'].invalid">
                         Please leave a comment
                     </mat-error>
