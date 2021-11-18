@@ -1,10 +1,10 @@
 <section class="user-settings">
   <div class="user-settings__container">
     <h1>My settings</h1>
-    <mat-tab-group class="vertical" animationDuration="0" #settingsTab (selectedTabChange)="tabChangeHandler($event)">
+    <mat-tab-group  animationDuration="0" #settingsTab (selectedTabChange)="tabChangeHandler($event)">
       <mat-tab label="Profile">
         <div class="header-container">
-          
+
           <h2>Profile</h2>
           <div class="client-card-grid__action" align="end">
             <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
