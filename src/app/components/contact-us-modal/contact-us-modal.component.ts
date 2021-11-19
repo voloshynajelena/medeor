@@ -53,7 +53,7 @@ export class ContactUsModalComponent implements OnInit {
       message: this.contactUs.get('message').value,
     }
 
-    this.http.sendMessage("http://localhost:3002/sendmail", user).subscribe(
+    this.http.sendMessage("http://localhost:3002/sendMail", user).subscribe(
       data => {
         let res: any = data;
         console.log(
