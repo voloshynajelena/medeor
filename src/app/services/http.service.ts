@@ -58,4 +58,16 @@ export class HttpService {
             map(this.pipeCallback.bind(this)),
             catchError(this.errorHandler.bind(this)));
     }
+
+    httpGet(url){
+      return this.http.get(url);
+    }
+
+    httpPost(url,{}){
+      return this.http.post(url, {userName:"", userEmail:"", message:""});
+    }
+
+    sendMessage(url, data){
+      return this.http.post(url,data);
+    }
 }

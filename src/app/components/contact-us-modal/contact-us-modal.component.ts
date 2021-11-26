@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { HttpService } from 'src/app/services/http.service';
 import { User } from 'src/app/types';
+import { NotificationService } from '../../services/notification.service';
+
 
 @Component({
   selector: 'app-contact-us-modal',
@@ -14,12 +16,14 @@ export class ContactUsModalComponent implements OnInit {
 
   @ViewChild('userNameInput') inputName: ElementRef;
   @ViewChild('userEmailInput') inputEmail: ElementRef;
+  @ViewChild('userMessageInput') inputMessage: ElementRef;
 
   submited = false;
   pending = false;
 
   userName: string;
   userEmail: string;
+  message: string;
 
   contactUs : FormGroup = new FormGroup({
     userName: new FormControl(this.data.name, Validators.required),
@@ -32,6 +36,8 @@ export class ContactUsModalComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    public http: HttpService,
+    private notification: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: User
   ) { }
 
@@ -39,15 +45,34 @@ export class ContactUsModalComponent implements OnInit {
   }
 
   submit() {
-    this.pending = true;
-// TODO: create mailService
-    setTimeout(() => {
-      this.userName = this.inputName.nativeElement.value;
-      this.userEmail = this.inputEmail.nativeElement.value;
+    this.pending = false;
+    this.submited = true;
+    let user = {
+      userName: this.contactUs.get('userName').value,
+      userEmail: this.contactUs.get('userEmail').value,
+      message: this.contactUs.get('message').value,
+    }
 
-      this.pending = false;
-      this.submited = true;
-    }, 2000);
+    this.http.sendMessage("http://localhost:3002/sendMail", user).subscribe(
+      data => {
+        let res: any = data;
+        console.log(
+          `My name is ${user.userName}. My email is ${user.userEmail}. My message is ${user.message}`
+        );
+      },
+
+      err => {
+        console.log(err);
+        this.notification.throwError(err);
+        this.pending = false;
+
+      }, () => {
+        this.pending = false;
+
+      }
+
+    );
+
+
   }
-
 }
