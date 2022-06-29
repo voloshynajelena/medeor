@@ -4,7 +4,7 @@
     <mat-tab-group class="vertical" animationDuration="0" #settingsTab (selectedTabChange)="tabChangeHandler($event)">
       <mat-tab label="Profile">
         <div class="header-container">
-          
+
           <h2>Profile</h2>
           <div class="client-card-grid__action" align="end">
             <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
@@ -24,13 +24,13 @@
               </button>
             </ng-template>
             <ng-template #editModeButtons>
-              <button mat-raised-button color="warn" (click)="acceptToRemove()">
-                <mat-icon>delete</mat-icon>
-                Remove profile
-              </button>
               <button mat-raised-button color="primary" (click)="enableEditMode()">
                 <mat-icon>edit</mat-icon>
                 Edit data
+              </button>
+              <button mat-raised-button color="warn" (click)="acceptToRemove()">
+                <mat-icon>delete</mat-icon>
+                Remove profile
               </button>
             </ng-template>
           </div>
