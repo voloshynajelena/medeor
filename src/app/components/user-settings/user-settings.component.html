@@ -24,14 +24,15 @@
               </button>
             </ng-template>
             <ng-template #editModeButtons>
+              <button mat-raised-button color="primary" (click)="enableEditMode()">
+                <mat-icon>edit</mat-icon>
+                Edit data
+              </button> 
               <button mat-raised-button color="warn" (click)="acceptToRemove()">
                 <mat-icon>delete</mat-icon>
                 Remove profile
               </button>
-              <button mat-raised-button color="primary" (click)="enableEditMode()">
-                <mat-icon>edit</mat-icon>
-                Edit data
-              </button>
+             
             </ng-template>
           </div>
         </div>
