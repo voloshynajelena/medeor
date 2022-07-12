@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/types';
-import { UserService } from '../../services/user.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {User} from 'src/app/types';
+import {UserService} from '../../services/user.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
