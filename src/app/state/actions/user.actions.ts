@@ -1,5 +1,6 @@
-import {createAction, props} from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
+
 export const setUserData = createAction(
-    '[User] SetUserData',
-    props<UserStateId>()
+  '[User] SetUserData',
+  props<UserStateId>()
 );

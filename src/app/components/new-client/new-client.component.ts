@@ -1,15 +1,24 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Client, Response} from '../../types';
-import {Form, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {first} from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {ClientService} from '../../services/client.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { ClientService } from '../../services/client.service';
+import { Client, Response } from '../../types';
 
 @Component({
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
-  styleUrls: ['./new-client.component.less']
+  styleUrls: ['./new-client.component.less'],
 })
 export class NewClientComponent implements OnInit {
   errorValidation = '';
@@ -26,8 +35,9 @@ export class NewClientComponent implements OnInit {
     private clientService: ClientService,
     private dialogRef: MatDialogRef<NewClientComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: {user: {userId: string, token: string}},
-  ) { }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { user: { userId: string; token: string } }
+  ) {}
 
   ngOnInit(): void {
     this.newClientForm = this.formBuilder.group({
@@ -42,7 +52,9 @@ export class NewClientComponent implements OnInit {
       analyzes: [[]],
     });
   }
-  get f(): any { return this.newClientForm.controls; }
+  get f(): any {
+    return this.newClientForm.controls;
+  }
 
   onSubmit(): void {
     this.submitted = true;
@@ -50,8 +62,10 @@ export class NewClientComponent implements OnInit {
     if (this.newClientForm.invalid) {
       this.errorValidation = 'Form is invalid';
       for (const controlName in this.newClientForm.controls) {
-        if (this.newClientForm.controls.hasOwnProperty(controlName)){
-          const errorMessage = this.getErrorMessage(this.newClientForm.get(controlName) as FormControl);
+        if (this.newClientForm.controls.hasOwnProperty(controlName)) {
+          const errorMessage = this.getErrorMessage(
+            this.newClientForm.get(controlName) as FormControl
+          );
           if (errorMessage) {
             this.errorValidation = errorMessage;
           }
@@ -63,7 +77,8 @@ export class NewClientComponent implements OnInit {
     this.errorHttp = '';
     this.message = '';
     this.loading = true;
-    this.clientService.createClient(this.newClientForm.value)
+    this.clientService
+      .createClient(this.newClientForm.value)
       .pipe(first())
       .subscribe(
         (data: Client | Response) => {
@@ -71,15 +86,18 @@ export class NewClientComponent implements OnInit {
             this.errorHttp = (data as Response).error;
           } else {
             this.newClient = data as Client;
-            this.message = `Client ${(data as Client).name} ${(data as Client).surname} created`;
+            this.message = `Client ${(data as Client).name} ${
+              (data as Client).surname
+            } created`;
             this.closeOverlay(data);
           }
           this.loading = false;
         },
-        error => {
+        (error) => {
           this.errorHttp = error;
           this.loading = false;
-        });
+        }
+      );
   }
   getErrorMessage(control: FormControl): string {
     if (control.hasError('required')) {

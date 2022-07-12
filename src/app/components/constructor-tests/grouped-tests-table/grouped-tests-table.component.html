@@ -26,12 +26,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="mobile-hide">
         TypeID
       </th>
-      <td
-        mat-cell
-        class="test-group_cell"
-        *matCellDef="let row"
-        class="mobile-hide"
-      >
+      <td *matCellDef="let row" class="test-group_cell mobile-hide" mat-cell>
         {{ row.typeId }}
       </td>
     </ng-container>

@@ -1,13 +1,15 @@
-<div class="tags-container"
-[class.tags-container-active]="isActive">
-
+<div class="tags-container" [class.tags-container-active]="isActive">
   <!-- tags block -->
   <div class="tags-block">
     <mat-form-field class="tags-list" [class.active-tag-block]="isActive">
       <mat-label>Additional information</mat-label>
 
       <!-- no tags block -->
-      <div class="is-no-tags-added" *ngIf="!tags.length" [class.is-no-tags-added-hide]="isNoAddedTagsHide">
+      <div
+        class="is-no-tags-added"
+        *ngIf="!tags.length"
+        [class.is-no-tags-added-hide]="isNoAddedTagsHide"
+      >
         <p>No tags added.</p>
       </div>
 
@@ -17,7 +19,8 @@
           *ngFor="let tag of tags"
           [selectable]="selectable"
           [removable]="removable"
-          (removed)="remove(tag)">
+          (removed)="remove(tag)"
+        >
           {{ tag }}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
@@ -34,16 +37,25 @@
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
           (matChipInputTokenEnd)="add($event)"
           disabled
-          >
+        />
 
-          <!-- button to apply adding new tag -->
-        <button mat-stroked-button color="primary" class="add-tag-button-hide" [class.add-tag-button-active]="isActive" (click)="addTagBut()">
+        <!-- button to apply adding new tag -->
+        <button
+          mat-stroked-button
+          color="primary"
+          class="add-tag-button-hide"
+          [class.add-tag-button-active]="isActive"
+          (click)="addTagBut()"
+        >
           + Add tag
         </button>
       </mat-chip-list>
 
       <!-- select tags list -->
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
         <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
           {{ tag }}
         </mat-option>
@@ -52,9 +64,7 @@
       <!-- no tags to delete block -->
       <div class="is-no-tags-to-delete" *ngIf="isNoTagsToDelete">
         <p>
-          <span class="material-icons">
-            info
-          </span>
+          <span class="material-icons"> info </span>
           No tags to delete
         </p>
       </div>
@@ -62,65 +72,62 @@
       <!-- notification duplicate tag block -->
       <div class="tag-already-exists-block-active" *ngIf="isSameTag">
         <p class="tag-already-exists-p">
-          <span class="material-icons">
-            info
-          </span>
+          <span class="material-icons"> info </span>
           This tag has been already added
         </p>
       </div>
-
     </mat-form-field>
   </div>
 
   <!-- buttons to edit tags -  -->
   <div class="buttons-edit-block">
     <div class="buttons-edit-group">
-
-      <button mat-button
-      class="edit-btn"
-      (click)="inputEnable()"
-      *ngIf="editBtnDisplay; else saveBtnDisplay"
-      #tooltip="matTooltip"
-      matTooltip="Edit tags or add new"
-      [matTooltipPosition]="position.value"
-      matTooltipHideDelay="0">
+      <button
+        mat-button
+        class="edit-btn"
+        (click)="inputEnable()"
+        *ngIf="editBtnDisplay; else saveBtnDisplay"
+        #tooltip="matTooltip"
+        matTooltip="Edit tags or add new"
+        [matTooltipPosition]="position.value"
+        matTooltipHideDelay="0"
+      >
         <mat-icon class="button-icon">
-          <span class="material-icons">
-            edit
-          </span>
+          <span class="material-icons"> edit </span>
         </mat-icon>
       </button>
 
       <ng-template #saveBtnDisplay>
-        <button mat-button
-        class="edit-btn"
-        (click)="saveTags()"
-        #tooltip="matTooltip"
-        matTooltip="Save changes"
-        [matTooltipPosition]="position.value"
-        matTooltipHideDelay="0">
+        <button
+          mat-button
+          class="edit-btn"
+          (click)="saveTags()"
+          #tooltip="matTooltip"
+          matTooltip="Save changes"
+          [matTooltipPosition]="position.value"
+          matTooltipHideDelay="0"
+        >
           <mat-icon class="button-icon">
-            <span class="material-icons">
-              done
-            </span>
+            <span class="material-icons"> done </span>
           </mat-icon>
         </button>
       </ng-template>
 
-      <button mat-button class="edit-btn"
-      (click)="openDialogRemoveAllTags()"
-      #tooltip="matTooltip"
-      matTooltip="Delete ALL tags"
-      [matTooltipPosition]="position.value"
-      matTooltipHideDelay="0">
+      <button
+        mat-button
+        class="edit-btn"
+        (click)="openDialogRemoveAllTags()"
+        #tooltip="matTooltip"
+        matTooltip="Delete ALL tags"
+        [matTooltipPosition]="position.value"
+        matTooltipHideDelay="0"
+      >
         <mat-icon class="button-icon">
-          <span class="material-icons">
-            delete
-          </span>
+          <span class="material-icons"> delete </span>
         </mat-icon>
       </button>
-
-    </div> <!-- end buttons-edit-group -->
-  </div> <!-- end buttons-edit-block -->
-
+    </div>
+    <!-- end buttons-edit-group -->
+  </div>
+  <!-- end buttons-edit-block -->
 </div>

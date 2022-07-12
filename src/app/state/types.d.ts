@@ -1,11 +1,11 @@
 interface State {
-    user: UserState;
+  user: UserState;
 }
 
 interface UserState {
-    user: UserStateId;
+  user: UserStateId;
 }
 
 interface UserStateId {
-    id: string;
+  id: string;
 }

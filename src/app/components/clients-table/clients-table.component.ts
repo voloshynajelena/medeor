@@ -1,16 +1,30 @@
-import { AfterViewInit, Component, ViewChild, OnChanges, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSort } from '@angular/material/sort';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
+import { dateFormat, Gender } from 'src/app/constants';
 import { Client, Test, User } from 'src/app/types';
 
 import { ClientService } from '../../services/client.service';
 import { getAge } from '../../utils/date';
 import { NewClientComponent } from '../new-client/new-client.component';
-import { dateFormat, Gender } from 'src/app/constants';
 
 export const TESTS: Test[] = [
   {
@@ -32,7 +46,8 @@ export const TESTS: Test[] = [
     name: 'Blood glucose test',
     date: new Date('12 04 2020'),
     marked: false,
-    conclusion: 'Above normal, test was done after eating sweets. Need to retake this test.',
+    conclusion:
+      'Above normal, test was done after eating sweets. Need to retake this test.',
   },
   {
     id: '4',
@@ -41,91 +56,108 @@ export const TESTS: Test[] = [
     marked: false,
     conclusion: 'Fine.',
   },
-  { // test element
+  {
+    // test element
     id: '5',
     name: 'Brain peptide',
     date: new Date('12 04 2020'),
     marked: false,
     conclusion: 'Fine. Retake in three months.',
   },
-  { // test element
+  {
+    // test element
     id: '6',
     name: 'Coagulation',
     date: new Date('12 04 2020'),
     marked: false,
     conclusion: 'Almost fine. Extreme limit of the norm. Retake in one month.',
   },
-  { // test element
+  {
+    // test element
     id: '7',
     name: 'Birch Components',
     date: new Date('12 04 2019'),
     marked: false,
     conclusion: 'Almost fine. Extreme limit of the norm. Retake in one month.',
   },
-  { // test element
+  {
+    // test element
     id: '8',
     name: 'Beta Carotene',
     date: new Date('12 04 2018'),
     marked: false,
     conclusion: 'Almost fine. Extreme limit of the norm. Retake in one month.',
   },
-  { // test element
+  {
+    // test element
     id: '9',
     name: 'Calcium',
     date: new Date('12 04 2017'),
     marked: false,
     conclusion: 'Fine. Retake in three months.',
   },
-  { // test element
+  {
+    // test element
     id: '10',
     name: 'Amino Acid',
     date: new Date('12 04 2010'),
     marked: false,
-    conclusion: 'Blood sample taken in DocTap clinic and analysed in the laboratory.',
+    conclusion:
+      'Blood sample taken in DocTap clinic and analysed in the laboratory.',
   },
-  { // test element
+  {
+    // test element
     id: '11',
     name: 'Coagulation',
     date: new Date('12 04 2010'),
     marked: false,
-    conclusion: 'Blood sample taken in DocTap clinic and analysed in the laboratory.',
+    conclusion:
+      'Blood sample taken in DocTap clinic and analysed in the laboratory.',
   },
-  { // test element
+  {
+    // test element
     id: '12',
     name: 'Acetone',
     date: new Date('12 04 2010'),
     marked: false,
     conclusion: 'Almost fine. Extreme limit of the norm. Retake in one month.',
   },
-  { // test element
+  {
+    // test element
     id: '13',
     name: 'Coagulation',
     date: new Date('12 04 2013'),
     marked: false,
-    conclusion: 'Blood sample taken in DocTap clinic and analysed in the laboratory.',
+    conclusion:
+      'Blood sample taken in DocTap clinic and analysed in the laboratory.',
   },
-  { // test element
+  {
+    // test element
     id: '14',
     name: 'Liver Function Test',
     date: new Date('12 04 2018'),
     marked: false,
     conclusion: 'Fine.',
   },
-  { // test element
+  {
+    // test element
     id: '15',
     name: 'Hematocrit',
     date: new Date('10 04 2001'),
     marked: false,
-    conclusion: 'Blood sample taken in DocTap clinic and analysed in the laboratory.',
+    conclusion:
+      'Blood sample taken in DocTap clinic and analysed in the laboratory.',
   },
-  { // test element
+  {
+    // test element
     id: '16',
     name: 'Albumin',
     date: new Date('10 04 2021'),
     marked: false,
     conclusion: 'Almost fine. But it is needed to visit doctor.',
   },
-  { // test element
+  {
+    // test element
     id: '17',
     name: 'Oldest test',
     date: new Date('10 04 1999'),
@@ -133,7 +165,6 @@ export const TESTS: Test[] = [
     conclusion: 'The oldest test.',
   },
 ];
-
 
 @Component({
   selector: 'app-clients-table',
@@ -144,18 +175,30 @@ export const TESTS: Test[] = [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
     ]),
   ],
 })
-
 export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
-
   user: User;
   tests = TESTS;
   dateFormat: string = dateFormat;
   gender: typeof Gender = Gender;
-  displayedColumns: string[] = ['id', 'surname', 'name', 'sex', 'age', 'pregnancy', 'phone', 'email', 'profile', 'add-new'];
+  displayedColumns: string[] = [
+    'id',
+    'surname',
+    'name',
+    'sex',
+    'age',
+    'pregnancy',
+    'phone',
+    'email',
+    'profile',
+    'add-new',
+  ];
   dataSource: MatTableDataSource<Client>;
   expandedElement: any;
   getAge = getAge;
@@ -165,10 +208,12 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
 
     private dialog: MatDialog,
-    private clientService: ClientService) { }
+    private clientService: ClientService
+  ) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -206,11 +251,11 @@ export class ClientsTableComponent implements AfterViewInit, OnInit, OnChanges {
       restoreFocus: false,
       data: {
         user: this.user,
-      }
+      },
     });
 
     dialogRef.afterClosed().subscribe((data: Client) => {
-      this.dataSource.data = [ ...this.dataSource.data, data];
+      this.dataSource.data = [...this.dataSource.data, data];
     });
   }
 }

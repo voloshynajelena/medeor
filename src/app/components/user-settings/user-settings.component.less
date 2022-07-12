@@ -4,12 +4,13 @@
   ::ng-deep {
     .mat-tab-group {
       border-radius: 4px;
-      box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0px rgba(0, 0, 0, 0.14), 0 1px 3px 0px rgba(0, 0, 0, 0.12);
-      overflow:hidden;
+      box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0 1px 1px 0px rgba(0, 0, 0, 0.14), 0 1px 3px 0px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
       background-color: #fff;
     }
     .mat-tab-header {
-      background-color: #FEFCFF;
+      background-color: #fefcff;
     }
     .mat-tab-list {
       padding-top: 15px;
@@ -29,10 +30,10 @@
       width: 100%;
     }
     .mat-form-field-infix {
-        width: auto;
+      width: auto;
     }
-    .custom-spinner circle{
-        stroke: #fff;
+    .custom-spinner circle {
+      stroke: #fff;
     }
     .mat-tab-body-content {
       padding-left: 10px;
@@ -42,7 +43,7 @@
 
 .header-container {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -62,13 +63,13 @@
   padding-bottom: 16px;
   font-size: 1.3rem;
   &__id {
-      margin-right: 16px;
-      background-color: @color-blue-sky;
-      color: #ffffff;
-      padding: 0.2em 0.5em;
+    margin-right: 16px;
+    background-color: @color-blue-sky;
+    color: #ffffff;
+    padding: 0.2em 0.5em;
   }
   &__fullname {
-      font-weight: bold;
+    font-weight: bold;
   }
 }
 
@@ -80,10 +81,11 @@
     flex-direction: column;
     padding: 16px;
     &:nth-child(1) {
-        flex-shrink: 0;
+      flex-shrink: 0;
     }
-    &:nth-child(2), &:last-child {
-        flex-grow: 1;
+    &:nth-child(2),
+    &:last-child {
+      flex-grow: 1;
     }
   }
   &__action {
@@ -100,20 +102,20 @@
 .client-info-row {
   display: flex;
   & + & {
-      margin-top: 20px;
+    margin-top: 20px;
   }
   &__item {
-      flex: 1 1 100%;
-      & + & {
-          margin-left: 16px;
-      }
+    flex: 1 1 100%;
+    & + & {
+      margin-left: 16px;
+    }
   }
   &__title {
-      color: rgba(0, 0, 0, .6);
-      border-bottom: 1px solid rgba(0, 0, 0, .12);
+    color: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   }
   &__content {
-      margin-left: 10px;
+    margin-left: 10px;
   }
 }
 

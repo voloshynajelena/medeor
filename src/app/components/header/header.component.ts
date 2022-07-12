@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {User} from 'src/app/types';
-import {UserService} from '../../services/user.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { User } from 'src/app/types';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -12,19 +12,15 @@ export class HeaderComponent implements OnInit {
   user;
   @Output() menu: EventEmitter<null> = new EventEmitter<null>();
 
-  constructor(
-    private userService: UserService,
-    ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     if (this.user?.userId) {
-      this.userService.getUserData(this.user.userId).subscribe(
-        (data: User) => {
-          this.data = data;
-        }
-      );
+      this.userService.getUserData(this.user.userId).subscribe((data: User) => {
+        this.data = data;
+      });
     }
   }
 }

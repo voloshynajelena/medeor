@@ -1,35 +1,36 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { TooltipPosition } from '@angular/material/tooltip';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
-import {ClientService} from '../../services/client.service';
-import {MatDialog} from '@angular/material/dialog';
+import { AllTagsEnum } from '../../constants';
+import { ClientService } from '../../services/client.service';
 import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-delete-all-tags.component';
-import {AllTagsEnum} from '../../constants';
-import { TooltipPosition } from '@angular/material/tooltip';
-
 
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.less']
+  styleUrls: ['./tags.component.less'],
 })
-
 export class TagsComponent {
   @Input() tags: string[];
   @Input() client: string;
 
-  constructor(
-    private clientService: ClientService,
-    public dialog: MatDialog
-  ) {
+  constructor(private clientService: ClientService, public dialog: MatDialog) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
-      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
+      map((tag: string | null) =>
+        tag ? this._filter(tag) : this.allTags.slice()
+      )
+    );
   }
 
   visible = true;
@@ -95,12 +96,13 @@ export class TagsComponent {
 
   // disable tags edit mode (save tags)
   saveTags(): void {
-
     // send data to server
-    this.clientService.updateClient({
-      id: this.client,
-      tags: this.tags,
-    }).subscribe();
+    this.clientService
+      .updateClient({
+        id: this.client,
+        tags: this.tags,
+      })
+      .subscribe();
 
     // input disable
     this.tagCtrl.disable();
@@ -121,7 +123,7 @@ export class TagsComponent {
     this.editBtnDisplay = true;
 
     //show 'no tags block' if no tags added
-    if(!this.tags.length) {
+    if (!this.tags.length) {
       this.isNoAddedTagsHide = false;
     }
   }
@@ -131,10 +133,12 @@ export class TagsComponent {
     this.tags = [];
 
     // send data to server
-    this.clientService.updateClient({
-      id: this.client,
-      tags: this.tags,
-    }).subscribe();
+    this.clientService
+      .updateClient({
+        id: this.client,
+        tags: this.tags,
+      })
+      .subscribe();
 
     // remove style class active
     this.isActive = false;
@@ -143,7 +147,7 @@ export class TagsComponent {
     this.editBtnDisplay = true;
 
     //show 'no tags block'
-    if(!this.tags.length) {
+    if (!this.tags.length) {
       this.isNoAddedTagsHide = false;
     }
   }
@@ -154,17 +158,16 @@ export class TagsComponent {
 
     // Add our tag
     if ((newTag || '').trim()) {
-
       const indexNewTag = this.tags.indexOf(newTag);
 
       // check if a new tag doesn't exist in the array
-      if(indexNewTag === -1) {
+      if (indexNewTag === -1) {
         this.isSameTag = false;
 
         // add new tag
         this.tags.push(newTag.trim());
       } else {
-          this.isSameTag = true;
+        this.isSameTag = true;
       }
     }
 
@@ -178,13 +181,11 @@ export class TagsComponent {
 
   // adding new tag by clicking on enter or comma
   add(event: MatChipInputEvent): void {
-
     const input = event.input;
     const value = event.value;
 
     // Add our tag
     if ((value || '').trim()) {
-
       const indexNewTag = this.tags.indexOf(value);
 
       // check if a new tag doesn't exist in the array
@@ -207,7 +208,6 @@ export class TagsComponent {
 
   // adding our tag from select list
   selected(event: MatAutocompleteSelectedEvent): void {
-
     const indexNewTag = this.tags.indexOf(event.option.value);
 
     // check if a new tag doesn't exist in the array
@@ -237,7 +237,9 @@ export class TagsComponent {
     const newTag = control.value; // new tag
 
     if (this.tags && this.tags?.indexOf(newTag) >= 0) {
-      return { duplicatedNewTag: 'This tag has been already added to the list' };
+      return {
+        duplicatedNewTag: 'This tag has been already added to the list',
+      };
     }
     return null;
   }
@@ -246,14 +248,16 @@ export class TagsComponent {
   openDialogRemoveAllTags(): void {
     const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (this.tags.length && result) {
         this.deleteAllTags();
       } else if (!this.tags.length && result) {
         // show block no tags to delete
         this.isNoTagsToDelete = true;
         // hide block no tags to delete after 1 sec
-        setTimeout(() => {this.isNoTagsToDelete = false}, 1000);
+        setTimeout(() => {
+          this.isNoTagsToDelete = false;
+        }, 1000);
       }
     });
   }
@@ -264,6 +268,8 @@ export class TagsComponent {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+    return this.allTags.filter(
+      (tag) => tag.toLowerCase().indexOf(filterValue) === 0
+    );
   }
 }

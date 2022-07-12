@@ -1,17 +1,19 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TestTemplatesInterface, Translation} from './test-templates.interface';
-import {TestsService} from '../../../services/tests.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TestsService } from '../../../services/tests.service';
+import {
+  TestTemplatesInterface,
+  Translation,
+} from './test-templates.interface';
 
 @Component({
   selector: 'app-new-test',
   templateUrl: './new-test.component.html',
-  styleUrls: ['./new-test.component.less']
+  styleUrls: ['./new-test.component.less'],
 })
 export class NewTestComponent implements OnInit {
-
   public loading = false;
   public submitted = false;
 
@@ -19,47 +21,40 @@ export class NewTestComponent implements OnInit {
 
   public testsList: any[];
 
-  // ##########################################
-
   public codeCtrl = new FormControl('', Validators.required);
 
   public titleCtrl = new FormGroup({
     ru: new FormControl('', Validators.required),
     ua: new FormControl(''),
-    en: new FormControl('')
+    en: new FormControl(''),
   });
 
   public descriptionCtrl = new FormGroup({
     ru: new FormControl(''),
     ua: new FormControl(''),
-    en: new FormControl('')
+    en: new FormControl(''),
   });
 
   public unitCtrl = new FormGroup({
     ru: new FormControl(''),
     ua: new FormControl(''),
-    en: new FormControl('')
+    en: new FormControl(''),
   });
 
   public refValueCtrl = new FormGroup({
     min: new FormControl(''),
-    max: new FormControl('')
+    max: new FormControl(''),
   });
-
-  // ##########################################
 
   constructor(
     public dialogRef: MatDialogRef<NewTestComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {user: {userId: string, token: string}},
+    @Inject(MAT_DIALOG_DATA)
+    public data: { user: { userId: string; token: string } },
     private testsService: TestsService,
     private _snackBar: MatSnackBar
-  ) { }
-
-  // ##########################################
+  ) {}
 
   ngOnInit(): void {}
-
-  // ##########################################
 
   public submit(): void {
     this.titleCtrl.markAllAsTouched();
@@ -101,16 +96,16 @@ export class NewTestComponent implements OnInit {
     this.submitted = false;
   }
 
-  // ##########################################
-
   private getFormData(): TestTemplatesInterface {
     return {
       code: this.codeCtrl.value,
       title: this.getCtrlValues(this.titleCtrl.controls) as Translation,
-      description: this.getCtrlValues(this.descriptionCtrl.controls) as Translation,
+      description: this.getCtrlValues(
+        this.descriptionCtrl.controls
+      ) as Translation,
       unit: this.getCtrlValues(this.unitCtrl.controls) as Translation,
       // @ts-ignore
-      refValue: this.getCtrlValues(this.refValueCtrl.controls)
+      refValue: this.getCtrlValues(this.refValueCtrl.controls),
     };
   }
 

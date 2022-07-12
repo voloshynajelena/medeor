@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Client } from 'src/app/types';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ClientService } from 'src/app/services/client.service';
-import { getAge } from '../../utils/date';
-import { RemoveClientModalComponent } from 'src/app/components/remove-client-modal/remove-client-modal.component';
 import { TESTS } from 'src/app/components/clients-table/clients-table.component';
+import { RemoveClientModalComponent } from 'src/app/components/remove-client-modal/remove-client-modal.component';
 import { FF_AVATAR, Gender } from 'src/app/constants';
+import { ClientService } from 'src/app/services/client.service';
+import { Client } from 'src/app/types';
+import { getAge } from '../../utils/date';
 
 @Component({
   selector: 'app-client',
@@ -43,7 +42,7 @@ export class ClientComponent implements OnInit {
     pregnancy: new FormControl(''),
   });
 
-  clientChipTags: string[] = [];
+  public clientChipTags: string[] = [];
   public gender: typeof Gender = Gender;
   public isAvatarFeatureEnabled = FF_AVATAR;
   getAge = getAge;
@@ -66,26 +65,6 @@ export class ClientComponent implements OnInit {
       this.userAvatar = data.photo;
       this.resetFormData();
     });
-  }
-
-  addTag(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value.trim();
-
-    if (value) {
-      this.clientChipTags.push(value);
-    }
-
-    input.value = '';
-  }
-
-  removeTag(tagName: string): void {
-    const tags = this.clientChipTags;
-    const index = tags.indexOf(tagName);
-
-    if (index !== -1) {
-      tags.splice(index, 1);
-    }
   }
 
   enableEditMode(): void {

@@ -11,17 +11,15 @@ import { User } from 'src/app/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {
-
   @Input() user: User;
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-  ) { }
+    private authenticationService: AuthenticationService
+  ) {}
 
   public logout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
-
 }

@@ -1,18 +1,27 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ITestsGroup, User } from '../../../types';
 import { NewTestGroupComponent } from '../new-test-group/new-test-group.component';
 
 @Component({
   selector: 'app-grouped-tests-table',
   templateUrl: './grouped-tests-table.component.html',
-  styleUrls: ['./grouped-tests-table.component.less']
+  styleUrls: ['./grouped-tests-table.component.less'],
 })
-export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChanges {
+export class GroupedTestsTableComponent
+  implements AfterViewInit, OnInit, OnChanges
+{
   displayedColumns: string[] = ['id', 'name', 'description', 'open'];
   dataSource: MatTableDataSource<ITestsGroup>;
   user: User;
@@ -20,9 +29,7 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(
-    private router: Router,
-    private dialog: MatDialog) { }
+  constructor(private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -46,7 +53,7 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
 
   showTestGroupDetail(event: Event, testGroup): void {
     event.stopPropagation();
-    console.log("testGroup--->", testGroup)
+    console.log('testGroup--->', testGroup);
   }
 
   openCreateNewTestGroupOverlay(): void {
@@ -58,7 +65,7 @@ export class GroupedTestsTableComponent implements AfterViewInit, OnInit, OnChan
       restoreFocus: false,
       data: {
         user: this.user,
-      }
+      },
     });
   }
 }
