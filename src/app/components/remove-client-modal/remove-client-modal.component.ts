@@ -5,10 +5,8 @@ import { Client } from 'src/app/types';
 @Component({
   selector: 'app-remove-client-modal',
   templateUrl: './remove-client-modal.component.html',
-  styleUrls: ['./remove-client-modal.component.less']
+  styleUrls: ['./remove-client-modal.component.less'],
 })
 export class RemoveClientModalComponent {
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Client) { }
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Client) {}
 }

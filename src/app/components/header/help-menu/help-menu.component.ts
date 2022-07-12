@@ -8,17 +8,16 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-help-menu',
   templateUrl: './help-menu.component.html',
-  styleUrls: ['./help-menu.component.less']
+  styleUrls: ['./help-menu.component.less'],
 })
 export class HelpMenuComponent {
   public wikiUrl: string = WIKI_URL;
 
   @Input() user: User;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
   public contactUsModalOpen(): void {
-    this.dialog.open(ContactUsModalComponent, {data: this.user});
+    this.dialog.open(ContactUsModalComponent, { data: this.user });
   }
-
 }

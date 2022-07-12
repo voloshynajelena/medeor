@@ -6,16 +6,13 @@ import { Test } from '../types';
   pure: false,
 })
 export class TestsFilterPipe implements PipeTransform {
-
   transform(tests: Test[], search = '', allTests): Test[] {
-
-    if(!search.trim()) {
+    if (!search.trim()) {
       return tests;
     }
 
-    return allTests.filter(
-      test => test.name.toLowerCase().includes(search.toLowerCase())
+    return allTests.filter((test) =>
+      test.name.toLowerCase().includes(search.toLowerCase())
     );
-
   }
 }

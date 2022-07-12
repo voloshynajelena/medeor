@@ -1,17 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TestGroupTemplatesInterface, Translation } from './test-templates.interface';
-import { TestsService } from '../../../services/tests.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TestsService } from '../../../services/tests.service';
+import {
+  TestGroupTemplatesInterface,
+  Translation,
+} from './test-templates.interface';
 
 @Component({
   selector: 'app-new-test-group',
   templateUrl: './new-test-group.component.html',
-  styleUrls: ['./new-test-group.component.less']
+  styleUrls: ['./new-test-group.component.less'],
 })
 export class NewTestGroupComponent implements OnInit {
-
   public loading = false;
   public submitted = false;
 
@@ -19,20 +21,18 @@ export class NewTestGroupComponent implements OnInit {
 
   public testsList: any[];
 
-  // ##########################################
-
   public testsCtrl = new FormControl('', Validators.required);
 
   public titleCtrl = new FormGroup({
     ru: new FormControl('', Validators.required),
     ua: new FormControl(''),
-    en: new FormControl('')
+    en: new FormControl(''),
   });
 
   public descriptionCtrl = new FormGroup({
     ru: new FormControl(''),
     ua: new FormControl(''),
-    en: new FormControl('')
+    en: new FormControl(''),
   });
 
   // public unitCtrl = new FormGroup({
@@ -50,14 +50,15 @@ export class NewTestGroupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<NewTestGroupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: { userId: string, token: string } },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { user: { userId: string; token: string } },
     private testsService: TestsService,
     private _snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   // ##########################################
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   // ##########################################
 
@@ -102,9 +103,13 @@ export class NewTestGroupComponent implements OnInit {
 
   private getFormData(): TestGroupTemplatesInterface {
     return {
-      tests: this.testsCtrl?.value?.split?.(',').map?.((code: string) => ({ typeId: code.trim() })),
+      tests: this.testsCtrl?.value
+        ?.split?.(',')
+        .map?.((code: string) => ({ typeId: code.trim() })),
       name: this.getCtrlValues(this.titleCtrl.controls) as Translation,
-      description: this.getCtrlValues(this.descriptionCtrl.controls) as Translation,
+      description: this.getCtrlValues(
+        this.descriptionCtrl.controls
+      ) as Translation,
     };
   }
 

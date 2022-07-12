@@ -1,10 +1,16 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/types';
-import { ContactUsModalComponent } from 'src/app/components/contact-us-modal/contact-us-modal.component';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-change-password',
@@ -16,14 +22,11 @@ import { animate, style, transition, trigger } from '@angular/animations';
         style({ opacity: 0 }),
         animate('0.3s', style({ opacity: 1 })),
       ]),
-      transition('* => void', [
-        animate('0.3s', style({ opacity: 0 })),
-      ]),
+      transition('* => void', [animate('0.3s', style({ opacity: 0 }))]),
     ]),
   ],
 })
 export class ChangePasswordComponent implements OnInit {
-
   // hide entered password symbols by default
   hideOld = true;
   hideNew = true;
@@ -54,36 +57,47 @@ export class ChangePasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private dialog: MatDialog,
-  ) { }
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     // get userId and token from local storage
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     // get current user data
-    this.userService.getUserData(this.user.userId).subscribe(
-      data => {
-        this.userFull = data;
-        // get current user password
-        this.currentPass = this.userFull.pass;
-      }
-    );
+    this.userService.getUserData(this.user.userId).subscribe((data) => {
+      this.userFull = data;
+      // get current user password
+      this.currentPass = this.userFull.pass;
+    });
 
     // form builder
-    this.changePasswordForm = this.formBuilder.group({
-      oldPass: ['', [Validators.required, this.currentPasswordCheck.bind(this)]],
-      newPass: ['', [Validators.required, Validators.minLength(6), this.newPasswordNotAsOld.bind(this)]],
-      confirmPass: ['', Validators.required],
-    }, {
-      validator: Validators.compose([
-        this.confirmNewPassword,
-      ])
-    });
+    this.changePasswordForm = this.formBuilder.group(
+      {
+        oldPass: [
+          '',
+          [Validators.required, this.currentPasswordCheck.bind(this)],
+        ],
+        newPass: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            this.newPasswordNotAsOld.bind(this),
+          ],
+        ],
+        confirmPass: ['', Validators.required],
+      },
+      {
+        validator: Validators.compose([this.confirmNewPassword]),
+      }
+    );
   }
 
   // convenience getter for easy access to form fields
-  get f(): any { return this.changePasswordForm.controls; }
+  get f(): any {
+    return this.changePasswordForm.controls;
+  }
 
   // validator for old password - is entered value a real current password
   currentPasswordCheck(control: FormControl): ValidationErrors {
@@ -93,10 +107,10 @@ export class ChangePasswordComponent implements OnInit {
     if (value === currentPassword) {
       return null;
     }
-    return { oldPassNotCorrect: 'Incorrect current password' }
+    return { oldPassNotCorrect: 'Incorrect current password' };
   }
 
-  // validator for new password - it shouldn't be the same as old 
+  // validator for new password - it shouldn't be the same as old
   newPasswordNotAsOld(control: FormControl): ValidationErrors {
     const value = control.value;
     const currentPassword = this.currentPass;
@@ -104,7 +118,7 @@ export class ChangePasswordComponent implements OnInit {
     if (value !== currentPassword) {
       return null;
     }
-    return { newPassNotAsOld: 'New password must be different from old' }
+    return { newPassNotAsOld: 'New password must be different from old' };
   }
 
   // validator to confirm new password
@@ -116,7 +130,9 @@ export class ChangePasswordComponent implements OnInit {
     if (valueConfirm === valueNewPass) {
       return null;
     }
-    valueConfirmCtrl.setErrors({ 'confirmPassNoMatch': 'Does not match to new password' });
+    valueConfirmCtrl.setErrors({
+      confirmPassNoMatch: 'Does not match to new password',
+    });
   }
 
   // get error message for old pass input
@@ -227,11 +243,11 @@ export class ChangePasswordComponent implements OnInit {
     this.newUser = {
       id: this.user.userId,
       pass: this.newPass,
-    }
+    };
 
     // 4 // send new pass to server
     this.userService.updatePatch(this.newUser).subscribe(
-      data => {
+      (data) => {
         //change data for front end untill page will reload
         this.userFull = data;
         this.currentPass = this.userFull.pass;
@@ -243,12 +259,14 @@ export class ChangePasswordComponent implements OnInit {
         this.loader = false;
 
         // hide success message after 2 sec
-        setTimeout(() => { this.changeSuccess = false }, 2000);
+        setTimeout(() => {
+          this.changeSuccess = false;
+        }, 2000);
       },
-      error => {
+      (error) => {
         // show error message
         this.changeError = true;
-      },
+      }
     );
 
     // 5 // reset form after submitting

@@ -1,10 +1,16 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/services/http.service';
 import { User } from 'src/app/types';
 import { NotificationService } from '../../services/notification.service';
-
 
 @Component({
   selector: 'app-contact-us-modal',
@@ -13,7 +19,6 @@ import { NotificationService } from '../../services/notification.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactUsModalComponent implements OnInit {
-
   @ViewChild('userNameInput') inputName: ElementRef;
   @ViewChild('userEmailInput') inputEmail: ElementRef;
   @ViewChild('userMessageInput') inputMessage: ElementRef;
@@ -25,13 +30,13 @@ export class ContactUsModalComponent implements OnInit {
   userEmail: string;
   message: string;
 
-  contactUs : FormGroup = new FormGroup({
+  contactUs: FormGroup = new FormGroup({
     userName: new FormControl(this.data.name, Validators.required),
     userEmail: new FormControl(this.data.email, [
       Validators.required,
-      Validators.email
+      Validators.email,
     ]),
-    message: new FormControl('', Validators.required)
+    message: new FormControl('', Validators.required),
   });
 
   constructor(
@@ -39,10 +44,9 @@ export class ContactUsModalComponent implements OnInit {
     public http: HttpService,
     private notification: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: User
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submit() {
     this.pending = false;
@@ -51,28 +55,24 @@ export class ContactUsModalComponent implements OnInit {
       userName: this.contactUs.get('userName').value,
       userEmail: this.contactUs.get('userEmail').value,
       message: this.contactUs.get('message').value,
-    }
+    };
 
-    this.http.sendMessage("http://localhost:3002/sendMail", user).subscribe(
-      data => {
+    this.http.sendMessage('http://localhost:3002/sendMail', user).subscribe(
+      (data) => {
         let res: any = data;
         console.log(
           `My name is ${user.userName}. My email is ${user.userEmail}. My message is ${user.message}`
         );
       },
 
-      err => {
+      (err) => {
         console.log(err);
         this.notification.throwError(err);
         this.pending = false;
-
-      }, () => {
+      },
+      () => {
         this.pending = false;
-
       }
-
     );
-
-
   }
 }

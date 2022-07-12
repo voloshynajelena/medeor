@@ -1,18 +1,25 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
-import { ITestsGroup, User } from '../../../types';
-import { NewTestComponent } from '../new-test/new-test.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { TestsService } from 'src/app/services/tests.service';
+import { ITestsGroup, User } from '../../../types';
+import { NewTestComponent } from '../new-test/new-test.component';
 
 @Component({
   selector: 'app-tests-table',
   templateUrl: './tests-table.component.html',
-  styleUrls: ['./tests-table.component.less']
+  styleUrls: ['./tests-table.component.less'],
 })
 export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   displayedColumns: string[] = ['name', 'code', 'description', 'open'];
@@ -26,7 +33,8 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
     private router: Router,
     private dialog: MatDialog,
     private http: HttpService,
-    private testsService: TestsService ) { }
+    private testsService: TestsService
+  ) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -62,7 +70,7 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
       restoreFocus: false,
       data: {
         user: this.user,
-      }
+      },
     });
 
     dialogRef.afterClosed().subscribe((testsList: any[]) => {

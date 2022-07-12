@@ -155,7 +155,7 @@
       [length]="numberClientTests"
       [pageSize]="defaultTestsPerPage"
       [showFirstLastButtons]="showFirstLastButtons"
-      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : {}"
+      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
     >
     </mat-paginator>
   </div>
@@ -196,8 +196,6 @@
   </span>
 
   <!-- pdf check -->
-  <button mat-raised-button (click)="generatePdf()">
-    Open PDF
-  </button>
+  <button mat-raised-button (click)="generatePdf()">Open PDF</button>
 </div>
 <!-- end print buttons -->

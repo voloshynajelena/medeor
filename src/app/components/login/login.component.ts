@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AuthenticationService } from 'src/app/services/auth.service';
 import { setUserData } from 'src/app/state/actions/user.actions';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -34,7 +35,9 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
   // convenience getter for easy access to form fields
-  get f(): any { return this.loginForm.controls; }
+  get f(): any {
+    return this.loginForm.controls;
+  }
 
   EnterSubmit(event): void {
     if (event.keyCode === 13) {
@@ -51,7 +54,10 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     try {
-      const data = await this.authenticationService.login(this.f.username.value, this.f.password.value)
+      const data = await this.authenticationService.login(
+        this.f.username.value,
+        this.f.password.value
+      );
 
       if (data?.error) {
         this.submitted = false;
@@ -61,7 +67,6 @@ export class LoginComponent implements OnInit {
 
       this.store.dispatch(setUserData({ id: data?.userId }));
       this.router.navigate([this.returnUrl]);
-
     } catch (error) {
       console.log('ERROR:', error);
       this.error = error;
