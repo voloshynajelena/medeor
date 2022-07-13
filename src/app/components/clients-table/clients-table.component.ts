@@ -169,7 +169,7 @@ export const TESTS: Test[] = [
 @Component({
   selector: 'app-clients-table',
   templateUrl: './clients-table.component.html',
-  styleUrls: ['./clients-table.component.less'],
+  styleUrls: ['./clients-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [

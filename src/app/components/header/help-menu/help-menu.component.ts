@@ -8,7 +8,7 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-help-menu',
   templateUrl: './help-menu.component.html',
-  styleUrls: ['./help-menu.component.less'],
+  styleUrls: ['./help-menu.component.scss'],
 })
 export class HelpMenuComponent {
   public wikiUrl: string = WIKI_URL;

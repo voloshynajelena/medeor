@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'app-new-test-group',
   templateUrl: './new-test-group.component.html',
-  styleUrls: ['./new-test-group.component.less'],
+  styleUrls: ['./new-test-group.component.scss'],
 })
 export class NewTestGroupComponent implements OnInit {
   public loading = false;

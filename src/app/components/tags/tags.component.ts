@@ -18,7 +18,7 @@ import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-dele
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.less'],
+  styleUrls: ['./tags.component.scss'],
 })
 export class TagsComponent {
   @Input() tags: string[];

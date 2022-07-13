@@ -1,4 +1,4 @@
-@import "../../../../styles/variables.less";
+@import "src/styles/variables.scss";
 
 table {
   width: 100%;
@@ -19,18 +19,8 @@ table {
   display: flex;
   justify-content: space-between;
   width: 155px;
-
-  @media screen and (max-width: @mobile-width) {
-    width: 110%;
-  }
 }
 
 .test_table-container {
   overflow: auto;
-}
-
-.mobile-hide {
-  @media screen and (max-width: @mobile-width) {
-    display: none;
-  }
 }

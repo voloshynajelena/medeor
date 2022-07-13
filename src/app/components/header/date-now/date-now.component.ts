@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-date-now',
   templateUrl: './date-now.component.html',
-  styleUrls: ['./date-now.component.less'],
+  styleUrls: ['./date-now.component.scss'],
 })
 export class DateNowComponent implements OnInit {
   public date: Observable<Date> = interval(1000).pipe(

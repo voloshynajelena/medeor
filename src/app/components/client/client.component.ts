@@ -14,7 +14,7 @@ import { getAge } from '../../utils/date';
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
-  styleUrls: ['./client.component.less'],
+  styleUrls: ['./client.component.scss'],
 })
 export class ClientComponent implements OnInit {
   private urlExp =

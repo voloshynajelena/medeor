@@ -1,5 +1,5 @@
-@import "../../../styles/colors.less";
-@import "../../../styles/variables.less";
+@import "src/styles/colors.scss";
+@import "src/styles/variables.scss";
 
 .spacer {
   flex: 1 1 auto;
@@ -37,13 +37,7 @@
   font-weight: 900;
 
   &_link {
-    color: @color-crepuscule;
+    color: $color-crepuscule;
     text-decoration: none;
-  }
-}
-
-.mobile-hide {
-  @media screen and (max-width: @mobile-width) {
-    display: none;
   }
 }

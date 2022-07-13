@@ -4,7 +4,7 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-user-icon',
   templateUrl: './user-icon.component.html',
-  styleUrls: ['./user-icon.component.less'],
+  styleUrls: ['./user-icon.component.scss'],
 })
 export class UserIconComponent implements OnInit {
   @Input('userData') data: User;

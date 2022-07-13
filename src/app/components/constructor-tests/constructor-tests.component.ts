@@ -5,7 +5,7 @@ import { ITest, ITestsGroup } from '../../types';
 @Component({
   selector: 'app-constructor-tests',
   templateUrl: './constructor-tests.component.html',
-  styleUrls: ['./constructor-tests.component.less'],
+  styleUrls: ['./constructor-tests.component.scss'],
 })
 export class ConstructorTestsComponent implements OnInit {
   testsGroups: ITestsGroup[] = [];

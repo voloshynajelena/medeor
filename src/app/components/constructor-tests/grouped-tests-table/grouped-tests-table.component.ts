@@ -17,7 +17,7 @@ import { NewTestGroupComponent } from '../new-test-group/new-test-group.componen
 @Component({
   selector: 'app-grouped-tests-table',
   templateUrl: './grouped-tests-table.component.html',
-  styleUrls: ['./grouped-tests-table.component.less'],
+  styleUrls: ['./grouped-tests-table.component.scss'],
 })
 export class GroupedTestsTableComponent
   implements AfterViewInit, OnInit, OnChanges

@@ -1,4 +1,4 @@
-@import "../../../styles/variables.less";
+@import "src/styles/variables.scss";
 
 .table-list {
   display: flex;
@@ -125,9 +125,10 @@ tr.element-row:not(.expanded-row):active {
   padding: 0;
 }
 
-//end last test widgets block styles
-.mobile-hide {
-  @media screen and (max-width: @mobile-width) {
-    display: none;
-  }
-}
+//
+////end last test widgets block styles
+//.mobile-hide {
+//  @media screen and (max-width: mobile-width) {
+//    display: none;
+//  }
+//}

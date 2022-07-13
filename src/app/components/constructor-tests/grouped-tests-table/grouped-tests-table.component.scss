@@ -1,4 +1,4 @@
-@import "../../../../styles/variables.less";
+@import "src/styles/variables.scss";
 
 table {
   width: 100%;
@@ -12,11 +12,6 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-    @media screen and (max-width: @mobile-width) {
-      max-width: 15px;
-      min-width: 5px;
-    }
   }
 }
 
@@ -124,9 +119,3 @@ tr.example-element-row:not(.example-expanded-row):active {
   padding: 0;
 }
 //end last test widgets block styles
-
-.mobile-hide {
-  @media screen and (max-width: @mobile-width) {
-    display: none;
-  }
-}

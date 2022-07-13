@@ -1,5 +1,5 @@
-@import "../../../styles/colors.less";
-@import "../../../styles/variables.less";
+@import "src/styles/colors.scss";
+@import "src/styles/variables.scss";
 
 :host {
   ::ng-deep mat-card {
@@ -25,9 +25,6 @@
         height: 100%;
       }
     }
-    @media screen and (max-width: @mobile-width) {
-      margin: 0 auto;
-    }
   }
   ::ng-deep .iti {
     opacity: 0;
@@ -38,10 +35,6 @@
 .registration-container {
   display: flex;
   justify-content: space-around;
-
-  @media screen and (max-width: @mobile-width) {
-    flex-direction: column-reverse;
-  }
 }
 
 .invalid-feedback {
@@ -50,7 +43,7 @@
   text-align: left;
   position: relative;
   bottom: 10px;
-  color: @color-error;
+  color: $color-error;
 }
 
 .form-group {
@@ -63,16 +56,8 @@
     margin: 0 3px;
 
     &_title {
-      color: @color-black-third;
+      color: $color-black-third;
     }
-
-    @media screen and (max-width: @mobile-width) {
-      width: 100%;
-    }
-  }
-
-  @media screen and (max-width: @mobile-width) {
-    flex-direction: column;
   }
 }
 
@@ -80,17 +65,11 @@
   width: 100%;
 }
 
-.full-width_mobile {
-  @media screen and (max-width: @mobile-width) {
-    width: 100%;
-  }
-}
-
 .image-description {
   margin: 5px;
   font-size: 20px;
   font-weight: 900;
-  color: @color-black-secondary;
+  color: $color-black-secondary;
 }
 
 .form-controls {
@@ -100,19 +79,10 @@
 .header_logo {
   width: 100px;
   font-weight: 900;
-  color: @color-crepuscule;
-
-  @media screen and (max-width: @mobile-width) {
-    width: 50px;
-  }
+  color: $color-crepuscule;
 }
 
 img {
   margin-top: 50px;
   max-width: 100%;
-
-  @media screen and (max-width: @mobile-width) {
-    width: 300px;
-    max-width: 50%;
-  }
 }

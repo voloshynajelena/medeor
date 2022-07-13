@@ -19,7 +19,7 @@ import { NewTestComponent } from '../new-test/new-test.component';
 @Component({
   selector: 'app-tests-table',
   templateUrl: './tests-table.component.html',
-  styleUrls: ['./tests-table.component.less'],
+  styleUrls: ['./tests-table.component.scss'],
 })
 export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   displayedColumns: string[] = ['name', 'code', 'description', 'open'];

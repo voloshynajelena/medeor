@@ -18,7 +18,7 @@ import { Client, Response } from '../../types';
 @Component({
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
-  styleUrls: ['./new-client.component.less'],
+  styleUrls: ['./new-client.component.scss'],
 })
 export class NewClientComponent implements OnInit {
   errorValidation = '';

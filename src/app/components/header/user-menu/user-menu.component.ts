@@ -7,7 +7,7 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.less'],
+  styleUrls: ['./user-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {

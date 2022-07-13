@@ -19,7 +19,7 @@ interface ISortData {
 @Component({
   selector: 'app-client-tests-table',
   templateUrl: './client-tests-table.component.html',
-  styleUrls: ['./client-tests-table.component.less'],
+  styleUrls: ['./client-tests-table.component.scss'],
 })
 export class ClientTestsTableComponent implements OnInit {
   // clients tests array
