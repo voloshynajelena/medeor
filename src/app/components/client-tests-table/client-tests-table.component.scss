@@ -107,15 +107,12 @@
 .top-tests-line {
   display: flex;
   justify-content: space-between;
-  background-color: #3f51b5;
-  color: #fff;
   align-items: center;
   padding: 3px 20px;
   padding-right: 0;
 }
 .add_new_test_but {
   color: #abc6d4;
-  background-color: #3f51b5;
   border: none;
   outline: none;
   cursor: pointer;
@@ -223,7 +220,6 @@
   margin-right: 15px;
 }
 .count-checked-tests span {
-  color: #3f51b5;
   font-weight: bold;
 }
 .uncheck-all-tests {
