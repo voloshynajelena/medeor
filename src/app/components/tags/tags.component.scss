@@ -90,9 +90,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   padding-bottom: 5px;
 }
-.inputTags:focus {
-  border-bottom: 2px solid #3f51b5;
-}
+
 .inactive-input {
   display: none;
 }
@@ -116,7 +114,6 @@
   display: flex;
 }
 .edit-btn {
-  color: #3f51b5;
   width: 100%;
   border-right: 1px solid #d7d7d7;
   border-radius: 0;
@@ -124,6 +121,6 @@
 .edit-btn:last-child {
   border: none;
 }
-.button-icon span {
+.button-icon {
   font-size: 22px;
 }
