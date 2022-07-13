@@ -5,7 +5,7 @@ import { Test } from 'src/app/types';
 @Component({
   selector: 'app-last-tests-widget',
   templateUrl: './last-tests-widget.component.html',
-  styleUrls: ['./last-tests-widget.component.less'],
+  styleUrls: ['./last-tests-widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LastTestsWidgetComponent {

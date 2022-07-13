@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.less'],
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
   hidePass = true;

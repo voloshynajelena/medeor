@@ -15,7 +15,7 @@ import { NotificationService } from '../../services/notification.service';
 @Component({
   selector: 'app-contact-us-modal',
   templateUrl: './contact-us-modal.component.html',
-  styleUrls: ['./contact-us-modal.component.less'],
+  styleUrls: ['./contact-us-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactUsModalComponent implements OnInit {

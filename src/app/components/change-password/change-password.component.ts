@@ -15,7 +15,7 @@ import { User } from 'src/app/types';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.less'],
+  styleUrls: ['./change-password.component.scss'],
   animations: [
     trigger('showHide', [
       transition('void => *', [

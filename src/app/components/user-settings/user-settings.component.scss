@@ -1,4 +1,4 @@
-@import "src/styles/colors";
+@import "src/styles/colors.scss";
 
 :host {
   ::ng-deep {
@@ -64,7 +64,7 @@
   font-size: 1.3rem;
   &__id {
     margin-right: 16px;
-    background-color: @color-blue-sky;
+    background-color: $color-blue-sky;
     color: #ffffff;
     padding: 0.2em 0.5em;
   }

@@ -20,7 +20,7 @@ export enum TabLabelEnum {
 @Component({
   selector: 'app-user-settings',
   templateUrl: './user-settings.component.html',
-  styleUrls: ['./user-settings.component.less'],
+  styleUrls: ['./user-settings.component.scss'],
 })
 export class UserSettingsComponent implements OnInit {
   private urlExp =

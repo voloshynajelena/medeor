@@ -1,4 +1,4 @@
-@import "../../../styles/colors.less";
+@import "src/styles/colors.scss";
 
 .container {
   padding: 15px 0;
@@ -26,5 +26,5 @@ button:disabled .button-icon {
 
 .button-icon {
   margin-right: 5px;
-  color: @color-crepuscule;
+  color: $color-crepuscule;
 }
