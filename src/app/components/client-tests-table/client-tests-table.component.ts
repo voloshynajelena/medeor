@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TooltipPosition } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 // pdf
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -55,7 +56,7 @@ export class ClientTestsTableComponent implements OnInit {
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
   position = new FormControl(this.positionOptions[1]);
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // descending sorting by date on init
@@ -350,5 +351,11 @@ export class ClientTestsTableComponent implements OnInit {
     };
 
     pdfMake.createPdf(documentDefinition).open();
+  }
+
+  //open test-profile component
+  public goToTestPage(event: Event, id: string): void {
+    event.stopPropagation();
+    this.router.navigate([`test-profile/${id}`]);
   }
 }

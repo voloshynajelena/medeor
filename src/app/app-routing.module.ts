@@ -8,6 +8,7 @@ import { MainComponent } from './components/main/main.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
+import { TestProfileComponent } from './components/test-profile/test-profile.component';
 
 // в переменную routes добавляем все новые компоненты, которым нужен свой адрес
 // т.о. компонента откроется по указанному адресу
@@ -21,14 +22,11 @@ export const routes: Routes = [
   { path: '', component: MainComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'constructor', component: ConstructorTestsComponent },
-  { path: 'user-settings', component: UserSettingsComponent },
+  { path: 'constructor', component: ConstructorTestsComponent, canActivate: [AuthGuard] },
+  { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
   { path: ':userId', component: ProfileComponent, canActivate: [AuthGuard] },
-  {
-    path: 'client/:clientId',
-    component: ClientComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: 'client/:clientId', component: ClientComponent, canActivate: [AuthGuard]},
+  { path: 'test-profile/:testid', component: TestProfileComponent, canActivate: [AuthGuard]},
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];

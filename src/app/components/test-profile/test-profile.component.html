@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-title>{{test.name}}</mat-card-title>
+  <mat-card-subtitle>{{test.date | date:'fullDate'}}</mat-card-subtitle>
+  <mat-card-content>{{test.conclusion }}</mat-card-content>
+  <mat-card-actions>
+     <div class="test-action-buttons">
+        <div class="btn-test-div">
+          <button 
+          class="btn-test" 
+          mat-stroked-button 
+          color="primary"
+          alt="Back to Client"
+         (click)="goBack()"
+          >
+            Back
+          </button>
+        </div>
+      </div>
+  </mat-card-actions>
+</mat-card>
