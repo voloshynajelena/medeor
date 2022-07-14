@@ -22,4 +22,8 @@ export class TestProfileComponent implements OnInit {
     console.log(this.test)
   }
 
+  goBack(): void {
+    history.back()
+  }
+
 }
