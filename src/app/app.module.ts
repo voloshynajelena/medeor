@@ -39,6 +39,7 @@ import { UserSettingsComponent } from './components/user-settings/user-settings.
 import { MaterialModule } from './modules/material/material.module';
 import { TestsFilterPipe } from './pipes/tests-filter.pipe';
 import { initialState, metaReducers, reducers } from './state/reducers';
+import { TestProfileComponent } from './components/test-profile/test-profile.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { initialState, metaReducers, reducers } from './state/reducers';
     ContactUsModalComponent,
     ChangePasswordComponent,
     DateNowComponent,
+    TestProfileComponent,
   ],
   imports: [
     BrowserModule,
