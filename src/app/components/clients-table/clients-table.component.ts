@@ -28,7 +28,7 @@ import { NewClientComponent } from '../new-client/new-client.component';
 
 export const TESTS: Test[] = [
   {
-    id: '1',
+    id: 'SR51637980217201',
     name: 'General blood test',
     date: new Date('12 09 2021'),
     marked: false,

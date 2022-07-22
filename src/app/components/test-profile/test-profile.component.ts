@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params} from '@angular/router';
-import { Test } from 'src/app/types';
+import { TestsService } from 'src/app/services/tests.service';
+import { ITest, Test } from 'src/app/types';
 import { TESTS } from '../clients-table/clients-table.component';
 
 @Component({
@@ -9,17 +10,26 @@ import { TESTS } from '../clients-table/clients-table.component';
   styleUrls: ['./test-profile.component.scss']
 })
 export class TestProfileComponent implements OnInit {
-  private allTests: Test[] = TESTS
   private testId: string
-  public test: Test
-
-  constructor(private route: ActivatedRoute) { }
+  public test: ITest
+  public loading = false
+  
+  constructor(
+    private route: ActivatedRoute,
+    private testService : TestsService
+    ) { }
 
   ngOnInit(): void {
+    this.loading = true;
+    
     this.route.params.subscribe( (params: Params) => {
       this.testId = params.testid })
-    this.test = this.allTests.find(t => t.id === this.testId)
-    console.log(this.test)
+
+    this.testService.getTestsTemplates().subscribe( ({data}) => {
+      this.test = data.find(test => test.typeId === this.testId)
+    })
+
+    this.loading = false;
   }
 
   goBack(): void {
