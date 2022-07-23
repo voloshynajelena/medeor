@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,14 +15,11 @@ import {
   styleUrls: ['./new-test-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewTestGroupComponent implements OnInit {
+export class NewTestGroupComponent {
   public loading = false;
   public submitted = false;
-
   public titleTabIndex = new FormControl(0);
-
   public testsList: any[];
-
   public testsCtrl = new FormControl('', Validators.required);
 
   public titleCtrl = new FormGroup({
@@ -53,21 +45,13 @@ export class NewTestGroupComponent implements OnInit {
   //   max: new FormControl('')
   // });
 
-  // ##########################################
-
   constructor(
     public dialogRef: MatDialogRef<NewTestGroupComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { user: { userId: string; token: string } },
     private testsService: TestsService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
-
-  // ##########################################
-
-  ngOnInit(): void {}
-
-  // ##########################################
 
   public submit(): void {
     this.titleCtrl.markAllAsTouched();
@@ -96,7 +80,10 @@ export class NewTestGroupComponent implements OnInit {
         },
         (error) => {
           this.loading = false;
-          this._snackBar.open('Error. Data was not saved!', 'Hide');
+          this.snackBar.open(
+            'Error. Data was not saved! Description: ' + error,
+            'Hide'
+          );
         }
       );
     }
@@ -105,8 +92,6 @@ export class NewTestGroupComponent implements OnInit {
   public closeAfterSubmitModal(): void {
     this.submitted = false;
   }
-
-  // ##########################################
 
   private getFormData(): TestGroupTemplatesInterface {
     return {

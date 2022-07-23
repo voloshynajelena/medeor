@@ -23,85 +23,74 @@ interface ISortData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientTestsTableComponent implements OnInit {
-  // clients tests array
-  tests = TESTS;
+  constructor(private router: Router) {}
+  public tests = TESTS; // clients tests array
 
   // checkboxes
-  allComplete = false;
-  mainCheckboxDisabled = false;
-  allMarkedTests = 0;
-
-  // tests sorted descending true by default
-  sortedDescending = true;
-
-  // btn 'Print checked' is disabled if false
-  testsChecked = false;
+  public allMarkedTests = 0;
+  public allComplete = false;
+  public mainCheckboxDisabled = false;
+  public sortedDescending = true; // tests sorted descending true by default
+  public testsChecked = false; // btn 'Print checked' is disabled if false
 
   // for pagination
-  numberClientTests: number = this.tests.length;
-  defaultTestsPerPage = 5;
-  filteredTests: any[] = [];
-  pageSizeOptions = [5, 10, 25, 100, this.tests.length];
-  showPageSizeOptions = true;
-  showFirstLastButtons = true;
-  pageEvent: PageEvent;
-  sortData: ISortData = { pageIndex: 1, pageSize: this.defaultTestsPerPage };
+  public numberClientTests: number = this.tests.length;
+  public defaultTestsPerPage = 5;
+  public filteredTests: any[] = [];
+  public pageSizeOptions = [5, 10, 25, 100, this.tests.length];
+  public showPageSizeOptions = true;
+  public showFirstLastButtons = true;
+  public pageEvent: PageEvent;
+  private sortData: ISortData = {
+    pageIndex: 1,
+    pageSize: this.defaultTestsPerPage,
+  };
 
   // for tests filter
-  foundTests: any[] = [];
-  search = '';
-  testsNotFound = false;
+  public search = '';
+  public testsNotFound = false;
+  private foundTests: any[] = [];
 
   // tooltip
-  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
-  position = new FormControl(this.positionOptions[1]);
+  private positionOptions: TooltipPosition[] = [
+    'below',
+    'above',
+    'left',
+    'right',
+  ];
+  public position = new FormControl(this.positionOptions[1]);
 
-  constructor(private router: Router) {}
+  // TODO: remove when use real data for PDF
+  private someContent = 'String to check variable....';
 
   ngOnInit(): void {
     // descending sorting by date on init
     this.tests.sort((a, b) => {
-      const dateA: any = new Date(a.date).getTime();
-      const dateB: any = new Date(b.date).getTime();
-
+      const dateA: number = new Date(a.date).getTime();
+      const dateB: number = new Date(b.date).getTime();
       return dateB - dateA;
     });
 
     this.sortedDescending = true;
-
-    // pagination - tests per page on init
-    this.filteredTests = this.tests.slice(0, this.sortData.pageSize);
-
-    // main checkbox disabled if no tests added
-    if (!this.tests.length) {
-      this.mainCheckboxDisabled = true;
-    } else {
-      this.mainCheckboxDisabled = false;
-    }
+    this.filteredTests = this.tests.slice(0, this.sortData.pageSize); // pagination - tests per page on init
+    this.mainCheckboxDisabled = !this.tests.length; // main checkbox disabled if no tests added
   }
 
   // function on key up while typing search
   // checkboxes behavior
   // block 'no tests found'
-  searchKeyUpFunction(): void {
+  public searchKeyUpFunction(): void {
     this.search.trim();
-
     this.foundTests = this.tests.filter((test) =>
       test.name.toLowerCase().includes(this.search.toLowerCase())
     );
 
     // if no search
     if (!this.search.trim()) {
+      const allTestsMarked = this.filteredTests.every((t) => t.marked); // main checkbox behavior if no search (for ex. query was deleted)
       this.testsNotFound = false;
       this.mainCheckboxDisabled = false;
-
-      // main checkbox behavior if no search (for ex. query was deleted)
-      const allTestsMarked = this.filteredTests.every((t) => t.marked);
-      if (allTestsMarked) {
-        this.allComplete = true;
-      } else {
-        this.allComplete = false;
-      }
+      this.allComplete = !!allTestsMarked;
       return;
     }
 
@@ -115,21 +104,17 @@ export class ClientTestsTableComponent implements OnInit {
       this.mainCheckboxDisabled = true;
     }
 
-    // main checkbox behavior if search
-    const allFoundTestsMarked = this.foundTests.every((t) => t.marked);
-    if (allFoundTestsMarked) {
-      this.allComplete = true;
-    } else {
-      this.allComplete = false;
-    }
+    const allFoundTestsMarked = this.foundTests.every((t) => t.marked); // main checkbox behavior if search
+    this.allComplete = !!allFoundTestsMarked;
   }
 
   // pagination
-  onPaginateChange(
+  public onPaginateChange(
     sortData: ISortData = this.sortData,
     tests = this.tests
   ): void {
     this.sortData = sortData;
+
     // tests per page when user changes options to view
     this.filteredTests = tests.slice(
       sortData.pageIndex * sortData.pageSize,
@@ -137,25 +122,22 @@ export class ClientTestsTableComponent implements OnInit {
     );
     this.allComplete = false;
 
-    // if all tests marked
-    const allTestsMarked = this.filteredTests.every((t) => t.marked);
+    const allTestsMarked = this.filteredTests.every((t) => t.marked); // if all tests marked
     if (allTestsMarked) {
-      // remain main checkbox cheked
-      this.allComplete = true;
+      this.allComplete = true; // remain main checkbox checked
     }
 
-    // count number of checked tests
-    this.allMarkedTests = this.tests.filter((t) => t.marked).length;
+    this.allMarkedTests = this.tests.filter((t) => t.marked).length; // count number of checked tests
   }
 
   // paginator - show all tests
-  showAllTests(): void {
+  public showAllTests(): void {
     this.filteredTests = this.tests;
     this.sortData = { ...this.sortData, pageSize: this.tests?.length ?? 0 };
   }
 
   // drag & drop items
-  drop(event: CdkDragDrop<string[]>): void {
+  public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
       this.filteredTests,
       event.previousIndex,
@@ -164,19 +146,17 @@ export class ClientTestsTableComponent implements OnInit {
   }
 
   // check-uncheck main checkbox by marking all checkboxes
-  updateAllComplete(): void {
+  public updateAllComplete(): void {
+    // TODO: make one method from these two ifs below
     // if search is not applied
     if (!this.search.trim()) {
       this.allComplete =
-        this.filteredTests != null && this.filteredTests.every((t) => t.marked);
+        this.filteredTests != null &&
+        this.filteredTests?.every((t) => t.marked);
 
       // btn 'Print checked' - disabled and active
-      const markedTests = this.filteredTests.filter((t) => t.marked).length;
-      if (markedTests) {
-        this.testsChecked = true;
-      } else {
-        this.testsChecked = false;
-      }
+      const markedTests = this.filteredTests?.filter((t) => t.marked).length;
+      this.testsChecked = !!markedTests;
     }
 
     // if search is applied
@@ -187,23 +167,16 @@ export class ClientTestsTableComponent implements OnInit {
       );
 
       this.allComplete =
-        this.foundTests != null && this.foundTests.every((t) => t.marked);
-
-      // btn 'Print checked' - disabled and active
-      const markedTests = this.foundTests.filter((t) => t.marked).length;
-      if (markedTests) {
-        this.testsChecked = true;
-      } else {
-        this.testsChecked = false;
-      }
+        this.foundTests != null && this.foundTests?.every((t) => t.marked);
+      const markedTests = this.foundTests?.filter((t) => t.marked).length; // btn 'Print checked' - disabled and active
+      this.testsChecked = !!markedTests;
     }
 
-    // count number of checked tests
-    this.allMarkedTests = this.tests.filter((t) => t.marked).length;
+    this.allMarkedTests = this.tests.filter((t) => t.marked).length; // count number of checked tests
   }
 
   // main checkbox behavior if some checkboxes marked - changes to "-"
-  someComplete(): boolean {
+  public someComplete(): boolean {
     if (this.tests == null) {
       return false;
     }
@@ -222,15 +195,14 @@ export class ClientTestsTableComponent implements OnInit {
       this.foundTests = this.tests.filter((test) =>
         test.name.toLowerCase().includes(this.search.toLowerCase())
       );
-
       return (
-        this.foundTests.filter((t) => t.marked).length > 0 && !this.allComplete
+        this.foundTests?.filter((t) => t.marked).length > 0 && !this.allComplete
       );
     }
   }
 
   // check-uncheck all checkboxes by marking main checkbox
-  setAll(marked: boolean): void {
+  public setAll(marked: boolean): void {
     if (this.tests == null) {
       return;
     }
@@ -239,14 +211,8 @@ export class ClientTestsTableComponent implements OnInit {
     if (!this.search.trim()) {
       this.filteredTests.forEach((t) => (t.marked = marked));
       this.allComplete = marked;
-
-      // btn 'Print checked' - disabled and active
-      const markedTests = this.filteredTests.filter((t) => t.marked).length;
-      if (markedTests) {
-        this.testsChecked = true;
-      } else {
-        this.testsChecked = false;
-      }
+      const markedTests = this.filteredTests.filter((t) => t.marked).length; // btn 'Print checked' - disabled and active
+      this.testsChecked = !!markedTests;
     }
 
     // if search is applied
@@ -261,11 +227,7 @@ export class ClientTestsTableComponent implements OnInit {
 
       // btn 'Print checked' - disabled and active
       const markedTests = this.foundTests.filter((t) => t.marked).length;
-      if (markedTests) {
-        this.testsChecked = true;
-      } else {
-        this.testsChecked = false;
-      }
+      this.testsChecked = !!markedTests;
     }
 
     // count number of checked tests
@@ -273,27 +235,19 @@ export class ClientTestsTableComponent implements OnInit {
   }
 
   // uncheck all tests
-  uncheckAllTests(): void {
-    // make all tests unmarked
-    this.tests.forEach((t) => (t.marked = false));
-
-    // making main checkbox unmarked
-    this.allComplete = false;
-
-    // count number of checked tests
-    this.allMarkedTests = this.tests.filter((t) => t.marked).length;
-
-    // making "Print checked" button disabled
-    this.testsChecked = false;
+  public uncheckAllTests(): void {
+    this.allComplete = false; // making main checkbox unmarked
+    this.testsChecked = false; // making "Print checked" button disabled
+    this.tests.forEach((t) => (t.marked = false)); // make all tests unmarked
+    this.allMarkedTests = this.tests.filter((t) => t.marked).length; // count number of checked tests
   }
 
   // sorting by date
-  sortByDate(): void {
+  public sortByDate(): void {
     const newTests = [
       ...this.tests.sort((a, b) => {
-        const dateA: any = new Date(a.date).getTime();
-        const dateB: any = new Date(b.date).getTime();
-
+        const dateA: number = new Date(a.date).getTime();
+        const dateB: number = new Date(b.date).getTime();
         return this.sortedDescending ? dateA - dateB : dateB - dateA;
       }),
     ];
@@ -302,8 +256,8 @@ export class ClientTestsTableComponent implements OnInit {
   }
 
   // print current test
-  printCurrentTest(test): void {
-    // print current test to console
+  public printCurrentTest(test): void {
+    // TODO: print current test to PDF
     console.log('print current test ---->', test);
   }
 
@@ -312,22 +266,19 @@ export class ClientTestsTableComponent implements OnInit {
     if (this.tests == null) {
       return;
     }
-    // print all tests to console
+    // TODO: print all tests to PDF
     console.log('all tests to print------>', this.tests);
   }
 
   // print checked tests
   printCheckedTests(): void {
-    // choose checked tests
-    const markedTests = this.tests.filter((t) => t.marked);
-    // print checked tests to console
+    const markedTests = this.tests.filter((t) => t.marked); // choose checked tests
+    // TODO: print checked tests to PDF
     console.log('marked tests to print------>', markedTests);
   }
 
-  //PDF
-  someContent = 'String to check variable....';
-
-  generatePdf() {
+  // TODO: implementing PDF generating
+  public generatePdf(): void {
     const documentDefinition = {
       content: [
         // if you don't need styles, you can use a simple string to define a paragraph
@@ -346,14 +297,14 @@ export class ClientTestsTableComponent implements OnInit {
           ],
         },
 
-        'Значение внешней переменной: ' + this.someContent,
+        'Variable from ts file: ' + this.someContent,
       ],
     };
 
     pdfMake.createPdf(documentDefinition).open();
   }
 
-  //open test-profile component
+  // open test-profile component
   public goToTestPage(event: Event, id: string): void {
     event.stopPropagation();
     this.router.navigate([`test-profile/${id}`]);

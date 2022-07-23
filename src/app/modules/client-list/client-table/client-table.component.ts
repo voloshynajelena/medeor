@@ -21,7 +21,6 @@ import { Router } from '@angular/router';
 
 import { dateFormat, Gender } from 'src/app/constants';
 import { TESTS } from '../../../mocks/clients-list-response';
-import { ClientService } from '../../../services/client.service';
 import { Client, User } from '../../../types';
 import { getAge } from '../../../utils/date';
 import { NewClientComponent } from '../new-client/new-client.component';
@@ -42,11 +41,12 @@ import { NewClientComponent } from '../new-client/new-client.component';
   ],
 })
 export class ClientTableComponent implements AfterViewInit, OnInit, OnChanges {
-  user: User;
-  tests = TESTS;
-  dateFormat: string = dateFormat;
-  gender: typeof Gender = Gender;
-  displayedColumns: string[] = [
+  public expandedElement: any;
+  public dataSource: MatTableDataSource<Client>;
+  public tests = TESTS;
+  public dateFormat: string = dateFormat;
+  public gender: typeof Gender = Gender;
+  public displayedColumns: string[] = [
     'id',
     'surname',
     'name',
@@ -58,21 +58,17 @@ export class ClientTableComponent implements AfterViewInit, OnInit, OnChanges {
     'profile',
     'add-new',
   ];
-  dataSource: MatTableDataSource<Client>;
-  expandedElement: any;
-  getAge = getAge;
+
+  private user: User;
+
+  public getAge = getAge;
 
   @Input() clients: Client[];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(
-    private router: Router,
-
-    private dialog: MatDialog,
-    private clientService: ClientService
-  ) {}
+  constructor(private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -87,7 +83,7 @@ export class ClientTableComponent implements AfterViewInit, OnInit, OnChanges {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event): void {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource?.paginator) {
@@ -95,12 +91,12 @@ export class ClientTableComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  goToClient(event: Event, id): void {
+  public goToClient(event: Event, id): void {
     event.stopPropagation();
     this.router.navigate([`client/${id}`]);
   }
 
-  openCreateNewClientOverlay(): void {
+  public openCreateNewClientOverlay(): void {
     const dialogRef = this.dialog.open(NewClientComponent, {
       width: '90%',
       height: '95%',

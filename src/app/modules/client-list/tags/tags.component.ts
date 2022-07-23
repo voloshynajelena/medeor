@@ -6,7 +6,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
@@ -29,6 +29,41 @@ import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-dele
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsComponent {
+  public selectable = true;
+  public removable = false; // disable tags remove option by default
+  public isActive = false; // class active for edit mode is false by default
+  public isSameTag = false; // notification block of duplicate tag is hidden by default
+  public isNoTagsToDelete = false; // block no tags to delete is false by default
+  public isNoAddedTagsHide = false; // option to hide 'no tags block' is false by default
+  public editBtnDisplay = true; // show edit (pencil) button and hide check mark button by default
+  public filteredTags: Observable<string[]>;
+  public tagCtrl = new FormControl('');
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  private allTags: AllTagsEnum[] = [
+    // all tags array - for select list
+    AllTagsEnum.diabetic,
+    AllTagsEnum.allergic,
+    AllTagsEnum.multPregnancy,
+    AllTagsEnum.secondPregnancy,
+    AllTagsEnum.tenWeeksPregnancy,
+    AllTagsEnum.vegetarian,
+    AllTagsEnum.covid,
+    AllTagsEnum.exCovid,
+  ];
+
+  // tooltips for edit buttons
+  private positionOptions: TooltipPosition[] = [
+    'below',
+    'above',
+    'left',
+    'right',
+  ];
+  public position = new FormControl(this.positionOptions[1]);
+
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
   @Input() tags: string[];
   @Input() client: string;
 
@@ -41,69 +76,18 @@ export class TagsComponent {
     );
   }
 
-  visible = true;
-  selectable = true;
-
-  // disable tags remove option by default
-  removable = false;
-
-  // class active for edit mode is false by default
-  isActive = false;
-
-  // notification block of duplicate tag is hidden by default
-  isSameTag = false;
-
-  // block no tags to delete is false by default
-  isNoTagsToDelete = false;
-
-  //option to hide 'no tags block' is false by default
-  isNoAddedTagsHide = false;
-
-  //show edit (pencil) button and hide check mark button by default
-  editBtnDisplay = true;
-
-  filteredTags: Observable<string[]>;
-
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  tagCtrl = new FormControl('');
-
-  // all tags array - for select list
-  allTags: AllTagsEnum[] = [
-    AllTagsEnum.diabetic,
-    AllTagsEnum.allergic,
-    AllTagsEnum.multPregnancy,
-    AllTagsEnum.secondPregnancy,
-    AllTagsEnum.tenWeeksPregnancy,
-    AllTagsEnum.vegetarian,
-    AllTagsEnum.covid,
-    AllTagsEnum.exCovid,
-  ];
-  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
-
   // enable tags edit mode
-  inputEnable(): void {
-    // input enable
-    this.tagCtrl.enable();
-
-    // add style class active
-    this.isActive = true;
-
-    // enable tags remove option
-    this.removable = true;
-
-    // hide no tags to delete
-    this.isNoTagsToDelete = false;
-
-    //hide 'no tags block' in active mode
-    this.isNoAddedTagsHide = true;
-
-    //hide edit (pencil) button and show check mark button
-    this.editBtnDisplay = false;
+  public inputEnable(): void {
+    this.tagCtrl.enable(); // input enable
+    this.isActive = true; // add style class active
+    this.removable = true; // enable tags remove option
+    this.isNoTagsToDelete = false; // hide no tags to delete
+    this.isNoAddedTagsHide = true; // hide 'no tags block' in active mode
+    this.editBtnDisplay = false; // hide edit (pencil) button and show check mark button
   }
 
   // disable tags edit mode (save tags)
-  saveTags(): void {
+  public saveTags(): void {
     // send data to server
     this.clientService
       .updateClient({
@@ -112,56 +96,21 @@ export class TagsComponent {
       })
       .subscribe();
 
-    // input disable
-    this.tagCtrl.disable();
+    this.tagCtrl.disable(); // input disable
+    this.isActive = false; // remove style class active
+    this.removable = false; // disable tags remove option
+    this.isNoTagsToDelete = false; // hide no tags to delete
+    this.isSameTag = false; // hide duplicate tag block
+    this.editBtnDisplay = true; // show edit (pencil) button and hide check mark button
 
-    // remove style class active
-    this.isActive = false;
-
-    // disable tags remove option
-    this.removable = false;
-
-    // hide no tags to delete
-    this.isNoTagsToDelete = false;
-
-    // hide duplicate tag block
-    this.isSameTag = false;
-
-    //show edit (pencil) button and hide check mark button
-    this.editBtnDisplay = true;
-
-    //show 'no tags block' if no tags added
     if (!this.tags.length) {
-      this.isNoAddedTagsHide = false;
-    }
-  }
-
-  // remove all tags
-  deleteAllTags(): void {
-    this.tags = [];
-
-    // send data to server
-    this.clientService
-      .updateClient({
-        id: this.client,
-        tags: this.tags,
-      })
-      .subscribe();
-
-    // remove style class active
-    this.isActive = false;
-
-    //show edit (pencil) button and hide check mark button
-    this.editBtnDisplay = true;
-
-    //show 'no tags block'
-    if (!this.tags.length) {
+      // show 'no tags block' if no tags added
       this.isNoAddedTagsHide = false;
     }
   }
 
   // adding new tag by clicking to button
-  addTagBut(): void {
+  public addTagBut(): void {
     const newTag = this.tagInput.nativeElement.value;
 
     // Add our tag
@@ -171,24 +120,21 @@ export class TagsComponent {
       // check if a new tag doesn't exist in the array
       if (indexNewTag === -1) {
         this.isSameTag = false;
-
-        // add new tag
-        this.tags.push(newTag.trim());
+        this.tags.push(newTag.trim()); // add new tag
       } else {
         this.isSameTag = true;
       }
     }
 
-    // Reset the input value
     if (this.tagInput.nativeElement) {
-      this.tagInput.nativeElement.value = '';
+      this.tagInput.nativeElement.value = ''; // Reset the input value
     }
 
     this.tagCtrl.setValue(null);
   }
 
   // adding new tag by clicking on enter or comma
-  add(event: MatChipInputEvent): void {
+  public add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
@@ -196,8 +142,8 @@ export class TagsComponent {
     if ((value || '').trim()) {
       const indexNewTag = this.tags.indexOf(value);
 
-      // check if a new tag doesn't exist in the array
       if (indexNewTag === -1) {
+        // check if a new tag doesn't exist in the array
         this.isSameTag = false;
 
         // add new tag
@@ -215,15 +161,13 @@ export class TagsComponent {
   }
 
   // adding our tag from select list
-  selected(event: MatAutocompleteSelectedEvent): void {
+  public selected(event: MatAutocompleteSelectedEvent): void {
     const indexNewTag = this.tags.indexOf(event.option.value);
 
-    // check if a new tag doesn't exist in the array
     if (indexNewTag === -1) {
+      // check if a new tag doesn't exist in the array
       this.isSameTag = false;
-
-      // add new tag from select
-      this.tags.push(event.option.value);
+      this.tags.push(event.option.value); // add new tag from select
     } else {
       this.isSameTag = true;
     }
@@ -240,39 +184,43 @@ export class TagsComponent {
     }
   }
 
-  // tags duplication validator
-  duplicateTagsValidator(control: FormControl): ValidationErrors {
-    const newTag = control.value; // new tag
-
-    if (this.tags && this.tags?.indexOf(newTag) >= 0) {
-      return {
-        duplicatedNewTag: 'This tag has been already added to the list',
-      };
-    }
-    return null;
-  }
-
   // modal window - are you sure to delete all tags?
-  openDialogRemoveAllTags(): void {
+  public openDialogRemoveAllTags(): void {
     const dialogRef = this.dialog.open(ModalDeleteAllTagsComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (this.tags.length && result) {
         this.deleteAllTags();
       } else if (!this.tags.length && result) {
-        // show block no tags to delete
-        this.isNoTagsToDelete = true;
-        // hide block no tags to delete after 1 sec
+        this.isNoTagsToDelete = true; // show block no tags to delete
         setTimeout(() => {
+          // hide block no tags to delete after 1 sec
           this.isNoTagsToDelete = false;
         }, 1000);
       }
     });
   }
 
-  //tooltips for edit buttons
-  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
-  position = new FormControl(this.positionOptions[1]);
+  // remove all tags
+  private deleteAllTags(): void {
+    this.tags = [];
+
+    // send data to server
+    this.clientService
+      .updateClient({
+        id: this.client,
+        tags: this.tags,
+      })
+      .subscribe();
+
+    this.isActive = false; // remove style class active
+    this.editBtnDisplay = true; // show edit (pencil) button and hide check mark button
+
+    // show 'no tags block'
+    if (!this.tags.length) {
+      this.isNoAddedTagsHide = false;
+    }
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -280,4 +228,16 @@ export class TagsComponent {
       (tag) => tag.toLowerCase().indexOf(filterValue) === 0
     );
   }
+
+  // TODO: tags duplication validator
+  // duplicateTagsValidator(control: FormControl): ValidationErrors {
+  //   const newTag = control.value; // new tag
+  //
+  //   if (this.tags && this.tags?.indexOf(newTag) >= 0) {
+  //     return {
+  //       duplicatedNewTag: 'This tag has been already added to the list',
+  //     };
+  //   }
+  //   return null;
+  // }
 }

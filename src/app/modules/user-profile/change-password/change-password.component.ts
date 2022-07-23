@@ -29,32 +29,22 @@ import { User } from 'src/app/types';
   ],
 })
 export class ChangePasswordComponent implements OnInit {
-  // hide entered password symbols by default
-  hideOld = true;
-  hideNew = true;
-  hideConfirm = true;
-  // form group
-  changePasswordForm: FormGroup;
-  // user data from local storage
-  user: { userId: string; token: string };
-  // user data from server
-  userFull: User;
-  // current password
-  currentPass: string;
-  // new user password
-  newPass: string;
-  // new user with changed password
-  newUser: { id: string; pass: string };
-  // show message if pass is changed
-  changeSuccess = false;
-  // show message if error of pass change
-  changeError = false;
-  // loader for button submit
-  loader = false;
-  // icons done
-  isOldValid = false;
-  isNewValid = false;
-  isConfirmValid = false;
+  public hideOld = true; // hide entered password symbols by default
+  public hideNew = true;
+  public hideConfirm = true;
+  public changePasswordForm: FormGroup;
+  public changeSuccess = false;
+  public changeError = false;
+  public loader = false;
+  public isOldValid = false;
+  public isNewValid = false;
+  public isConfirmValid = false;
+
+  private user: { userId: string; token: string }; // user data from local storage
+  private userFull: User; // user data from server
+  private currentPass: string;
+  private newPass: string;
+  private newUser: { id: string; pass: string };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -63,14 +53,12 @@ export class ChangePasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // get userId and token from local storage
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     // get current user data
     this.userService.getUserData(this.user.userId).subscribe((data) => {
       this.userFull = data;
-      // get current user password
-      this.currentPass = this.userFull.pass;
+      this.currentPass = this.userFull.pass; // get current user password
     });
 
     // form builder
@@ -102,7 +90,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // validator for old password - is entered value a real current password
-  currentPasswordCheck(control: FormControl): ValidationErrors {
+  private currentPasswordCheck(control: FormControl): ValidationErrors {
     const value = control.value;
     const currentPassword = this.currentPass;
 
@@ -113,7 +101,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // validator for new password - it shouldn't be the same as old
-  newPasswordNotAsOld(control: FormControl): ValidationErrors {
+  private newPasswordNotAsOld(control: FormControl): ValidationErrors {
     const value = control.value;
     const currentPassword = this.currentPass;
 
@@ -124,7 +112,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // validator to confirm new password
-  confirmNewPassword(group: FormGroup): ValidationErrors {
+  private confirmNewPassword(group: FormGroup): ValidationErrors {
     const valueConfirm = group.controls['confirmPass'].value;
     const valueNewPass = group.controls['newPass'].value;
     const valueConfirmCtrl = group.controls['confirmPass'];
@@ -138,7 +126,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // get error message for old pass input
-  getErrorMessageOldPass() {
+  public getErrorMessageOldPass(): string {
     // error if current password is missing
     if (this.f.oldPass.hasError('required')) {
       return 'Old password is required';
@@ -151,7 +139,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // get error message for new pass input
-  getErrorMessageNewPass() {
+  public getErrorMessageNewPass(): string {
     // error if new password is missing
     if (this.f.newPass.hasError('required')) {
       return 'New password is required';
@@ -169,7 +157,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // get error message for confirm pass input
-  getErrorMessageConfirmPass() {
+  public getErrorMessageConfirmPass(): string {
     // error if confirm pass is missing
     if (this.f.confirmPass.hasError('required')) {
       return 'Confirmation a new password is required';
@@ -182,7 +170,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // show-hide icon done for old pass
-  oldPassOninput() {
+  public oldPassOninput(): void {
     if (this.f.oldPass.valid) {
       this.isOldValid = true;
     }
@@ -192,7 +180,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // show-hide icon done for new pass
-  newPassOninput() {
+  public newPassOninput(): void {
     if (this.f.newPass.valid) {
       this.isNewValid = true;
     }
@@ -202,7 +190,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // show-hide icon done for confirm pass
-  confirmPassOninput() {
+  public confirmPassOninput(): void {
     if (this.f.confirmPass.valid) {
       this.isConfirmValid = true;
     }
@@ -212,15 +200,10 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // cancel button
-  cancelChange() {
-    // hide error message
-    this.changeError = false;
-
-    // hide success message
-    this.changeSuccess = false;
-
-    //loader stop
-    this.loader = false;
+  public cancelChange(): void {
+    this.changeError = false; // hide error message
+    this.changeSuccess = false; // hide success message
+    this.loader = false; // loader stop
 
     // hide icons done
     this.isOldValid = false;
@@ -229,7 +212,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // submit form
-  changePassword() {
+  public changePassword(): void {
     // 0 // stop here if form is invalid
     if (this.changePasswordForm.invalid) {
       return;
@@ -250,23 +233,18 @@ export class ChangePasswordComponent implements OnInit {
     // 4 // send new pass to server
     this.userService.updatePatch(this.newUser).subscribe(
       (data) => {
-        //change data for front end untill page will reload
+        // change data for front end untill page will reload
         this.userFull = data;
         this.currentPass = this.userFull.pass;
-
-        // show success message
         this.changeSuccess = true;
-
-        //loader stop
         this.loader = false;
 
-        // hide success message after 2 sec
         setTimeout(() => {
           this.changeSuccess = false;
         }, 2000);
       },
       (error) => {
-        // show error message
+        // TODO: show error message
         this.changeError = true;
       }
     );
@@ -275,6 +253,7 @@ export class ChangePasswordComponent implements OnInit {
     this.changePasswordForm.reset();
 
     // 6 // set errors to null and update validators
+    // TODO: fix this
     for (const control in this.changePasswordForm.controls) {
       this.changePasswordForm.controls[control].setErrors(null);
       this.changePasswordForm.controls[control].updateValueAndValidity();
@@ -287,13 +266,9 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   // contact us if error
-  contactUsModalOpen() {
+  public contactUsModalOpen(): void {
     this.dialog.open(ContactUsModalComponent, { data: this.userFull });
-
-    // hide error message
     this.changeError = false;
-
-    //loader stop
     this.loader = false;
   }
 }

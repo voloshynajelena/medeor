@@ -28,14 +28,14 @@ import { Client, Response } from '../../../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewClientComponent implements OnInit {
-  errorValidation = '';
-  errorHttp = '';
-  message = '';
-  newClientForm: FormGroup;
-  loading = false;
-  submitted = false;
-  maxDate = new Date();
-  newClient: Client;
+  public errorValidation = '';
+  public errorHttp = '';
+  public message = '';
+  public newClientForm: FormGroup;
+  public loading = false;
+  public submitted = false;
+  public maxDate = new Date();
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -63,7 +63,7 @@ export class NewClientComponent implements OnInit {
     return this.newClientForm.controls;
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     this.submitted = true;
 
     if (this.newClientForm.invalid) {
@@ -92,7 +92,6 @@ export class NewClientComponent implements OnInit {
           if ((data as Response).error) {
             this.errorHttp = (data as Response).error;
           } else {
-            this.newClient = data as Client;
             this.message = `Client ${(data as Client).name} ${
               (data as Client).surname
             } created`;
@@ -106,13 +105,15 @@ export class NewClientComponent implements OnInit {
         }
       );
   }
-  getErrorMessage(control: FormControl): string {
+
+  public getErrorMessage(control: FormControl): string {
     if (control.hasError('required')) {
       return 'You must enter a value';
     }
     return control.hasError('email') ? 'Not a valid email' : '';
   }
-  closeOverlay(dialogResult?): void {
+
+  public closeOverlay(dialogResult?): void {
     this.dialogRef.close(dialogResult);
   }
 }

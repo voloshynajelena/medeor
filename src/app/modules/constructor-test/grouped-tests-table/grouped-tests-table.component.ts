@@ -25,9 +25,10 @@ import { NewTestGroupComponent } from '../new-test-group/new-test-group.componen
 export class GroupedTestsTableComponent
   implements AfterViewInit, OnInit, OnChanges
 {
-  displayedColumns: string[] = ['id', 'name', 'description', 'open'];
-  dataSource: MatTableDataSource<ITestsGroup>;
-  user: User;
+  public displayedColumns: string[] = ['id', 'name', 'description', 'open'];
+  public dataSource: MatTableDataSource<ITestsGroup>;
+  private user: User;
+
   @Input() testsGroups: ITestsGroup[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -41,12 +42,13 @@ export class GroupedTestsTableComponent
   ngOnChanges(): void {
     this.dataSource = new MatTableDataSource(this.testsGroups);
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event): void {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -54,12 +56,13 @@ export class GroupedTestsTableComponent
     }
   }
 
-  showTestGroupDetail(event: Event, testGroup): void {
+  public showTestGroupDetail(event: Event, testGroup): void {
     event.stopPropagation();
+    // TODO: show group test details
     console.log('testGroup--->', testGroup);
   }
 
-  openCreateNewTestGroupOverlay(): void {
+  public openCreateNewTestGroupOverlay(): void {
     this.dialog.open(NewTestGroupComponent, {
       width: '600%',
       maxWidth: '800px',

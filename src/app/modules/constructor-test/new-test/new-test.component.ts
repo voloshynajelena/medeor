@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TestsService } from '../../../services/tests.service';
@@ -23,11 +23,8 @@ import {
 export class NewTestComponent implements OnInit {
   public loading = false;
   public submitted = false;
-
   public titleTabIndex = new FormControl(0);
-
   public testsList: any[];
-
   public codeCtrl = new FormControl('', Validators.required);
 
   public titleCtrl = new FormGroup({
@@ -54,11 +51,10 @@ export class NewTestComponent implements OnInit {
   });
 
   constructor(
-    public dialogRef: MatDialogRef<NewTestComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { user: { userId: string; token: string } },
     private testsService: TestsService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {}
@@ -93,7 +89,10 @@ export class NewTestComponent implements OnInit {
         },
         (error) => {
           this.loading = false;
-          this._snackBar.open('Error. Data was not saved!', 'Hide');
+          this.snackBar.open(
+            'Error. Data was not saved! Description: ' + error,
+            'Hide'
+          );
         }
       );
     }

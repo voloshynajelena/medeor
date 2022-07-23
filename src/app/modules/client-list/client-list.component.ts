@@ -9,9 +9,11 @@ import { Client } from '../../types';
   styleUrls: ['./client-list.component.scss'],
 })
 export class ClientListComponent implements OnInit {
-  clients: Client[];
-  loading = false;
-  user = JSON.parse(localStorage.getItem('currentUser'));
+  public clients: Client[];
+  public loading = false;
+
+  private user = JSON.parse(localStorage.getItem('currentUser'));
+
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {

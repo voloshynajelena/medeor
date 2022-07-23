@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
 import { User } from 'src/app/types';
 
 @Component({
@@ -9,6 +8,6 @@ import { User } from 'src/app/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserIconComponent {
-  @Input('userData') data: User;
-  hideImage = false;
+  @Input() userData: User;
+  public hideImage = false;
 }

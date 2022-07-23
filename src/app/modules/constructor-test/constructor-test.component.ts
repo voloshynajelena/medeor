@@ -9,11 +9,11 @@ import { ITest, ITestsGroup } from '../../types';
   styleUrls: ['./constructor-test.component.scss'],
 })
 export class ConstructorTestComponent implements OnInit {
-  testsGroups: ITestsGroup[] = [];
-  tests: ITest[] = [];
-  loadingTestGroups = false;
-  loadingTests = false;
-  user = JSON.parse(localStorage.getItem('currentUser'));
+  public testsGroups: ITestsGroup[] = [];
+  public tests: ITest[] = [];
+  public loadingTestGroups = false;
+  public loadingTests = false;
+
   constructor(private testsService: TestsService) {}
 
   ngOnInit(): void {
