@@ -1,0 +1,215 @@
+<section class="user-settings">
+  <div class="user-settings__container">
+    <h1>My settings</h1>
+    <mat-tab-group
+      animationDuration="0"
+      #settingsTab
+      (selectedTabChange)="tabChangeHandler($event)"
+    >
+      <mat-tab label="Profile">
+        <div class="header-container">
+          <h2>Profile</h2>
+          <div class="client-card-grid__action" align="end">
+            <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="submit()"
+                [disabled]="userForm.invalid || sending"
+              >
+                <ng-template [ngIf]="sending" [ngIfElse]="saveText">
+                  <mat-spinner
+                    class="custom-spinner"
+                    diameter="20"
+                  ></mat-spinner>
+                  Saving
+                </ng-template>
+                <ng-template #saveText>
+                  <mat-icon>save</mat-icon>
+                  Save
+                </ng-template>
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="disableEditMode()"
+              >
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </ng-template>
+            <ng-template #editModeButtons>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="enableEditMode()"
+              >
+                <mat-icon>edit</mat-icon>
+                Edit data
+              </button>
+              <button mat-raised-button color="warn" (click)="acceptToRemove()">
+                <mat-icon>delete</mat-icon>
+                Remove profile
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <form class="client-card-grid" *ngIf="data" [formGroup]="userForm">
+          <div class="client-card-grid__col">
+            <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
+          </div>
+          <div class="client-card-grid__col">
+            <div class="client-info-row" *ngIf="editMode">
+              <div class="client-info-row__item">
+                <mat-form-field appearance="fill">
+                  <mat-label>Avatar URL</mat-label>
+                  <input
+                    formControlName="photo"
+                    matInput
+                    #avatarUrl
+                    (input)="setAvatar($event.target?.value)"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    *ngIf="avatarUrl.value"
+                    (click)="setAvatar((avatarUrl.value = ''))"
+                  >
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="client-info-row">
+              <div class="client-info-row__item" *ngIf="data.specialties">
+                <mat-form-field
+                  *ngIf="editMode; else userSpecialties"
+                  appearance="fill"
+                >
+                  <mat-label>Specialties</mat-label>
+                  <input formControlName="specialties" matInput />
+                  <mat-error *ngIf="userForm.controls['specialties'].invalid"
+                    >This field is required</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userSpecialties>
+                  <h5 class="client-info-row__title">Specialties</h5>
+                  <div class="client-info-row__content">
+                    {{ data.specialties | titlecase }}
+                  </div>
+                </ng-template>
+              </div>
+              <div class="client-info-row__item" *ngIf="data.surname">
+                <mat-form-field
+                  *ngIf="editMode; else userLastname"
+                  appearance="fill"
+                >
+                  <mat-label>Lastname</mat-label>
+                  <input formControlName="surname" matInput />
+                  <mat-error *ngIf="userForm.controls['surname'].invalid"
+                    >This field is required</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userLastname>
+                  <h5 class="client-info-row__title">Lastname</h5>
+                  <div class="client-info-row__content">
+                    {{ data.surname | titlecase }}
+                  </div>
+                </ng-template>
+              </div>
+              <div class="client-info-row__item" *ngIf="data.name">
+                <mat-form-field
+                  *ngIf="editMode; else userFirstname"
+                  appearance="fill"
+                >
+                  <mat-label>Firstname</mat-label>
+                  <input matInput formControlName="name" />
+                  <mat-error *ngIf="userForm.controls['name'].invalid"
+                    >This field is required</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userFirstname>
+                  <h5 class="client-info-row__title">Firstname</h5>
+                  <div class="client-info-row__content">
+                    {{ data.name | titlecase }}
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+            <div class="client-info-row">
+              <div class="client-info-row__item" *ngIf="data.location">
+                <mat-form-field
+                  *ngIf="editMode; else userLocation"
+                  appearance="fill"
+                >
+                  <mat-label>Location</mat-label>
+                  <input formControlName="location" matInput />
+                  <mat-error *ngIf="userForm.controls['location'].invalid"
+                    >This field is required</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userLocation>
+                  <h5 class="client-info-row__title">Location</h5>
+                  <div class="client-info-row__content">
+                    {{ data.location | titlecase }}
+                  </div>
+                </ng-template>
+              </div>
+              <div class="client-info-row__item" *ngIf="data.email">
+                <mat-form-field
+                  *ngIf="editMode; else userEmail"
+                  appearance="fill"
+                >
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" />
+                  <mat-error *ngIf="userForm.controls['email'].errors?.required"
+                    >This field is required</mat-error
+                  >
+                  <mat-error *ngIf="userForm.controls['email'].errors?.email"
+                    >Not a valid email</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userEmail>
+                  <h5 class="client-info-row__title">Email</h5>
+                  <div class="client-info-row__content">{{ data.email }}</div>
+                </ng-template>
+              </div>
+              <div class="client-info-row__item" *ngIf="data.phone">
+                <mat-form-field
+                  *ngIf="editMode; else userPhone"
+                  appearance="fill"
+                >
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone" #inputNumber />
+                  <mat-error *ngIf="userForm.controls['phone'].errors?.required"
+                    >This field is required</mat-error
+                  >
+                  <mat-error *ngIf="userForm.controls['phone'].errors?.pattern"
+                    >Please use numbers</mat-error
+                  >
+                  <mat-error
+                    *ngIf="userForm.controls['phone'].errors?.minlength"
+                    >You need enter 12 numbers ({{
+                      inputNumber.value?.length
+                    }}/12)</mat-error
+                  >
+                </mat-form-field>
+                <ng-template #userPhone>
+                  <h5 class="client-info-row__title">Phone</h5>
+                  <div class="client-info-row__content">{{ data.phone }}</div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+      <mat-tab label="Notifications">
+        <h2>Notifications</h2>
+      </mat-tab>
+      <mat-tab label="Security">
+        <h2>Security</h2>
+        <app-change-password></app-change-password>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</section>
