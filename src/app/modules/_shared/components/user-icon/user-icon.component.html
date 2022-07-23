@@ -9,12 +9,12 @@
       font-size="11"
       fill="#fff"
     >
-      {{ data.name[0] + data.surname[0] | uppercase }}
+      {{ userData.name[0] + userData.surname[0] | uppercase }}
     </text>
   </svg>
   <img
-    *ngIf="data.photo && !hideImage"
-    src="{{ data.photo }}"
+    *ngIf="userData.photo && !hideImage"
+    src="{{ userData.photo }}"
     class="user__img"
     (error)="hideImage = true"
     (load)="hideImage = false"

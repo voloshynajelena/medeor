@@ -24,14 +24,13 @@ export class ContactUsModalComponent implements OnInit {
   @ViewChild('userEmailInput') inputEmail: ElementRef;
   @ViewChild('userMessageInput') inputMessage: ElementRef;
 
-  submited = false;
-  pending = false;
+  public submited = false;
+  public pending = false;
+  public userName: string;
+  public userEmail: string;
+  public message: string;
 
-  userName: string;
-  userEmail: string;
-  message: string;
-
-  contactUs: FormGroup = new FormGroup({
+  public contactUs: FormGroup = new FormGroup({
     userName: new FormControl(this.data.name, Validators.required),
     userEmail: new FormControl(this.data.email, [
       Validators.required,
@@ -49,10 +48,10 @@ export class ContactUsModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {
+  public submit(): void {
     this.pending = false;
     this.submited = true;
-    let user = {
+    const user = {
       userName: this.contactUs.get('userName').value,
       userEmail: this.contactUs.get('userEmail').value,
       message: this.contactUs.get('message').value,
@@ -60,7 +59,8 @@ export class ContactUsModalComponent implements OnInit {
 
     this.http.sendMessage('http://localhost:3002/sendMail', user).subscribe(
       (data) => {
-        let res: any = data;
+        // TODO: complete sendMessage logic
+        const res: any = data;
         console.log(
           `My name is ${user.userName}. My email is ${user.userEmail}. My message is ${user.message}`
         );

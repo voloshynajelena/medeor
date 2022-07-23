@@ -25,9 +25,9 @@ import { NewTestComponent } from '../new-test/new-test.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
-  displayedColumns: string[] = ['name', 'code', 'description', 'open'];
-  dataSource: MatTableDataSource<ITestsGroup>;
-  user: User;
+  public displayedColumns: string[] = ['name', 'code', 'description', 'open'];
+  public dataSource: MatTableDataSource<ITestsGroup>;
+  private user: User;
   @Input() tests: ITestsGroup[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -46,12 +46,13 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   ngOnChanges(): void {
     this.dataSource = new MatTableDataSource(this.tests);
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event): void {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -59,12 +60,12 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
     }
   }
 
-  goToClient(event: Event, id): void {
+  public goToClient(event: Event, id): void {
     event.stopPropagation();
     this.router.navigate([`test/${id}`]);
   }
 
-  openCreateNewTestGroupOverlay(): void {
+  public openCreateNewTestGroupOverlay(): void {
     const dialogRef = this.dialog.open(NewTestComponent, {
       width: '60%',
       maxWidth: '800px',
@@ -85,8 +86,7 @@ export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
     });
   }
 
-  //delete test
-  deleteTest(id) {
+  public deleteTest(id): void {
     this.testsService.removeTest(id).subscribe();
   }
 }

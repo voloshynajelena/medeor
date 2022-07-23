@@ -43,16 +43,14 @@ export class UserProfileComponent implements OnInit {
 
   public data: User;
   public userAvatar: string;
-
   public editMode = false;
   public sending = false;
 
   constructor(
+    public dialog: MatDialog,
     private userService: UserService,
     private router: Router,
-    public dialog: MatDialog,
-    // tslint:disable-next-line:variable-name
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute
   ) {
@@ -73,46 +71,30 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  enableEditMode(): void {
+  public enableEditMode(): void {
     this.editMode = true;
-
     this.userForm.markAllAsTouched();
     this.userForm.updateValueAndValidity();
   }
 
-  disableEditMode(): void {
+  public disableEditMode(): void {
     this.resetFormData();
     this.editMode = false;
   }
 
-  resetFormData(): void {
-    const userData = this.data;
-
-    userData.photo = this.userAvatar;
-
-    for (const key in userData) {
-      if (this.userForm.controls.hasOwnProperty(key)) {
-        this.userForm.controls[key].setValue(userData[key]);
-      }
-    }
-  }
-
-  setAvatar(url: string): void {
+  public setAvatar(url: string): void {
     if (url.match(this.urlExp)) {
       const img = new Image();
-
       img.addEventListener('error', (event) => (this.data.photo = ''));
       img.addEventListener('load', (event) => (this.data.photo = url));
-
       img.src = url;
     } else {
       this.data.photo = '';
     }
   }
 
-  submit(): void {
+  public submit(): void {
     this.sending = true;
-
     const controls = this.userForm.controls;
     const formData = JSON.parse(JSON.stringify(this.data));
 
@@ -144,12 +126,15 @@ export class UserProfileComponent implements OnInit {
         },
         (error) => {
           this.sending = false;
-          this._snackBar.open('Error. Data was not saved!', 'Hide');
+          this.snackBar.open(
+            'Error. Data was not saved! Description: ' + error,
+            'Hide'
+          );
         }
       );
   }
 
-  acceptToRemove(): void {
+  public acceptToRemove(): void {
     const dialogRef = this.dialog.open(RemoveClientModalComponent, {
       data: this.data,
     });
@@ -166,17 +151,27 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  setTabRouterParam(selectTab?: string): void {
+  public tabChangeHandler(event: MatTabChangeEvent): void {
+    const tabName = event.tab.textLabel;
+    this.router.navigate([], { queryParams: { activeTab: tabName } }).then();
+  }
+
+  private resetFormData(): void {
+    const userData = this.data;
+    userData.photo = this.userAvatar;
+
+    for (const key in userData) {
+      if (this.userForm.controls.hasOwnProperty(key)) {
+        this.userForm.controls[key].setValue(userData[key]);
+      }
+    }
+  }
+
+  private setTabRouterParam(selectTab?: string): void {
     this.router
       .navigate([], {
         queryParams: { activeTab: selectTab || TabLabelEnum.PROFILE },
       })
       .then();
-  }
-
-  tabChangeHandler(event: MatTabChangeEvent): void {
-    const tabName = event.tab.textLabel;
-
-    this.router.navigate([], { queryParams: { activeTab: tabName } }).then();
   }
 }

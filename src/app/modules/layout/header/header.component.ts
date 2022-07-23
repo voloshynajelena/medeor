@@ -16,8 +16,10 @@ import { UserService } from '../../../services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-  data: User;
-  user;
+  // TODO: specify type
+  public data;
+  private user;
+
   @Output() menu: EventEmitter<null> = new EventEmitter<null>();
 
   constructor(private userService: UserService) {}

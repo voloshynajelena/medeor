@@ -17,16 +17,14 @@ import { RemoveClientModalComponent } from '../client-list/remove-client-modal/r
   styleUrls: ['./client-profile.component.scss'],
 })
 export class ClientProfileComponent implements OnInit {
-  private urlExp =
-    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-  private clientId: string;
-  public client: Client;
-  public userAvatar: string;
-  public tests = TESTS;
-
-  public editMode = false;
   public sending = false;
-
+  public editMode = false;
+  public userAvatar: string;
+  public clientChipTags: string[] = [];
+  public client: Client;
+  public gender: typeof Gender = Gender;
+  public tests = TESTS;
+  public isAvatarFeatureEnabled = FF_AVATAR;
   public clientForm = new FormGroup({
     surname: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
@@ -42,16 +40,16 @@ export class ClientProfileComponent implements OnInit {
     pregnancy: new FormControl(''),
   });
 
-  public clientChipTags: string[] = [];
-  public gender: typeof Gender = Gender;
-  public isAvatarFeatureEnabled = FF_AVATAR;
+  private urlExp =
+    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  private clientId: string;
   getAge = getAge;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
 
@@ -67,18 +65,18 @@ export class ClientProfileComponent implements OnInit {
     });
   }
 
-  enableEditMode(): void {
+  public enableEditMode(): void {
     this.editMode = true;
     this.clientForm.markAllAsTouched();
     this.clientForm.updateValueAndValidity();
   }
 
-  disableEditMode(): void {
+  public disableEditMode(): void {
     this.editMode = false;
     this.resetFormData();
   }
 
-  setAvatar(url: string): void {
+  public setAvatar(url: string): void {
     if (url.match(this.urlExp)) {
       const img = new Image();
 
@@ -91,7 +89,7 @@ export class ClientProfileComponent implements OnInit {
     }
   }
 
-  resetFormData(): void {
+  private resetFormData(): void {
     this.client.photo = this.userAvatar;
 
     this.clientForm = new FormGroup({
@@ -119,12 +117,10 @@ export class ClientProfileComponent implements OnInit {
     }
   }
 
-  submit(): void {
+  public submit(): void {
     this.sending = true;
-
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const controls = this.clientForm.controls;
-
     const formData = JSON.parse(JSON.stringify(this.client));
 
     for (const key in controls) {
@@ -143,7 +139,7 @@ export class ClientProfileComponent implements OnInit {
         tags: this.clientChipTags.map((t) => t),
       })
       .subscribe(
-        (data) => {
+        () => {
           this.sending = false;
 
           for (const key in controls) {
@@ -153,17 +149,19 @@ export class ClientProfileComponent implements OnInit {
           }
 
           this.client.tags = this.clientChipTags.map((t) => t);
-
           this.disableEditMode();
         },
         (error) => {
           this.sending = false;
-          this._snackBar.open('Error. Data was not saved!', 'Hide');
+          this.snackBar.open(
+            'Error. Data was not saved! Description: ' + error,
+            'Hide'
+          );
         }
       );
   }
 
-  acceptToRemove(): void {
+  public acceptToRemove(): void {
     const dialogRef = this.dialog.open(RemoveClientModalComponent, {
       data: this.client,
     });

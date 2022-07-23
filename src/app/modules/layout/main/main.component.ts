@@ -8,7 +8,7 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
-  currentUser: any;
+  public currentUser: any;
 
   constructor(private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(

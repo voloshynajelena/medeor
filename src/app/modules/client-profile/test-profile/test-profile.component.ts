@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -14,14 +9,14 @@ import { ITest } from 'src/app/types';
   selector: 'app-test-profile',
   templateUrl: './test-profile.component.html',
   styleUrls: ['./test-profile.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestProfileComponent implements OnInit, OnDestroy {
+  public test: ITest;
+  public loading = false;
+
   private testId: string;
   private testIdSubscription: Subscription;
-  public test: ITest;
   private testSubscription: Subscription;
-  public loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,12 +38,12 @@ export class TestProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  goBack(): void {
-    history.back();
-  }
-
   ngOnDestroy(): void {
     this.testIdSubscription.unsubscribe();
     this.testSubscription.unsubscribe();
+  }
+
+  public goBack(): void {
+    history.back();
   }
 }
