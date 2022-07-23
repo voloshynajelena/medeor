@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from './services/auth.service';
+import { AuthenticationService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,6 @@ import { AuthenticationService } from './services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
-  showFiller = true;
   currentUser: any;
 
   constructor(private authenticationService: AuthenticationService) {

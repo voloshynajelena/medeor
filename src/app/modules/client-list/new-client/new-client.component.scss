@@ -1,0 +1,71 @@
+@import "src/styles/colors";
+:host {
+  ::ng-deep .mat-vertical-stepper-content {
+    visibility: visible !important;
+    height: 100% !important;
+  }
+  ::ng-deep .mat-vertical-content {
+    padding-bottom: 0;
+  }
+}
+.container {
+  margin: 0 auto;
+}
+
+header {
+  padding-bottom: 9px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $divider-color;
+
+  h1 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  h2 {
+    color: fade($color-black-main, 60%);
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    margin: 0;
+  }
+}
+
+main {
+  padding-left: 20px;
+  margin-left: 12px;
+}
+
+section {
+  display: flex;
+  flex-flow: column wrap;
+  min-height: 110px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.error-message {
+  color: $color-chili;
+}
+
+.action-buttons {
+  vertical-align: bottom;
+  padding-left: 12px;
+  :first-child {
+    margin-right: 10px;
+  }
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: row;
+  .form-group {
+    margin: 20px;
+  }
+}

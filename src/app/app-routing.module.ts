@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './_helpers';
-import { ClientComponent } from './components/client/client.component';
-import { ConstructorTestsComponent } from './components/constructor-tests/constructor-tests.component';
-import { LoginComponent } from './components/login/login.component';
-import { MainComponent } from './components/main/main.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { RegisterComponent } from './components/register/register.component';
-import { UserSettingsComponent } from './components/user-settings/user-settings.component';
-import { TestProfileComponent } from './components/test-profile/test-profile.component';
+
+import { AuthGuard } from './auth';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ClientListComponent } from './modules/client-list/client-list.component';
+import { ClientProfileComponent } from './modules/client-profile/client-profile.component';
+import { TestProfileComponent } from './modules/client-profile/test-profile/test-profile.component';
+import { ConstructorTestComponent } from './modules/constructor-test/constructor-test.component';
+import { MainComponent } from './modules/layout/main/main.component';
+import { UserProfileComponent } from './modules/user-profile/user-profile.component';
 
 // в переменную routes добавляем все новые компоненты, которым нужен свой адрес
 // т.о. компонента откроется по указанному адресу
@@ -22,11 +23,27 @@ export const routes: Routes = [
   { path: '', component: MainComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'constructor', component: ConstructorTestsComponent, canActivate: [AuthGuard] },
-  { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
-  { path: ':userId', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'client/:clientId', component: ClientComponent, canActivate: [AuthGuard]},
-  { path: 'test-profile/:testid', component: TestProfileComponent, canActivate: [AuthGuard]},
+  {
+    path: 'constructor',
+    component: ConstructorTestComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: ':userId', component: ClientListComponent, canActivate: [AuthGuard] },
+  {
+    path: 'client/:clientId',
+    component: ClientProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'test-profile/:testid',
+    component: TestProfileComponent,
+    canActivate: [AuthGuard],
+  },
   // otherwise redirect to home
   { path: '**', redirectTo: '' },
 ];
