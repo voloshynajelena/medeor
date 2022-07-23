@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,6 +14,7 @@ import { ITest } from 'src/app/types';
   selector: 'app-test-profile',
   templateUrl: './test-profile.component.html',
   styleUrls: ['./test-profile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestProfileComponent implements OnInit, OnDestroy {
   private testId: string;

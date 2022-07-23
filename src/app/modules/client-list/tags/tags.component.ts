@@ -1,5 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import {
   MatAutocomplete,
@@ -11,6 +17,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
+
 import { AllTagsEnum } from '../../../constants';
 import { ClientService } from '../../../services/client.service';
 import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-delete-all-tags.component';
@@ -19,6 +26,7 @@ import { ModalDeleteAllTagsComponent } from '../modal-delete-all-tags/modal-dele
   selector: 'app-tags',
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsComponent {
   @Input() tags: string[];

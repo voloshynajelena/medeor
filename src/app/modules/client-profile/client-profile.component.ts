@@ -5,11 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FF_AVATAR, Gender } from '../../constants';
+import { TESTS } from '../../mocks/clients-list-response';
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../types';
 import { getAge } from '../../utils/date';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
-import { TESTS } from '../../mocks/clients-list-response';
 
 @Component({
   selector: 'app-client-profile',

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { AuthenticationService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -7,7 +8,6 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
-  showFiller = true;
   currentUser: any;
 
   constructor(private authenticationService: AuthenticationService) {

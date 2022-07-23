@@ -1,4 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -12,6 +17,7 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+
 import { ClientService } from '../../../services/client.service';
 import { Client, Response } from '../../../types';
 
@@ -19,6 +25,7 @@ import { Client, Response } from '../../../types';
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
   styleUrls: ['./new-client.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewClientComponent implements OnInit {
   errorValidation = '';

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+
 import { AuthenticationService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../types';

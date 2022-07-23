@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -11,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+
 import { ITestsGroup, User } from '../../../types';
 import { NewTestGroupComponent } from '../new-test-group/new-test-group.component';
 
@@ -18,6 +20,7 @@ import { NewTestGroupComponent } from '../new-test-group/new-test-group.componen
   selector: 'app-grouped-tests-table',
   templateUrl: './grouped-tests-table.component.html',
   styleUrls: ['./grouped-tests-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupedTestsTableComponent
   implements AfterViewInit, OnInit, OnChanges

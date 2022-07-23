@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -20,6 +20,7 @@ interface ISortData {
   selector: 'app-client-tests-table',
   templateUrl: './client-tests-table.component.html',
   styleUrls: ['./client-tests-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientTestsTableComponent implements OnInit {
   // clients tests array

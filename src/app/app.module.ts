@@ -25,6 +25,7 @@ import { UserProfileModule } from './modules/user-profile/user-profile.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
 
     AuthModule,
     SharedModule,

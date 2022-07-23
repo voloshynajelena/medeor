@@ -1,7 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { TestsService } from '../../../services/tests.service';
 import {
   TestTemplatesInterface,
@@ -12,6 +18,7 @@ import {
   selector: 'app-new-test',
   templateUrl: './new-test.component.html',
   styleUrls: ['./new-test.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewTestComponent implements OnInit {
   public loading = false;

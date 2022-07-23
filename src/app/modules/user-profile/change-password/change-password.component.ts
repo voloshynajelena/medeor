@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+
 import { ContactUsModalComponent } from 'src/app/modules/_shared/components/contact-us-modal/contact-us-modal.component';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/types';
@@ -16,6 +17,7 @@ import { User } from 'src/app/types';
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('showHide', [
       transition('void => *', [

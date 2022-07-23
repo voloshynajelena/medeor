@@ -1,4 +1,11 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   AfterViewInit,
   Component,
   Input,
@@ -13,16 +20,26 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 import { dateFormat, Gender } from 'src/app/constants';
+import { TESTS } from '../../../mocks/clients-list-response';
 import { ClientService } from '../../../services/client.service';
 import { Client, User } from '../../../types';
 import { getAge } from '../../../utils/date';
-import { TESTS } from '../../../mocks/clients-list-response';
 import { NewClientComponent } from '../new-client/new-client.component';
 
 @Component({
-  selector: 'app-client-list',
+  selector: 'app-client-table',
   templateUrl: './client-table.component.html',
   styleUrls: ['./client-table.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class ClientTableComponent implements AfterViewInit, OnInit, OnChanges {
   user: User;

@@ -8,7 +8,6 @@ import { AuthenticationService } from './auth/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
-  showFiller = true;
   currentUser: any;
 
   constructor(private authenticationService: AuthenticationService) {

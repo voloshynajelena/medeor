@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { dateFormat } from 'src/app/constants';
 import { Test } from 'src/app/types';
 
@@ -6,6 +6,7 @@ import { Test } from 'src/app/types';
   selector: 'app-test-list-widget',
   templateUrl: './test-list-widget.component.html',
   styleUrls: ['./test-list-widget.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestListWidgetComponent {
   dateFormat: string = dateFormat;

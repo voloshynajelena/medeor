@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -11,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+
 import { HttpService } from 'src/app/services/http.service';
 import { TestsService } from 'src/app/services/tests.service';
 import { ITestsGroup, User } from '../../../types';
@@ -20,6 +22,7 @@ import { NewTestComponent } from '../new-test/new-test.component';
   selector: 'app-tests-table',
   templateUrl: './tests-table.component.html',
   styleUrls: ['./tests-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestsTableComponent implements AfterViewInit, OnInit, OnChanges {
   displayedColumns: string[] = ['name', 'code', 'description', 'open'];
