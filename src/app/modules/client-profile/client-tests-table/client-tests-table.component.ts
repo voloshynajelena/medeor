@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { TESTS } from '../../../mocks/clients-list-response';
+import { ITest, Test } from 'src/app/types';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -20,11 +20,9 @@ interface ISortData {
   selector: 'app-client-tests-table',
   templateUrl: './client-tests-table.component.html',
   styleUrls: ['./client-tests-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClientTestsTableComponent implements OnInit {
-  constructor(private router: Router) {}
-  public tests = TESTS; // clients tests array
+export class ClientTestsTableComponent implements OnChanges {
+  @Input() tests: Test[];
 
   // checkboxes
   public allMarkedTests = 0;
@@ -34,10 +32,10 @@ export class ClientTestsTableComponent implements OnInit {
   public testsChecked = false; // btn 'Print checked' is disabled if false
 
   // for pagination
-  public numberClientTests: number = this.tests.length;
+  public numberClientTests: number;
+  public pageSizeOptions: number[];
   public defaultTestsPerPage = 5;
-  public filteredTests: any[] = [];
-  public pageSizeOptions = [5, 10, 25, 100, this.tests.length];
+  public filteredTests: Test[] = [];
   public showPageSizeOptions = true;
   public showFirstLastButtons = true;
   public pageEvent: PageEvent;
@@ -63,17 +61,22 @@ export class ClientTestsTableComponent implements OnInit {
   // TODO: remove when use real data for PDF
   private someContent = 'String to check variable....';
 
-  ngOnInit(): void {
+  constructor(private router: Router) {
+    this.numberClientTests = this.tests?.length;
+    this.pageSizeOptions = [5, 10, 25, 100, this.tests?.length];
+  }
+
+  ngOnChanges(): void {
     // descending sorting by date on init
-    this.tests.sort((a, b) => {
+    this.tests = this.makeMockData(this.tests)?.sort((a, b) => {
       const dateA: number = new Date(a.date).getTime();
       const dateB: number = new Date(b.date).getTime();
       return dateB - dateA;
     });
 
     this.sortedDescending = true;
-    this.filteredTests = this.tests.slice(0, this.sortData.pageSize); // pagination - tests per page on init
-    this.mainCheckboxDisabled = !this.tests.length; // main checkbox disabled if no tests added
+    this.filteredTests = this.tests?.slice(0, this.sortData.pageSize); // pagination - tests per page on init
+    this.mainCheckboxDisabled = !this.tests?.length; // main checkbox disabled if no tests added
   }
 
   // function on key up while typing search
@@ -81,7 +84,7 @@ export class ClientTestsTableComponent implements OnInit {
   // block 'no tests found'
   public searchKeyUpFunction(): void {
     this.search.trim();
-    this.foundTests = this.tests.filter((test) =>
+    this.foundTests = this.tests?.filter((test) =>
       test.name.toLowerCase().includes(this.search.toLowerCase())
     );
 
@@ -184,7 +187,7 @@ export class ClientTestsTableComponent implements OnInit {
     // if search is not applied
     if (!this.search.trim()) {
       return (
-        this.filteredTests.filter((t) => t.marked).length > 0 &&
+        this.filteredTests?.filter((t) => t.marked).length > 0 &&
         !this.allComplete
       );
     }
@@ -308,5 +311,17 @@ export class ClientTestsTableComponent implements OnInit {
   public goToTestPage(event: Event, id: string): void {
     event.stopPropagation();
     this.router.navigate([`test-profile/${id}`]);
+  }
+
+  // TODO: remove this mapping when data from BE will be correct
+  private makeMockData(tests: ITest[]): Test[] {
+    return tests?.map((test, i) => ({
+      ...test,
+      id: test.typeId,
+      date: new Date(i),
+      name: test.title.en,
+      marked: false,
+      conclusion: test.description?.en,
+    }));
   }
 }
