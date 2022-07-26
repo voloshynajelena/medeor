@@ -3,11 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { FF_AVATAR, Gender } from '../../constants';
-import { TESTS } from '../../mocks/clients-list-response';
 import { ClientService } from '../../services/client.service';
-import { Client } from '../../types';
+import { TestsService } from '../../services/tests.service';
+import { Client, Test } from '../../types';
 import { getAge } from '../../utils/date';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
 
@@ -23,7 +24,6 @@ export class ClientProfileComponent implements OnInit {
   public clientChipTags: string[] = [];
   public client: Client;
   public gender: typeof Gender = Gender;
-  public tests = TESTS;
   public isAvatarFeatureEnabled = FF_AVATAR;
   public clientForm = new FormGroup({
     surname: new FormControl('', [Validators.required]),
@@ -39,7 +39,8 @@ export class ClientProfileComponent implements OnInit {
     photo: new FormControl(''),
     pregnancy: new FormControl(''),
   });
-
+  private tests: BehaviorSubject<Test[]> = new BehaviorSubject<Test[]>([]);
+  readonly tests$: Observable<Test[]> = this.tests.asObservable();
   private urlExp =
     /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   private clientId: string;
@@ -49,6 +50,7 @@ export class ClientProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
+    private testService: TestsService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
@@ -62,6 +64,10 @@ export class ClientProfileComponent implements OnInit {
       this.client = data;
       this.userAvatar = data.photo;
       this.resetFormData();
+    });
+
+    this.testService.getTestsTemplates().subscribe(({ data }) => {
+      this.tests.next(data);
     });
   }
 

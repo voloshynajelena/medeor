@@ -236,7 +236,7 @@
       </div>
     </form>
     <div class="client-info-row__item" *ngIf="!editMode">
-      <app-client-tests-table></app-client-tests-table>
+      <app-client-tests-table [tests]="tests$ | async"></app-client-tests-table>
     </div>
   </mat-card-content>
 </mat-card>

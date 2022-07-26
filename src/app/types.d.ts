@@ -46,10 +46,9 @@ export interface Analyzes {
   groups: string[];
 }
 
-export interface Test {
-  id: string;
-  name: string;
+export interface Test extends ITest {
   date: Date;
+  name?: string;
   marked?: boolean;
   conclusion?: string;
 }
@@ -59,10 +58,10 @@ export interface Response {
 }
 
 export interface ITest {
-  typeId: string;
-  id?: string;
+  typeId?: string;
+  id: string;
   code?: string;
-  value: string;
+  value?: string;
   refValue?: IRefValue;
   title?: ITranslation;
   description?: ITranslation;

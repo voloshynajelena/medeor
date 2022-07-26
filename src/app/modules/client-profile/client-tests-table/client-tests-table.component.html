@@ -94,12 +94,12 @@
     <!-- test action buttons -->
     <div class="test-action-buttons">
       <div class="btn-test-div">
-        <button 
-        class="btn-test" 
-        mat-stroked-button 
-        color="primary"
-        alt="Open Test"
-        (click)="goToTestPage($event, test.id)"
+        <button
+          class="btn-test"
+          mat-stroked-button
+          color="primary"
+          alt="Open Test"
+          (click)="goToTestPage($event, test.id)"
         >
           Open
         </button>
@@ -118,7 +118,7 @@
   </div>
 
   <!-- no tests -->
-  <div *ngIf="!tests.length" class="no-tests-added">
+  <div *ngIf="!tests?.length" class="no-tests-added">
     <p>No tests added.</p>
   </div>
 
