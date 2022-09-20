@@ -1,0 +1,48 @@
+<mat-card *ngIf="!loading; else spinner">
+  <div class="client-card-title">
+    <div class="client-card-title__id">{{ test.typeId }}</div>
+    <div class="client-card-title__fullname">{{ test.title.en }}
+</div>
+    <mat-card-actions>
+        <button mat-raised-button color="primary">
+          <mat-icon>edit</mat-icon>
+          Edit test
+        </button>
+        <button mat-raised-button color="warn">
+          <mat-icon>delete</mat-icon>
+          Remove test
+        </button>
+    </mat-card-actions>
+  </div>
+  <mat-card-content>
+    <form class="client-card-grid">
+      <div class="client-card-grid__col">
+        <mat-card-title class="user-icon">{{ test.code }}</mat-card-title>
+      </div>
+      <div class="client-card-grid__col">
+        <mat-card-content>{{ test.description.en }}</mat-card-content>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+     <div class="test-back-button">
+        <div class="btn-test-div">
+          <button
+          class="btn-test"
+          mat-stroked-button
+          color="primary"
+          alt="Back to Client"
+         (click)="goBack()"
+          ><mat-icon>arrow_back_ios</mat-icon>
+            Back
+          </button>
+        </div>
+      </div>
+  </mat-card-actions>
+</mat-card>
+
+<ng-template #spinner>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

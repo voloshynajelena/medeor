@@ -1,52 +1,47 @@
 {
   "name": "medeor",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~11.0.0",
-    "@angular/cdk": "^11.0.1",
-    "@angular/common": "~11.0.0",
-    "@angular/compiler": "~11.0.0",
-    "@angular/core": "~11.0.0",
-    "@angular/forms": "~11.0.0",
-    "@angular/material": "^11.0.1",
-    "@angular/platform-browser": "~11.0.0",
-    "@angular/platform-browser-dynamic": "~11.0.0",
-    "@angular/router": "~11.0.0",
-    "@ngrx/store": "8.1.0",
+    "@angular/animations": "~14.2.0",
+    "@angular/cdk": "~14.2.0",
+    "@angular/common": "~14.2.0",
+    "@angular/compiler": "~14.2.0",
+    "@angular/core": "~14.2.0",
+    "@angular/forms": "~14.2.0",
+    "@angular/material": "~14.2.0",
+    "@angular/platform-browser": "~14.2.0",
+    "@angular/platform-browser-dynamic": "~14.2.0",
+    "@angular/router": "~14.2.0",
+    "@angular-material-components/file-input": "^8.0.0",
     "dateformat": "^4.4.1",
     "ng-click-outside": "^7.0.1",
     "pdfmake": "^0.1.70",
     "ramda": "^0.27.1",
-    "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1100.0",
-    "@angular/cli": "~11.0.0",
-    "@angular/compiler-cli": "~11.0.0",
-    "@types/jasmine": "~3.6.0",
-    "@types/node": "^12.11.1",
+    "@angular-devkit/build-angular": "~14.2.0",
+    "@angular/cli": "~14.2.0",
+    "@angular/compiler-cli": "~14.2.0",
+    "@types/node": "16.11.7",
     "codelyzer": "^6.0.0",
-    "jasmine-core": "~3.6.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.1.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
+    "eslint-config-prettier": "8.1.0",
+    "prettier": "~2.6.2",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+    "typescript": "~4.7.2"
   }
 }

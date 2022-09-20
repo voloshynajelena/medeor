@@ -1,0 +1,16 @@
+.date-now {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  border: none;
+  background-color: #e0e0e0;
+  padding: 7px 15px;
+  border-radius: 50px;
+  &:focus {
+    outline: none;
+  }
+  mat-icon {
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: 19px;
+  }
+}

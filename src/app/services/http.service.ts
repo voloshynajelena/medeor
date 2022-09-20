@@ -1,61 +1,84 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, throwError, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { NotificationService } from "./notification.service";
-
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
-    user = JSON.parse(localStorage.getItem('currentUser'));
-    defaultOptions = { headers: { authorization: this.user?.token } }
+  user = JSON.parse(localStorage.getItem('currentUser'));
+  defaultOptions = { headers: { authorization: this.user?.token } };
 
-    constructor(private http: HttpClient, private notification: NotificationService) {
+  constructor(
+    private http: HttpClient,
+    private notification: NotificationService
+  ) {}
+
+  private pipeCallback(data: any): Observable<any> {
+    if (data?.error) {
+      this.notification.throwError(data.error);
     }
+    return data;
+  }
 
-    private pipeCallback(data: any): Observable<any> {
+  private errorHandler(err): Observable<any> {
+    console.warn('error caught in service');
+    console.error('Error: ', err);
 
-        if (data?.error) {
-            this.notification.throwError(data.error);
-        };
-        return data;
-    }
+    this.notification.throwError(err);
+    //Rethrow it back to component
+    throw err;
+  }
 
-    private errorHandler(err): Observable<any> {
-        console.warn('error caught in service')
-        console.error('Error: ', err);
+  public get(url = '/', options = {}): Observable<any> {
+    const propsOption = { ...this.defaultOptions, ...options };
+    return this.http
+      .get(url, propsOption)
+      .pipe(
+        map(this.pipeCallback.bind(this)),
+        catchError(this.errorHandler.bind(this))
+      );
+  }
 
-        this.notification.throwError(err);
-        //Rethrow it back to component
-        throw err;
-    }
+  public put(url = '/', body = {}, options = {}): Observable<any> {
+    const propsOption = { ...this.defaultOptions, ...options };
+    return this.http
+      .put(url, body, propsOption)
+      .pipe(
+        map(this.pipeCallback.bind(this)),
+        catchError(this.errorHandler.bind(this))
+      );
+  }
 
-    public get(url = '/', options = {}): Observable<any> {
-        const propsOption = { ...this.defaultOptions, ...options }
-        return this.http.get(url, propsOption).pipe(
-            map(this.pipeCallback.bind(this)),
-            catchError(this.errorHandler.bind(this))
-        );
-    }
+  public post(url = '/', body = {}, options = {}): Observable<any> {
+    const propsOption = { ...this.defaultOptions, ...options };
+    return this.http
+      .post(url, body, propsOption)
+      .pipe(
+        map(this.pipeCallback.bind(this)),
+        catchError(this.errorHandler.bind(this))
+      );
+  }
 
-    public put(url = '/', body = {}, options = {}): Observable<any> {
-        const propsOption = { ...this.defaultOptions, ...options }
-        return this.http.put(url, body, propsOption).pipe(
-            map(this.pipeCallback.bind(this)),
-            catchError(this.errorHandler.bind(this)));
-    }
+  public delete(url = '/', options = {}): Observable<any> {
+    const propsOption = { ...this.defaultOptions, ...options };
+    return this.http
+      .delete(url, propsOption)
+      .pipe(
+        map(this.pipeCallback.bind(this)),
+        catchError(this.errorHandler.bind(this))
+      );
+  }
 
-    public post(url = '/', body = {}, options = {}): Observable<any> {
-        const propsOption = { ...this.defaultOptions, ...options }
-        return this.http.post(url, body, propsOption).pipe(
-            map(this.pipeCallback.bind(this)),
-            catchError(this.errorHandler.bind(this)));
-    }
+  httpGet(url) {
+    return this.http.get(url);
+  }
 
-    public delete(url = '/', options = {}): Observable<any> {
-        const propsOption = { ...this.defaultOptions, ...options }
-        return this.http.post(url, propsOption).pipe(
-            map(this.pipeCallback.bind(this)),
-            catchError(this.errorHandler.bind(this)));
-    }
+  httpPost(url, {}) {
+    return this.http.post(url, { userName: '', userEmail: '', message: '' });
+  }
+
+  sendMessage(url, data) {
+    return this.http.post(url, data);
+  }
 }

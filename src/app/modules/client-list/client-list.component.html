@@ -1,0 +1,10 @@
+<h1>My clients</h1>
+<div *ngIf="!loading; else spinner">
+  <app-client-table [clients]="clients"></app-client-table>
+</div>
+
+<ng-template #spinner>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

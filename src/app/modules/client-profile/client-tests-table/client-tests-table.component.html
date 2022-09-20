@@ -1,0 +1,207 @@
+<!-- top line -->
+<div class="top-tests-line">
+  <h2 class="tests-table__title">Tests</h2>
+  <div classs="btn_add_new">
+    <button mat-button class="add_new_test_but">+ Add new</button>
+  </div>
+</div>
+<!-- end top line -->
+
+<!-- table header -->
+<div class="header-tests-table test-table-heading">
+  <!-- header tests data -->
+  <div class="header-data-columns-test">
+    <div class="draggable-icon">
+      <span class="material-icons"> drag_indicator </span>
+    </div>
+    <div class="header-check-col-test">
+      <mat-checkbox
+        [checked]="allComplete"
+        (change)="setAll($event.checked)"
+        [indeterminate]="someComplete()"
+        [disabled]="mainCheckboxDisabled"
+        color="primary"
+      >
+      </mat-checkbox>
+    </div>
+    <div class="header-name-col-test">Test</div>
+    <div class="header-date-col-test">
+      Date
+      <button
+        (click)="sortByDate()"
+        class="sortIcon"
+        [class.sortIconAscending]="!sortedDescending"
+      >
+        <span class="material-icons"> sort </span>
+      </button>
+    </div>
+    <div class="header-conclus-col-test">Сonclusion</div>
+  </div>
+
+  <!-- header test action buttons -->
+  <div class="header-test-action-buttons">
+    <div class="header-btn-test">Open test</div>
+    <div class="header-btn-test">Print test</div>
+  </div>
+</div>
+<!-- end table header -->
+
+<!-- draggable row -->
+<div cdkDropList class="tests-table-block" (cdkDropListDropped)="drop($event)">
+  <!-- filter tests -->
+  <div class="tests-filter-block-wrapper">
+    <div class="tests-filter-block">
+      <span class="material-icons search-icon"> search </span>
+      <mat-form-field class="tests-filter-mat-form-field">
+        <mat-label>Search test by name</mat-label>
+        <input
+          matInput
+          placeholder="Ex. Coagulation"
+          [(ngModel)]="search"
+          (keyup)="searchKeyUpFunction()"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- single test row -->
+  <div
+    class="test-in-table"
+    *ngFor="let test of filteredTests | testsFilter: search:tests"
+    cdkDrag
+  >
+    <!-- placeholder from material -->
+    <div class="tests-table-placeholder" *cdkDragPlaceholder></div>
+
+    <!-- tests data -->
+    <div class="data-columns-test">
+      <div class="draggable-icon">
+        <span class="material-icons"> drag_indicator </span>
+      </div>
+      <div class="check-col-test">
+        <mat-checkbox
+          [(ngModel)]="test.marked"
+          (ngModelChange)="updateAllComplete()"
+          color="primary"
+        >
+        </mat-checkbox>
+      </div>
+      <div class="name-col-test">{{ test.name }}</div>
+      <div class="date-col-test">{{ test.date | date: "d MMM, y" }}</div>
+      <div class="conclus-col-test">{{ test.conclusion }}</div>
+    </div>
+
+    <!-- test action buttons -->
+    <div class="test-action-buttons">
+      <div class="btn-test-div">
+        <button
+          class="btn-test"
+          mat-stroked-button
+          color="primary"
+          alt="Open Test"
+          (click)="goToTestPage($event, test.id)"
+        >
+          Open
+        </button>
+      </div>
+      <div class="btn-test-div">
+        <button
+          class="btn-test"
+          mat-raised-button
+          color="primary"
+          (click)="printCurrentTest(test)"
+        >
+          Print
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- no tests -->
+  <div *ngIf="!tests?.length" class="no-tests-added">
+    <p>No tests added.</p>
+  </div>
+
+  <!-- no tests found -->
+  <div *ngIf="testsNotFound" class="tests-not-found-block">
+    <p>
+      <span class="material-icons"> warning_amber </span>
+      No tests found.
+    </p>
+  </div>
+</div>
+<!-- end draggable row -->
+
+<!-- paginator and counter of checked checkboxes -->
+<div class="paginator-and-counter-block">
+  <!-- counter of checked checkboxes -->
+  <div class="count-checked-tests-block">
+    <div class="count-checked-tests">
+      Ckecked tests:
+      <span>{{ allMarkedTests }}</span>
+    </div>
+
+    <div class="uncheck-all-tests" (click)="uncheckAllTests()">
+      Uncheck all tests
+    </div>
+  </div>
+
+  <!-- paginator -->
+  <div class="paginatior-block">
+    <!-- show all tests - addition to paginator -->
+    <div class="show-all-tests" (click)="showAllTests()">
+      Show all
+      {{ numberClientTests }}
+      tests
+    </div>
+
+    <!-- paginator -->
+    <mat-paginator
+      (page)="pageEvent = $event; onPaginateChange($event)"
+      [length]="numberClientTests"
+      [pageSize]="defaultTestsPerPage"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    >
+    </mat-paginator>
+  </div>
+</div>
+<!-- end paginator and counter of checked checkboxes -->
+
+<!-- print buttons -->
+<div class="btn-print-block">
+  <!-- print all button -->
+  <button
+    mat-raised-button
+    color="primary"
+    class="btn-print"
+    (click)="printAllTests()"
+  >
+    <span class="material-icons"> print </span>
+    Print all {{ numberClientTests }} tests
+  </button>
+
+  <!-- print checked button & tooltip-->
+  <span
+    #tooltip="matTooltip"
+    matTooltip="Choose tests to print them"
+    [matTooltipPosition]="position.value"
+    matTooltipHideDelay="500"
+  >
+    <button
+      mat-raised-button
+      color="primary"
+      class="btn-print"
+      (click)="printCheckedTests()"
+      [disabled]="!testsChecked"
+    >
+      <span class="material-icons"> check </span>
+      <span class="material-icons"> print </span>
+      Print checked
+    </button>
+  </span>
+
+  <!-- pdf check -->
+  <button mat-raised-button (click)="generatePdf()">Open PDF</button>
+</div>
+<!-- end print buttons -->

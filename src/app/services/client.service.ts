@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Client, ClientDataInput } from '../types';
+import { Observable } from 'rxjs';
 import { API_ENDPOINTS, API_URL } from '../constants';
-import { Observable, of } from 'rxjs';
+import { ClientDataInput } from '../types';
 import { HttpService } from './http.service';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientService {
-
   urlClient = `${API_URL}${API_ENDPOINTS.client}`;
   urlClients = `${API_URL}${API_ENDPOINTS.clients}`;
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService) {}
 
   createClient(data: ClientDataInput): Observable<any> {
     return this.http.post(this.urlClient, { ...data });
   }
 
-  updatePatient(data: any): Observable<any> {
+  updateClient(data: any): Observable<any> {
     return this.http.put(this.urlClient, { ...data });
   }
 
@@ -27,16 +25,15 @@ export class ClientService {
     return this.http.delete(this.urlClient, { params: { id } });
   }
 
-
   getClientData(id: string): Observable<any> {
     return this.http.get(this.urlClient, {
-      params: { id }
+      params: { id },
     });
   }
 
   getClients(id: string): Observable<any> {
     return this.http.get(this.urlClients, {
-      params: { id }
+      params: { id },
     });
   }
 }

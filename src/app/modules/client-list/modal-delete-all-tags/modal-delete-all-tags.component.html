@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Delete all tags</h1>
+<div mat-dialog-content>
+  Are you sure you want to delete all tags of this client?
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+
+  <!-- (click)="deleteAllTags()" -->
+  <button mat-button class="button-delete" [mat-dialog-close]="true">
+    Delete
+  </button>
+</div>

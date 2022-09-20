@@ -1,0 +1,31 @@
+<app-user-icon
+  class="user-icon"
+  [userData]="user"
+  [matMenuTriggerFor]="menu"
+></app-user-icon>
+
+<mat-menu #menu xPosition="before">
+  <div class="user-info" (click)="$event.stopPropagation()">
+    <app-user-icon class="user-info__img" [userData]="user"></app-user-icon>
+    <div class="user-info__text">
+      <div class="user-info__name">
+        {{ user.name | titlecase }} {{ user.surname | titlecase }}
+      </div>
+      <div class="user-info__email">{{ user.email }}</div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <a routerLink="user-profile" routerLinkActive="active" mat-menu-item>
+    <mat-icon>account_circle</mat-icon>
+    <span>Profile</span>
+  </a>
+  <a routerLink="user-profile" routerLinkActive="active" mat-menu-item>
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </a>
+  <mat-divider></mat-divider>
+  <button class="mat-icon mat-warn" mat-menu-item (click)="logout()">
+    <mat-icon color="warn">exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

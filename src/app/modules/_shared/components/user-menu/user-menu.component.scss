@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+}
+.user-icon {
+  width: 45px;
+  cursor: pointer;
+}
+
+.user-info {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 280px;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 1.1;
+  &__img {
+    width: 45px;
+    margin-right: 8px;
+  }
+  &__text {
+    min-width: 0;
+    flex: 1;
+  }
+  &__name,
+  &__email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__name {
+    font-weight: 500;
+    font-size: 1em;
+  }
+  &__email {
+    font-size: 0.8em;
+    color: rgba(#000, 0.6);
+  }
+  * {
+    cursor: default;
+  }
+}

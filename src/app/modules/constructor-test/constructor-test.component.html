@@ -1,0 +1,17 @@
+<h1>Constructor</h1>
+<div class="container">
+  <div *ngIf="!loadingTestGroups; else spinner" class="constructor-section">
+    <app-grouped-tests-table
+      [testsGroups]="testsGroups"
+    ></app-grouped-tests-table>
+  </div>
+  <div *ngIf="!loadingTests; else spinner" class="constructor-section">
+    <app-tests-table [tests]="tests"></app-tests-table>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

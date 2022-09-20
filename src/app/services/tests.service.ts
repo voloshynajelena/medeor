@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { API_ENDPOINTS, API_URL } from '../constants';
 import { Observable } from 'rxjs';
+import { API_ENDPOINTS, API_URL } from '../constants';
 import { Test } from '../types';
 import { HttpService } from './http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TestsService {
-
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService) {}
 
   urlTests = `${API_URL}${API_ENDPOINTS.tests}`;
   urlTestsGroups = `${API_URL}${API_ENDPOINTS.testGroups}`;
@@ -18,12 +17,12 @@ export class TestsService {
 
   getTests(id: string): Observable<Test[]> {
     return this.http.get(this.urlTests, {
-      params: { id }
+      params: { id },
     });
   }
   getTestsGroups(id: string): Observable<any> {
     return this.http.get(this.urlTestsGroups, {
-      params: { id }
+      params: { id },
     });
   }
   getTestsTemplates(): Observable<any> {
@@ -37,5 +36,8 @@ export class TestsService {
   }
   createTestGroupTemplate(data): Observable<any> {
     return this.http.post(this.urlTestsGroupsTemplates, { ...data });
+  }
+  removeTest(typeId): Observable<any> {
+    return this.http.delete(this.urlTestsTemplates, { params: { typeId } });
   }
 }
