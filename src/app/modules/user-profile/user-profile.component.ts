@@ -100,14 +100,13 @@ export class UserProfileComponent implements OnInit {
       image.src = e.target.result;
       image.onload = rs => {
         this.data.photo = e.target.result;
-        console.log('data', this.data);//TODO
       }
     };
     reader.readAsDataURL(fileInput.target.files[0]);
   }
   removeAvatar() {
     this.data.photo = ''
-    console.log('data', this.data);//TODO
+    this.userForm.controls.photo.reset()
   }
 
   public submit(): void {
@@ -138,8 +137,9 @@ export class UserProfileComponent implements OnInit {
               this.data[key] = controls[key].value;
             }
           }
-
           this.disableEditMode();
+          //updating user data after edit
+          this.userService.changeUserData(formData)
         },
         (error) => {
           this.sending = false;
@@ -149,6 +149,8 @@ export class UserProfileComponent implements OnInit {
           );
         }
       );
+
+
   }
 
   public acceptToRemove(): void {

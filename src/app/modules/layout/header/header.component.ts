@@ -2,12 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/types';
 import { UserService } from '../../../services/user.service';
+
 
 @Component({
   selector: 'app-header',
@@ -15,12 +18,14 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   // TODO: specify type
   public data;
   private user;
 
   @Output() menu: EventEmitter<null> = new EventEmitter<null>();
+
+  private subs: Subscription
 
   constructor(private userService: UserService) {}
 
@@ -30,8 +35,15 @@ export class HeaderComponent implements OnInit {
     if (this.user?.userId) {
       this.userService.getUserData(this.user.userId).subscribe((data: User) => {
         this.data = data;
-        console.log('header data', this.data);//TODO
       });
     }
+//updating user data after edit
+    this.subs = this.userService.user$.subscribe((data: User) => {
+      this.data = data;
+      });
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe()
   }
 }

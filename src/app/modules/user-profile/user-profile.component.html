@@ -68,9 +68,8 @@
                     placeholder="Image File"
                     accept=".png, .jpg, .jpeg"
                     (input)="avatarChangeEvent($event)"
-                    #removableInput
                   ></ngx-mat-file-input>
-                  <button mat-icon-button matSuffix *ngIf="removableInput.empty" (click)="removeAvatar()">
+                  <button mat-icon-button matSuffix (click)="removeAvatar()">
                     <mat-icon>clear</mat-icon>
                   </button>
                   <!-- <input
