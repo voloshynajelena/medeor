@@ -149,8 +149,6 @@ export class UserProfileComponent implements OnInit {
           );
         }
       );
-
-
   }
 
   public acceptToRemove(): void {

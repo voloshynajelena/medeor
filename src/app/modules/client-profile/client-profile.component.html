@@ -35,6 +35,10 @@
           <mat-icon>delete</mat-icon>
           Remove client
         </button>
+        <button mat-stroked-button color="primary" (click)="goBack()">
+          <mat-icon>arrow_back_ios</mat-icon>
+          Back
+        </button>
       </ng-template>
     </mat-card-actions>
   </div>
@@ -44,27 +48,6 @@
         <app-user-icon class="user-icon" [userData]="client"></app-user-icon>
       </div>
       <div class="client-card-grid__col">
-        <div class="client-info-row" *ngIf="editMode && isAvatarFeatureEnabled">
-          <div class="client-info-row__item">
-            <mat-form-field appearance="fill">
-              <mat-label>Avatar URL</mat-label>
-              <input
-                formControlName="photo"
-                matInput
-                #avatarUrl
-                (input)="setAvatar($event.target?.value)"
-              />
-              <button
-                mat-icon-button
-                matSuffix
-                *ngIf="avatarUrl.value"
-                (click)="setAvatar((avatarUrl.value = ''))"
-              >
-                <mat-icon>clear</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
         <div class="client-info-row">
           <div class="client-info-row__item">
             <mat-form-field
@@ -146,6 +129,20 @@
           </div>
         </div>
         <div class="client-info-row">
+          <div class="client-info-row__item" *ngIf="editMode">
+            <mat-form-field appearance="fill">
+              <mat-label>Image File</mat-label>
+              <ngx-mat-file-input
+                formControlName="photo"
+                placeholder="Image File"
+                accept=".png, .jpg, .jpeg"
+                (input)="avatarChangeEvent($event)"
+              ></ngx-mat-file-input>
+              <button mat-icon-button matSuffix (click)="removeAvatar()">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
           <div class="client-info-row__item">
             <mat-form-field
               *ngIf="editMode; else clientEmail"

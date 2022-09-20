@@ -41,8 +41,8 @@ export class ClientProfileComponent implements OnInit {
   });
   private tests: BehaviorSubject<Test[]> = new BehaviorSubject<Test[]>([]);
   readonly tests$: Observable<Test[]> = this.tests.asObservable();
-  private urlExp =
-    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  // private urlExp =
+  //   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   private clientId: string;
   getAge = getAge;
 
@@ -82,17 +82,35 @@ export class ClientProfileComponent implements OnInit {
     this.resetFormData();
   }
 
-  public setAvatar(url: string): void {
-    if (url.match(this.urlExp)) {
-      const img = new Image();
+  // public setAvatar(url: string): void {
+  //   if (url.match(this.urlExp)) {
+  //     const img = new Image();
 
-      img.addEventListener('error', (event) => (this.client.photo = ''));
-      img.addEventListener('load', (event) => (this.client.photo = url));
+  //     img.addEventListener('error', (event) => (this.client.photo = ''));
+  //     img.addEventListener('load', (event) => (this.client.photo = url));
 
-      img.src = url;
-    } else {
-      this.client.photo = '';
-    }
+  //     img.src = url;
+  //   } else {
+  //     this.client.photo = '';
+  //   }
+  // }
+  avatarChangeEvent(fileInput: any) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const image = new Image();
+      image.src = e.target.result;
+      image.onload = rs => {
+        this.client.photo = e.target.result;
+      }
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
+  }
+  removeAvatar() {
+    this.client.photo = ''
+    this.clientForm.controls.photo.reset()
+  }
+  public goBack(): void {
+    history.back();
   }
 
   private resetFormData(): void {
