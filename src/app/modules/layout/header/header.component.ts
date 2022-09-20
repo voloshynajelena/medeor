@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
     if (this.user?.userId) {
       this.userService.getUserData(this.user.userId).subscribe((data: User) => {
         this.data = data;
+        console.log('header data', this.data);//TODO
       });
     }
   }

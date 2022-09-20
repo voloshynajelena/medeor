@@ -23,14 +23,14 @@ export enum TabLabelEnum {
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-  private urlExp =
-    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  // private urlExp =
+  //   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   private user;
 
   public userForm = new FormGroup({
     photo: new FormControl(''),
     surname: new FormControl('', [Validators.required]),
-    specialties: new FormControl('', [Validators.required]),
+    specialties: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     location: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -82,15 +82,32 @@ export class UserProfileComponent implements OnInit {
     this.editMode = false;
   }
 
-  public setAvatar(url: string): void {
-    if (url.match(this.urlExp)) {
-      const img = new Image();
-      img.addEventListener('error', (event) => (this.data.photo = ''));
-      img.addEventListener('load', (event) => (this.data.photo = url));
-      img.src = url;
-    } else {
-      this.data.photo = '';
-    }
+  // public setAvatar(url: string): void {
+  //   if (url.match(this.urlExp)) {
+  //     const img = new Image();
+  //     img.addEventListener('error', (event) => (this.data.photo = ''));
+  //     img.addEventListener('load', (event) => (this.data.photo = url));
+  //     img.src = url;
+  //   } else {
+  //     this.data.photo = '';
+  //   }
+  // }
+
+  avatarChangeEvent(fileInput: any) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const image = new Image();
+      image.src = e.target.result;
+      image.onload = rs => {
+        this.data.photo = e.target.result;
+        console.log('data', this.data);//TODO
+      }
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
+  }
+  removeAvatar() {
+    this.data.photo = ''
+    console.log('data', this.data);//TODO
   }
 
   public submit(): void {
