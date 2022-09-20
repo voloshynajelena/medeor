@@ -57,7 +57,16 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "defaultConfiguration": "production"
           }
         },
         "serve": {
@@ -68,6 +77,9 @@
           "configurations": {
             "production": {
               "browserTarget": "medeor:build:production"
+            },
+            "development": {
+              "browserTarget": "medeor:build:development"
             }
           }
         },
@@ -75,21 +87,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "medeor:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/theme.scss",
-              "src/styles.scss"
-            ],
-            "scripts": []
           }
         },
         "lint": {
