@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { API_ENDPOINTS, API_URL } from '../constants';
 import { User } from '../types';
@@ -16,6 +16,12 @@ export class UserService {
   ) {}
 
   urlUser: string = `${API_URL}${API_ENDPOINTS.user}`;
+
+  //updating user data after edit
+  public user$ = new Subject<User>();
+  public changeUserData(user: User) {
+     this.user$.next(user);
+  }
 
   updatePatch(user): Observable<any> {
     return this.httpClient.patch(`${API_URL}/user`, user);
