@@ -23,8 +23,7 @@ export enum TabLabelEnum {
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-  // private urlExp =
-  //   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
   private user;
 
   public userForm = new FormGroup({
@@ -81,17 +80,6 @@ export class UserProfileComponent implements OnInit {
     this.resetFormData();
     this.editMode = false;
   }
-
-  // public setAvatar(url: string): void {
-  //   if (url.match(this.urlExp)) {
-  //     const img = new Image();
-  //     img.addEventListener('error', (event) => (this.data.photo = ''));
-  //     img.addEventListener('load', (event) => (this.data.photo = url));
-  //     img.src = url;
-  //   } else {
-  //     this.data.photo = '';
-  //   }
-  // }
 
   avatarChangeEvent(fileInput: any) {
     const reader = new FileReader();
