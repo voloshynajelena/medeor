@@ -59,45 +59,20 @@
             <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
           </div>
           <div class="client-card-grid__col">
-            <div class="client-info-row" *ngIf="editMode">
-              <div class="client-info-row__item">
+            <div class="client-info-row">
+              <div class="client-info-row__item" *ngIf="editMode">
                 <mat-form-field appearance="fill">
-                  <mat-label>Avatar URL</mat-label>
-                  <input
+                  <mat-label>Image File</mat-label>
+                  <ngx-mat-file-input
                     formControlName="photo"
-                    matInput
-                    #avatarUrl
-                    (input)="setAvatar($event.target?.value)"
-                  />
-                  <button
-                    mat-icon-button
-                    matSuffix
-                    *ngIf="avatarUrl.value"
-                    (click)="setAvatar((avatarUrl.value = ''))"
-                  >
+                    placeholder="Image File"
+                    accept=".png, .jpg, .jpeg"
+                    (input)="avatarChangeEvent($event)"
+                  ></ngx-mat-file-input>
+                  <button mat-icon-button matSuffix (click)="removeAvatar()">
                     <mat-icon>clear</mat-icon>
                   </button>
                 </mat-form-field>
-              </div>
-            </div>
-            <div class="client-info-row">
-              <div class="client-info-row__item" *ngIf="data.specialties">
-                <mat-form-field
-                  *ngIf="editMode; else userSpecialties"
-                  appearance="fill"
-                >
-                  <mat-label>Specialties</mat-label>
-                  <input formControlName="specialties" matInput />
-                  <mat-error *ngIf="userForm.controls['specialties'].invalid"
-                    >This field is required</mat-error
-                  >
-                </mat-form-field>
-                <ng-template #userSpecialties>
-                  <h5 class="client-info-row__title">Specialties</h5>
-                  <div class="client-info-row__content">
-                    {{ data.specialties | titlecase }}
-                  </div>
-                </ng-template>
               </div>
               <div class="client-info-row__item" *ngIf="data.surname">
                 <mat-form-field

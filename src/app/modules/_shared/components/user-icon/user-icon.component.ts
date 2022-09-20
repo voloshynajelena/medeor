@@ -5,7 +5,6 @@ import { User } from 'src/app/types';
   selector: 'app-user-icon',
   templateUrl: './user-icon.component.html',
   styleUrls: ['./user-icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserIconComponent {
   @Input() userData: User;

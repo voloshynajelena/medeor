@@ -1,3 +1,4 @@
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -105,6 +106,7 @@ import { MatTreeModule } from '@angular/material/tree';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    NgxMatFileInputModule
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
