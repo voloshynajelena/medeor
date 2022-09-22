@@ -85,16 +85,18 @@ export class ClientProfileComponent implements OnInit {
     reader.onload = (e: any) => {
       const image = new Image();
       image.src = e.target.result;
-      image.onload = rs => {
+      image.onload = (rs) => {
         this.client.photo = e.target.result;
-      }
+      };
     };
     reader.readAsDataURL(fileInput.target.files[0]);
   }
-  removeAvatar() {
-    this.client.photo = ''
-    this.clientForm.controls.photo.reset()
+
+  removeAvatar(): void {
+    this.client.photo = '';
+    this.clientForm.controls.photo.reset();
   }
+
   public goBack(): void {
     history.back();
   }

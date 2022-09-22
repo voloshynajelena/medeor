@@ -1,5 +1,6 @@
-<span class="date-now"
-  ><mat-icon [matMenuTriggerFor]="calendar">date_range</mat-icon
+<span class="date-now">
+  <button mat-button mat-icon-button>
+    <mat-icon [matMenuTriggerFor]="calendar">date_range</mat-icon></button
   >{{ date | async | date: "d MMMM YYYY, EEEE | HH:mm" }}</span
 >
 

@@ -3,8 +3,12 @@
   color: rgba(0, 0, 0, 0.5);
   border: none;
   background-color: #e0e0e0;
-  padding: 7px 15px;
+  padding: 7px 10px;
   border-radius: 50px;
+  .mat-icon-button {
+    position: relative;
+    left: -10px;
+  }
   &:focus {
     outline: none;
   }

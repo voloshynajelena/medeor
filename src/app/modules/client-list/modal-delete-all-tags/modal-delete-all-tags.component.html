@@ -6,7 +6,13 @@
   <button mat-button mat-dialog-close>Cancel</button>
 
   <!-- (click)="deleteAllTags()" -->
-  <button mat-button class="button-delete" [mat-dialog-close]="true">
+  <button
+    mat-button
+    color="warn"
+    class="button-delete"
+    mat-raised-button
+    [mat-dialog-close]="true"
+  >
     Delete
   </button>
 </div>
