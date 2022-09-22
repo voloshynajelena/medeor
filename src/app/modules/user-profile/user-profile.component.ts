@@ -23,7 +23,6 @@ export enum TabLabelEnum {
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-
   private user;
 
   public userForm = new FormGroup({
@@ -81,20 +80,21 @@ export class UserProfileComponent implements OnInit {
     this.editMode = false;
   }
 
-  avatarChangeEvent(fileInput: any) {
+  avatarChangeEvent(fileInput: any): void {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const image = new Image();
       image.src = e.target.result;
-      image.onload = rs => {
+      image.onload = (rs) => {
         this.data.photo = e.target.result;
-      }
+      };
     };
     reader.readAsDataURL(fileInput.target.files[0]);
   }
-  removeAvatar() {
-    this.data.photo = ''
-    this.userForm.controls.photo.reset()
+
+  removeAvatar(): void {
+    this.data.photo = '';
+    this.userForm.controls.photo.reset();
   }
 
   public submit(): void {
@@ -126,8 +126,8 @@ export class UserProfileComponent implements OnInit {
             }
           }
           this.disableEditMode();
-          //updating user data after edit
-          this.userService.changeUserData(formData)
+          // updating user data after edit
+          this.userService.changeUserData(formData);
         },
         (error) => {
           this.sending = false;

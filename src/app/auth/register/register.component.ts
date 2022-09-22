@@ -39,7 +39,6 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      location: [''],
       email: ['', Validators.required],
       phone: ['', Validators.required],
       pass: ['', [Validators.required, Validators.minLength(6)]],
@@ -48,7 +47,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  compareToValidator() {
+  compareToValidator(): any {
     return (control: AbstractControl): { [key: string]: any } | null => {
       return control.value !== this.f?.pass?.value
         ? { compareTo: { value: control.value } }

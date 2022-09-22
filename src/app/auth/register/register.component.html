@@ -12,7 +12,7 @@
         <div class="form-group">
           <div class="form-group_container">
             <mat-form-field appearance="fill" class="full-width_mobile">
-              <mat-label>First name*</mat-label>
+              <mat-label>First name</mat-label>
               <input
                 matInput
                 formControlName="name"
@@ -26,7 +26,7 @@
           </div>
           <div class="form-group_container">
             <mat-form-field appearance="fill" class="full-width_mobile">
-              <mat-label>Last name*</mat-label>
+              <mat-label>Last name</mat-label>
               <input
                 matInput
                 formControlName="surname"
@@ -42,7 +42,7 @@
         <div class="form-group">
           <div class="form-group_container">
             <mat-form-field appearance="fill" class="full-width_mobile">
-              <mat-label>E-mail*</mat-label>
+              <mat-label>E-mail</mat-label>
               <input
                 matInput
                 formControlName="email"
@@ -72,33 +72,12 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="form-group_container full-width">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Location</mat-label>
-              <input
-                matInput
-                formControlName="location"
-                name="location"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.location.errors }"
-              />
-            </mat-form-field>
-            <div
-              *ngIf="submitted && f.location.errors"
-              s
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.location.errors.required">Location is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
           <div class="form-group_container">
             <mat-form-field
               appearance="fill"
               class="full-width_mobile password-block"
             >
-              <mat-label>Password*</mat-label>
+              <mat-label>Password</mat-label>
               <input
                 matInput
                 [type]="hidePass ? 'password' : 'text'"
@@ -130,7 +109,7 @@
               appearance="fill"
               class="full-width_mobile password-block"
             >
-              <mat-label>Confirm*</mat-label>
+              <mat-label>Confirm</mat-label>
               <input
                 matInput
                 [type]="hideConfirmPass ? 'password' : 'text'"
@@ -195,7 +174,7 @@
       <img
         class="image"
         width="300"
-        src="/src/assets/img/doctors.jpg"
+        src="../../../assets/img/doctors.jpg"
         alt="user icon"
       />
       <p class="image-description">Describe yourself</p>
