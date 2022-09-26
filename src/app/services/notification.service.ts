@@ -7,19 +7,19 @@ import {
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  duration: number = 3000;
-  buttonText: string = 'ok';
+  duration = 3000;
+  buttonText = 'ok';
 
   constructor(private _snackBar: MatSnackBar) {}
 
-  private openSnackBar(message: string, action: string) {
+  private openSnackBar(message: string, action: string): void {
     this._snackBar.open(message, action, {
       duration: this.duration,
       verticalPosition: this.verticalPosition,
     });
   }
 
-  throwError(message: string) {
-    return this.openSnackBar(`Error: ${message}`, this.buttonText);
+  throwError(message: string): void {
+    this.openSnackBar(`Error: ${message}`, this.buttonText);
   }
 }

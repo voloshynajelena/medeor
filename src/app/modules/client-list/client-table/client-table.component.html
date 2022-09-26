@@ -183,28 +183,30 @@
           >
             <!-- expanded row container -->
             <div class="expanded-row-container">
+              <ng-container *ngIf="tests?.length">
               <div class="last-tests-block-headline">
                 <h2>Latest tests</h2>
               </div>
-              <div class="last-test-widgets-block">
-                <div class="last-test-loop">
-                  <ng-container *ngFor="let test of tests | slice: 0:4">
-                    <app-last-tests-widget
-                      [test]="test"
-                    ></app-last-tests-widget>
-                  </ng-container>
-                </div>
+                <div class="last-test-widgets-block">
+                  <div class="last-test-loop">
+                    <ng-container *ngFor="let test of tests | slice: 0:4">
+                      <app-last-tests-widget
+                        [test]="test"
+                      ></app-last-tests-widget>
+                    </ng-container>
+                  </div>
 
-                <div class="but-view-all">
-                  <button
-                    mat-stroked-button
-                    color="primary"
-                    (click)="goToClient($event, row.id)"
-                  >
-                    View all
-                  </button>
+                  <div class="but-view-all">
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      (click)="goToClient($event, row.id)"
+                    >
+                      View all
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </ng-container>
               <div class="tags-component-container">
                 <app-tags [tags]="row.tags" [client]="row.id"></app-tags>
               </div>

@@ -20,23 +20,29 @@ export class TestsService {
       params: { id },
     });
   }
+
   getTestsGroups(id: string): Observable<any> {
     return this.http.get(this.urlTestsGroups, {
       params: { id },
     });
   }
+
   getTestsTemplates(): Observable<any> {
     return this.http.get(this.urlTestsTemplates);
   }
+
   createTestTemplates(data): Observable<any> {
     return this.http.post(this.urlTestsTemplates, { ...data });
   }
+
   getTestsGroupsTemplates(): Observable<any> {
     return this.http.get(this.urlTestsGroupsTemplates);
   }
+
   createTestGroupTemplate(data): Observable<any> {
     return this.http.post(this.urlTestsGroupsTemplates, { ...data });
   }
+
   removeTest(typeId): Observable<any> {
     return this.http.delete(this.urlTestsTemplates, { params: { typeId } });
   }

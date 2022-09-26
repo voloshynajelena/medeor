@@ -15,12 +15,13 @@ export class UserService {
     private notification: NotificationService
   ) {}
 
-  urlUser: string = `${API_URL}${API_ENDPOINTS.user}`;
+  urlUser = `${API_URL}${API_ENDPOINTS.user}`;
 
-  //updating user data after edit
+  // updating user data after edit
   public user$ = new Subject<User>();
-  public changeUserData(user: User) {
-     this.user$.next(user);
+
+  public changeUserData(user: User): void {
+    this.user$.next(user);
   }
 
   updatePatch(user): Observable<any> {

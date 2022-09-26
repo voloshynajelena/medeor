@@ -6,8 +6,10 @@
   width: 90%;
   margin: 0 auto;
 }
+
 .action-container {
   display: flex;
+
   ::ng-deep {
     mat-card {
       width: 100%;
@@ -18,17 +20,20 @@
     }
   }
 }
+
 .table-container {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   min-width: 330px;
+
   ::ng-deep {
     mat-card {
       margin: 0 auto;
       width: 90%;
     }
   }
+
   table {
     width: 100%;
 
@@ -66,8 +71,22 @@
   margin-right: 20px;
 }
 
+.tags-component-container {
+  padding-top: 20px;
+  border-top: #e3e3e34f 1px solid;
+}
+
+tr.expanded-row {
+  background-color: #fafafa;
+}
+
 tr.detail-row {
   height: 0;
+  background-color: #fafafa;
+  //box-shadow: 0 3px 1px -2px inset #0003, 0 2px 2px inset #00000024, 0 1px 5px inset #0000001f;
+  td.mat-cell.mat-column-expandedDetail {
+    padding: 0 25px;
+  }
 }
 
 tr.element-row:not(.expanded-row):hover {
@@ -91,27 +110,33 @@ tr.element-row:not(.expanded-row):active {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin: 10px 0;
 }
+
 .last-test-loop {
   width: 75%;
   display: flex;
   justify-content: space-between;
 }
+
 .but-view-all {
   width: 21.8%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
 .but-view-all button {
   width: 67%;
   text-transform: uppercase;
 }
+
 .last-tests-block-headline {
   padding: 7px 0;
   border-bottom: 1px dotted rgba(0, 0, 0, 0.28);
   margin-top: 22px;
 }
+
 .last-tests-block-headline h2 {
   color: rgba(0, 0, 0, 0.28);
   text-transform: uppercase;

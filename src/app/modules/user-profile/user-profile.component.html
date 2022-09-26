@@ -82,8 +82,8 @@
                   <mat-label>Lastname</mat-label>
                   <input formControlName="surname" matInput />
                   <mat-error *ngIf="userForm.controls['surname'].invalid"
-                    >This field is required</mat-error
-                  >
+                    >This field is required
+                  </mat-error>
                 </mat-form-field>
                 <ng-template #userLastname>
                   <h5 class="client-info-row__title">Lastname</h5>
@@ -100,8 +100,8 @@
                   <mat-label>Firstname</mat-label>
                   <input matInput formControlName="name" />
                   <mat-error *ngIf="userForm.controls['name'].invalid"
-                    >This field is required</mat-error
-                  >
+                    >This field is required
+                  </mat-error>
                 </mat-form-field>
                 <ng-template #userFirstname>
                   <h5 class="client-info-row__title">Firstname</h5>
@@ -120,8 +120,8 @@
                   <mat-label>Location</mat-label>
                   <input formControlName="location" matInput />
                   <mat-error *ngIf="userForm.controls['location'].invalid"
-                    >This field is required</mat-error
-                  >
+                    >This field is required
+                  </mat-error>
                 </mat-form-field>
                 <ng-template #userLocation>
                   <h5 class="client-info-row__title">Location</h5>
@@ -138,11 +138,11 @@
                   <mat-label>Email</mat-label>
                   <input matInput formControlName="email" />
                   <mat-error *ngIf="userForm.controls['email'].errors?.required"
-                    >This field is required</mat-error
-                  >
+                    >This field is required
+                  </mat-error>
                   <mat-error *ngIf="userForm.controls['email'].errors?.email"
-                    >Not a valid email</mat-error
-                  >
+                    >Not a valid email
+                  </mat-error>
                 </mat-form-field>
                 <ng-template #userEmail>
                   <h5 class="client-info-row__title">Email</h5>
@@ -157,17 +157,17 @@
                   <mat-label>Phone</mat-label>
                   <input matInput formControlName="phone" #inputNumber />
                   <mat-error *ngIf="userForm.controls['phone'].errors?.required"
-                    >This field is required</mat-error
-                  >
+                    >This field is required
+                  </mat-error>
                   <mat-error *ngIf="userForm.controls['phone'].errors?.pattern"
-                    >Please use numbers</mat-error
-                  >
+                    >Please use numbers
+                  </mat-error>
                   <mat-error
                     *ngIf="userForm.controls['phone'].errors?.minlength"
                     >You need enter 12 numbers ({{
                       inputNumber.value?.length
-                    }}/12)</mat-error
-                  >
+                    }}/12)
+                  </mat-error>
                 </mat-form-field>
                 <ng-template #userPhone>
                   <h5 class="client-info-row__title">Phone</h5>
