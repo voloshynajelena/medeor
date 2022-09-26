@@ -3,42 +3,51 @@
   justify-content: space-between;
   width: 100%;
 }
+
 .tags-container-active {
   padding-bottom: 20px;
 }
+
 :host {
   ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
     min-height: 20px;
   }
 }
+
 .is-no-tags-added {
   display: flex;
   margin-top: 25px;
   align-items: center;
   margin-bottom: 8px;
 }
+
 .is-no-tags-added p {
   color: #868888;
   font-size: 12px;
   margin-bottom: 0;
 }
+
 .is-no-tags-added-hide {
   display: none;
 }
+
 .add-tag-button-hide {
   display: none;
 }
+
 .add-tag-button-active {
   display: block;
   text-transform: uppercase;
   border: none;
   margin-right: 5px;
 }
+
 .tag-already-exists-block-active {
   display: flex;
   align-items: center;
   margin-top: 15px;
 }
+
 .tag-already-exists-p {
   color: #b71c1c;
   font-size: 12px;
@@ -47,6 +56,7 @@
   align-items: center;
   margin-bottom: 0;
 }
+
 .tag-already-exists-p span {
   font-size: 17px;
   padding-right: 3px;
@@ -58,6 +68,7 @@
   margin-top: 15px;
   margin-bottom: 8px;
 }
+
 .is-no-tags-to-delete p {
   color: #b71c1c;
   font-size: 12px;
@@ -66,17 +77,21 @@
   align-items: center;
   margin-bottom: 0;
 }
+
 .is-no-tags-to-delete p span {
   font-size: 17px;
   padding-right: 3px;
 }
+
 //tags block
 .tags-block {
   width: 75%;
 }
+
 .tags-list {
   width: 100%;
 }
+
 .active-tag-block {
   padding: 10px;
   border-radius: 10px;
@@ -86,6 +101,7 @@
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
+
 .inputTags {
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   padding-bottom: 5px;
@@ -94,33 +110,32 @@
 .inactive-input {
   display: none;
 }
+
 :host {
   ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
     display: none;
   }
+
   ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
     padding-bottom: 8px;
   }
 }
-//edit buttons block
+
+// edit buttons block
 .buttons-edit-block {
-  width: 21.8%;
+  width: 18.8%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
+
 .buttons-edit-group {
-  width: 67%;
+  width: 100%;
   border: none;
   display: flex;
-}
-.edit-btn {
-  width: 100%;
-  border-right: 1px solid #d7d7d7;
-  border-radius: 0;
-}
-.edit-btn:last-child {
-  border: none;
-}
-.button-icon {
-  font-size: 22px;
+  justify-content: space-around;
+
+  button:only-child {
+    margin: 0 auto;
+  }
 }

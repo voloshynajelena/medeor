@@ -22,11 +22,11 @@ export class HttpService {
   }
 
   private errorHandler(err): Observable<any> {
-    console.warn('error caught in service');
+    console.warn('Error caught in http service');
     console.error('Error: ', err);
 
     this.notification.throwError(err);
-    //Rethrow it back to component
+    // Rethrow it back to component
     throw err;
   }
 

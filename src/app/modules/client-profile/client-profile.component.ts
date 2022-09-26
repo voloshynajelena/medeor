@@ -80,7 +80,7 @@ export class ClientProfileComponent implements OnInit {
     this.resetFormData();
   }
 
-  avatarChangeEvent(fileInput: any) {
+  avatarChangeEvent(fileInput: any): void {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const image = new Image();

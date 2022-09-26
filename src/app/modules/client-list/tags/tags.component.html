@@ -82,43 +82,60 @@
   <!-- buttons to edit tags -  -->
   <div class="buttons-edit-block">
     <div class="buttons-edit-group">
-      <button
-        mat-button
-        class="edit-btn"
-        (click)="inputEnable()"
-        *ngIf="editBtnDisplay; else saveBtnDisplay"
-        #tooltip="matTooltip"
-        matTooltip="Edit tags or add new"
-        [matTooltipPosition]="position.value"
-        matTooltipHideDelay="0"
-      >
-        <mat-icon class="button-icon">edit </mat-icon>
-      </button>
+      <ng-container *ngIf="editBtnDisplay; else saveBtnDisplay">
+        <button
+          mat-button
+          color="primary"
+          *ngIf="tags?.length; else addButton"
+          (click)="inputEnable()"
+          #tooltip="matTooltip"
+          matTooltip="Edit tags"
+          [matTooltipPosition]="position.value"
+          matTooltipHideDelay="0"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <ng-template #addButton>
+          <button
+            mat-button
+            color="primary"
+            (click)="inputEnable()"
+            #tooltip="matTooltip"
+            matTooltip="Add new tags"
+            [matTooltipPosition]="position.value"
+            matTooltipHideDelay="0"
+          >
+            <mat-icon>add</mat-icon>
+            Add new tags
+          </button>
+        </ng-template>
+      </ng-container>
 
       <ng-template #saveBtnDisplay>
         <button
           mat-button
-          class="edit-btn"
+          color="primary"
           (click)="saveTags()"
           #tooltip="matTooltip"
           matTooltip="Save changes"
           [matTooltipPosition]="position.value"
           matTooltipHideDelay="0"
         >
-          <mat-icon color="warn" class="button-icon">done </mat-icon>
+          <mat-icon>done</mat-icon>
         </button>
       </ng-template>
 
       <button
         mat-button
-        class="edit-btn"
+        color="warn"
+        *ngIf="tags?.length"
         (click)="openDialogRemoveAllTags()"
         #tooltip="matTooltip"
         matTooltip="Delete ALL tags"
         [matTooltipPosition]="position.value"
         matTooltipHideDelay="0"
       >
-        <mat-icon color="warn" class="button-icon">delete</mat-icon>
+        <mat-icon class="button-icon">delete</mat-icon>
       </button>
     </div>
     <!-- end buttons-edit-group -->

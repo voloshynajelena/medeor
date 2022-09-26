@@ -1,6 +1,8 @@
 import { Test } from '../types';
 
-export const TESTS: Test[] = [
+export const TESTS: Test[] = [];
+
+export const TESTS2: Test[] = [
   {
     id: 'SR51637980217201',
     name: 'General blood test',

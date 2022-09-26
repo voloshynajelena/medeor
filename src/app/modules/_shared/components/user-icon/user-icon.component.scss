@@ -13,6 +13,7 @@
   font-size: 20px;
   color: #ffffff;
   position: relative;
+
   &__img,
   &__sign {
     display: block;
@@ -24,6 +25,7 @@
     left: 0;
     background-color: $color-blue-sky;
   }
+
   &__sign {
     display: flex;
     justify-content: center;

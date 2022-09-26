@@ -16,6 +16,7 @@ interface ISortData {
   pageIndex: number;
   pageSize: number;
 }
+
 @Component({
   selector: 'app-client-tests-table',
   templateUrl: './client-tests-table.component.html',
