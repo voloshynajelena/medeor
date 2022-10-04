@@ -1,0 +1,47 @@
+<button mat-icon-button matSuffix mat-dialog-close>
+  <mat-icon>clear</mat-icon>
+</button>
+<h1 mat-dialog-title>Profile Photo</h1>
+<div mat-dialog-content>
+  <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
+  <!-- <div class="user">
+    <svg class="user__sign" viewBox="0 0 25 25">
+      <text
+        x="50%"
+        y="50%"
+        dy="1"
+        dominant-baseline="middle"
+        text-anchor="middle"
+        font-size="11"
+        fill="#fff"
+      >
+        {{ data.name[0] + data.surname[0] | uppercase}}
+      </text>
+    </svg>
+    <img
+      *ngIf="data.photo && !hideImage"
+      [src]=data.photo
+      class="user__img"
+      (error)="hideImage = true"
+      (load)="hideImage = false"
+      alt="avatar"
+    />
+  </div> -->
+</div>
+<div mat-dialog-actions>
+  <input type="file" hidden="true" type="file" id="file-input" (input)="changeAvatar($event)">
+  <label for="file-input">
+    <a mat-button mat-raised-button
+      color="primary"
+      cdkFocusInitial>
+      <mat-icon>photo_camera</mat-icon>
+      Load
+    </a>
+  </label>
+  <button mat-button mat-raised-button
+    color="warn"
+    (click)="deleteAvatar()">
+    <mat-icon>delete</mat-icon>
+    Delete
+  </button>
+</div>

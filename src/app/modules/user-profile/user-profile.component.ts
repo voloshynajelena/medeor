@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../types';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
+import { UserIconDialogComponent } from '../_shared/components/user-icon-dialog/user-icon-dialog.component';
 
 export enum TabLabelEnum {
   PROFILE = 'Profile',
@@ -30,7 +31,7 @@ export class UserProfileComponent implements OnInit {
     surname: new FormControl('', [Validators.required]),
     specialties: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    location: new FormControl('', [Validators.required]),
+    location: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [
       Validators.required,
@@ -43,6 +44,8 @@ export class UserProfileComponent implements OnInit {
   public userAvatar: string;
   public editMode = false;
   public sending = false;
+
+
 
   constructor(
     public dialog: MatDialog,
@@ -178,5 +181,11 @@ export class UserProfileComponent implements OnInit {
         queryParams: { activeTab: selectTab || TabLabelEnum.PROFILE },
       })
       .then();
+  }
+
+  openDialog() {
+    this.dialog.open(UserIconDialogComponent, {
+      data: this.data
+    });
   }
 }

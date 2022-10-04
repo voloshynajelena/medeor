@@ -57,10 +57,13 @@
         <form class="client-card-grid" *ngIf="data" [formGroup]="userForm">
           <div class="client-card-grid__col">
             <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
+            <button mat-button id="changeAvatar"  *ngIf="editMode" (click)="openDialog()">
+              <mat-icon>photo_camera</mat-icon>
+            </button>
           </div>
           <div class="client-card-grid__col">
             <div class="client-info-row">
-              <div class="client-info-row__item" *ngIf="editMode">
+              <!-- <div class="client-info-row__item" *ngIf="editMode">
                 <mat-form-field appearance="fill">
                   <mat-label>Image File</mat-label>
                   <ngx-mat-file-input
@@ -73,7 +76,7 @@
                     <mat-icon>clear</mat-icon>
                   </button>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="client-info-row__item" *ngIf="data.surname">
                 <mat-form-field
                   *ngIf="editMode; else userLastname"

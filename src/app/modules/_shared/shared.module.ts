@@ -9,6 +9,7 @@ import { ContactUsModalComponent } from './components/contact-us-modal/contact-u
 import { DateNowComponent } from './components/date-now/date-now.component';
 import { HelpMenuComponent } from './components/help-menu/help-menu.component';
 import { TestListWidgetComponent } from './components/test-list-widget/test-list-widget.component';
+import { UserIconDialogComponent } from './components/user-icon-dialog/user-icon-dialog.component';
 import { UserIconComponent } from './components/user-icon/user-icon.component';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { TestsFilterPipe } from './pipes/tests-filter.pipe';
@@ -21,6 +22,7 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     HelpMenuComponent,
     UserIconComponent,
     UserMenuComponent,
+    UserIconDialogComponent,
 
     TestsFilterPipe,
   ],
