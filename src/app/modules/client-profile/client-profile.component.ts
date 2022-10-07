@@ -11,6 +11,7 @@ import { TestsService } from '../../services/tests.service';
 import { Client, Test } from '../../types';
 import { getAge } from '../../utils/date';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
+import { UserIconDialogComponent } from '../_shared/components/user-icon-dialog/user-icon-dialog.component';
 
 @Component({
   selector: 'app-client-profile',
@@ -78,23 +79,6 @@ export class ClientProfileComponent implements OnInit {
   public disableEditMode(): void {
     this.editMode = false;
     this.resetFormData();
-  }
-
-  avatarChangeEvent(fileInput: any): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const image = new Image();
-      image.src = e.target.result;
-      image.onload = (rs) => {
-        this.client.photo = e.target.result;
-      };
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-
-  removeAvatar(): void {
-    this.client.photo = '';
-    this.clientForm.controls.photo.reset();
   }
 
   public goBack(): void {
@@ -185,6 +169,12 @@ export class ClientProfileComponent implements OnInit {
           this.router.navigateByUrl('/');
         });
       }
+    });
+  }
+
+  openDialog() {
+    this.dialog.open(UserIconDialogComponent, {
+      data: this.client
     });
   }
 }

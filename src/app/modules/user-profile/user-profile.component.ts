@@ -45,8 +45,6 @@ export class UserProfileComponent implements OnInit {
   public editMode = false;
   public sending = false;
 
-
-
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
@@ -81,23 +79,6 @@ export class UserProfileComponent implements OnInit {
   public disableEditMode(): void {
     this.resetFormData();
     this.editMode = false;
-  }
-
-  avatarChangeEvent(fileInput: any): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const image = new Image();
-      image.src = e.target.result;
-      image.onload = (rs) => {
-        this.data.photo = e.target.result;
-      };
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-
-  removeAvatar(): void {
-    this.data.photo = '';
-    this.userForm.controls.photo.reset();
   }
 
   public submit(): void {
