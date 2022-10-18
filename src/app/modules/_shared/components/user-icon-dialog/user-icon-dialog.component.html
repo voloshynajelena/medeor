@@ -1,0 +1,24 @@
+<button mat-icon-button matSuffix mat-dialog-close>
+  <mat-icon>clear</mat-icon>
+</button>
+<h1 mat-dialog-title>Profile Photo</h1>
+<div mat-dialog-content>
+  <app-user-icon class="user-icon" [userData]="data"></app-user-icon>
+</div>
+<div mat-dialog-actions>
+  <input type="file" hidden="true" type="file" id="file-input" (input)="changeAvatar($event)">
+  <label for="file-input">
+    <a mat-button mat-raised-button
+      color="primary"
+      cdkFocusInitial>
+      <mat-icon>photo_camera</mat-icon>
+      Change
+    </a>
+  </label>
+  <button mat-button mat-raised-button
+    color="warn"
+    (click)="deleteAvatar()">
+    <mat-icon>delete</mat-icon>
+    Delete
+  </button>
+</div>

@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../auth/auth.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../types';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
+import { UserIconDialogComponent } from '../_shared/components/user-icon-dialog/user-icon-dialog.component';
 
 export enum TabLabelEnum {
   PROFILE = 'Profile',
@@ -30,7 +31,7 @@ export class UserProfileComponent implements OnInit {
     surname: new FormControl('', [Validators.required]),
     specialties: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    location: new FormControl('', [Validators.required]),
+    location: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [
       Validators.required,
@@ -78,23 +79,6 @@ export class UserProfileComponent implements OnInit {
   public disableEditMode(): void {
     this.resetFormData();
     this.editMode = false;
-  }
-
-  avatarChangeEvent(fileInput: any): void {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const image = new Image();
-      image.src = e.target.result;
-      image.onload = (rs) => {
-        this.data.photo = e.target.result;
-      };
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-
-  removeAvatar(): void {
-    this.data.photo = '';
-    this.userForm.controls.photo.reset();
   }
 
   public submit(): void {
@@ -178,5 +162,11 @@ export class UserProfileComponent implements OnInit {
         queryParams: { activeTab: selectTab || TabLabelEnum.PROFILE },
       })
       .then();
+  }
+
+  openDialog() {
+    this.dialog.open(UserIconDialogComponent, {
+      data: this.data
+    });
   }
 }
