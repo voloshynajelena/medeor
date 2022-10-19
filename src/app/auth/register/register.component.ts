@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit {
   loading = false;
   submitted = false;
   error: string;
-  avatarB64Data: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,18 +60,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm?.controls;
   }
 
-  downloadAvatar(fileInput: any) {
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const image = new Image();
-      image.src = e.target.result;
-      image.onload = rs => {
-        this.avatarB64Data = e.target.result;
-      }
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-
   onSubmit(): void {
     this.submitted = true;
 
@@ -82,7 +69,7 @@ export class RegisterComponent implements OnInit {
 
     this.loading = true;
     this.userService
-      .register({...this.registerForm.value, photo: this.avatarB64Data})
+      .register(this.registerForm.value)
       .pipe(first())
       .subscribe(
         (data: any) => {
