@@ -1,4 +1,4 @@
-export const API_URL = 'https://api-medeor.herokuapp.com';
+export const API_URL = 'https://api-medeor-one.vercel.app';
 export const WIKI_URL = 'https://medeor.atlassian.net/wiki/spaces/MEDEOR/';
 export const FF_AVATAR = false;
 
