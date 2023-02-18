@@ -6,92 +6,26 @@
   <form>
     <div class="client-info-row">
       <div class="client-info-row__item">
-        <mat-tab-group
-          [selectedIndex]="titleTabIndex.value"
-          (selectedIndexChange)="titleTabIndex.setValue($event)"
-          headerPosition="below"
-          animationDuration="0ms"
-          [formGroup]="titleCtrl"
-        >
-          <mat-tab label="RU">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Заголовок</mat-label>
-                  <input matInput formControlName="ru" />
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="UA">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Заголовок</mat-label>
-                  <input matInput formControlName="ua" />
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="EN">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Title</mat-label>
-                  <input matInput formControlName="en" />
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
-      <!-- <div class="client-info-row__item">
         <mat-form-field appearance="fill">
-          <mat-label>Code</mat-label>
-          <input matInput [formControl]="codeCtrl" />
-        </mat-form-field> -->
-      <!-- </div> -->
+          <mat-label>Title</mat-label>
+          <input matInput [formControl]="titleCtrl" />
+        </mat-form-field>
+      </div>
     </div>
     <div class="client-info-row">
       <div class="client-info-row__item">
-        <mat-tab-group
-          [selectedIndex]="titleTabIndex.value"
-          (selectedIndexChange)="titleTabIndex.setValue($event)"
-          headerPosition="below"
-          animationDuration="0ms"
-          [formGroup]="descriptionCtrl"
-        >
-          <mat-tab label="RU">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Описание</mat-label>
-                  <textarea matInput rows="5" formControlName="ru"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="UA">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Опис</mat-label>
-                  <textarea matInput rows="5" formControlName="ua"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="EN">
-            <div class="client-info-row">
-              <div class="client-info-row__item">
-                <mat-form-field appearance="fill">
-                  <mat-label>Description</mat-label>
-                  <textarea matInput rows="5" formControlName="en"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            rows="5"
+            [formControl]="descriptionCtrl"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="client-info-row">
+      <div class="client-info-row__item">
         <mat-form-field appearance="fill">
           <mat-label>Test id(s)</mat-label>
           <input matInput [formControl]="testsCtrl" />

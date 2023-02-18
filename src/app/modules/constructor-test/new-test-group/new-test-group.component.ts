@@ -4,10 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TestsService } from '../../../services/tests.service';
-import {
-  TestGroupTemplatesInterface,
-  Translation,
-} from './test-templates.interface';
+import { TestGroupTemplatesInterface } from './test-templates.interface';
 
 @Component({
   selector: 'app-new-test-group',
@@ -18,32 +15,11 @@ import {
 export class NewTestGroupComponent {
   public loading = false;
   public submitted = false;
-  public titleTabIndex = new FormControl(0);
   public testsList: any[];
+
   public testsCtrl = new FormControl('', Validators.required);
-
-  public titleCtrl = new FormGroup({
-    ru: new FormControl('', Validators.required),
-    ua: new FormControl(''),
-    en: new FormControl(''),
-  });
-
-  public descriptionCtrl = new FormGroup({
-    ru: new FormControl(''),
-    ua: new FormControl(''),
-    en: new FormControl(''),
-  });
-
-  // public unitCtrl = new FormGroup({
-  //   ru: new FormControl(''),
-  //   ua: new FormControl(''),
-  //   en: new FormControl('')
-  // });
-
-  // public refValueCtrl = new FormGroup({
-  //   min: new FormControl(''),
-  //   max: new FormControl('')
-  // });
+  public titleCtrl = new FormControl('');
+  public descriptionCtrl = new FormControl('');
 
   constructor(
     public dialogRef: MatDialogRef<NewTestGroupComponent>,
@@ -56,10 +32,7 @@ export class NewTestGroupComponent {
   public submit(): void {
     this.titleCtrl.markAllAsTouched();
     this.testsCtrl.markAsTouched();
-
-    if (this.titleCtrl.invalid) {
-      this.titleTabIndex.setValue(0);
-    }
+    this.descriptionCtrl.markAsTouched();
 
     if (this.titleCtrl.valid && this.testsCtrl.valid) {
       const data = this.getFormData();
@@ -94,24 +67,13 @@ export class NewTestGroupComponent {
   }
 
   private getFormData(): TestGroupTemplatesInterface {
+    console.log(this.descriptionCtrl.value);
     return {
       tests: this.testsCtrl?.value
         ?.split?.(',')
         .map?.((code: string) => ({ typeId: code.trim() })),
-      name: this.getCtrlValues(this.titleCtrl.controls) as Translation,
-      description: this.getCtrlValues(
-        this.descriptionCtrl.controls
-      ) as Translation,
+      name: this.titleCtrl.value,
+      description: this.descriptionCtrl.value,
     };
-  }
-
-  private getCtrlValues(controls: {}): {} {
-    const result = {};
-
-    Object.keys(controls).forEach((key) => {
-      result[key] = controls[key].value;
-    });
-
-    return result;
   }
 }

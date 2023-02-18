@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TestsService } from '../../services/tests.service';
 import { ITest, ITestsGroup } from '../../types';
+import { catchError, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-constructor-test',
