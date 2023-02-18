@@ -63,9 +63,9 @@ export interface ITest {
   code?: string;
   value?: string;
   refValue?: IRefValue;
-  title?: ITranslation;
-  description?: ITranslation;
-  unit?: ITranslation;
+  title?: string;
+  description?: string;
+  unit?: string;
 }
 
 interface IRefValue {
@@ -74,20 +74,14 @@ interface IRefValue {
   specialRefs: { [name: string]: IRefValue };
 }
 
-export interface ITranslation {
-  ru?: string;
-  en?: string;
-  ua?: string;
-}
-
 export interface ITestsGroup {
   typeId: string;
   id: string;
   date: string;
   clientId?: string;
   doctorId?: string;
-  name?: ITranslation;
-  description?: ITranslation;
+  name?: string;
+  description?: string;
   tests: ITest[];
   error?: IErrorMessage;
 }

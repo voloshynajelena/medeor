@@ -1,14 +1,8 @@
-export interface Translation {
-  ru: string;
-  ua: string;
-  en: string;
-}
-
 export interface TestTemplatesInterface {
   code: string;
-  title: Translation;
-  description?: Translation;
-  unit?: Translation;
+  title: string;
+  description?: string;
+  unit?: string;
   refValue?: {
     min: string;
     max: string;

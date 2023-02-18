@@ -320,9 +320,9 @@ export class ClientTestsTableComponent implements OnChanges {
       ...test,
       id: test.typeId,
       date: new Date(i),
-      name: test.title.en,
+      name: test.title,
       marked: false,
-      conclusion: test.description?.en,
+      conclusion: test.description,
     }));
   }
 }

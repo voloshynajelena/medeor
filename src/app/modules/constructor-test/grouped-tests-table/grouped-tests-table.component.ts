@@ -25,7 +25,7 @@ import { NewTestGroupComponent } from '../new-test-group/new-test-group.componen
 export class GroupedTestsTableComponent
   implements AfterViewInit, OnInit, OnChanges
 {
-  public displayedColumns: string[] = ['id', 'name', 'description', 'open'];
+  public displayedColumns: string[] = ['name', 'description', 'open'];
   public dataSource: MatTableDataSource<ITestsGroup>;
   private user: User;
 

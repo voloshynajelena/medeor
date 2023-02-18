@@ -21,21 +21,11 @@
 
 <div class="mat-elevation-z8 test-group_table-container" *ngIf="dataSource">
   <table mat-table [dataSource]="dataSource" matSort>
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header class="mobile-hide">
-        TypeID
-      </th>
-      <td *matCellDef="let row" class="test-group_cell mobile-hide" mat-cell>
-        {{ row.typeId }}
-      </td>
-    </ng-container>
-
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
       <td mat-cell class="test-group_cell" *matCellDef="let row">
-        {{ row.name?.ru }}
+        {{ row.name }}
       </td>
     </ng-container>
 
@@ -43,7 +33,7 @@
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
       <td mat-cell class="test-group_cell" *matCellDef="let row">
-        {{ row.description?.ru }}
+        {{ row.description }}
       </td>
     </ng-container>
 

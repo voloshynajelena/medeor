@@ -9,10 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { TestsService } from '../../../services/tests.service';
-import {
-  TestTemplatesInterface,
-  Translation,
-} from './test-templates.interface';
+import { TestTemplatesInterface } from './test-templates.interface';
 
 @Component({
   selector: 'app-new-test',
@@ -25,26 +22,11 @@ export class NewTestComponent implements OnInit {
   public submitted = false;
   public titleTabIndex = new FormControl(0);
   public testsList: any[];
+
   public codeCtrl = new FormControl('', Validators.required);
-
-  public titleCtrl = new FormGroup({
-    ru: new FormControl('', Validators.required),
-    ua: new FormControl(''),
-    en: new FormControl(''),
-  });
-
-  public descriptionCtrl = new FormGroup({
-    ru: new FormControl(''),
-    ua: new FormControl(''),
-    en: new FormControl(''),
-  });
-
-  public unitCtrl = new FormGroup({
-    ru: new FormControl(''),
-    ua: new FormControl(''),
-    en: new FormControl(''),
-  });
-
+  public titleCtrl = new FormControl('', Validators.required);
+  public descriptionCtrl = new FormControl('');
+  public unitCtrl = new FormControl('');
   public refValueCtrl = new FormGroup({
     min: new FormControl(''),
     max: new FormControl(''),
@@ -60,8 +42,10 @@ export class NewTestComponent implements OnInit {
   ngOnInit(): void {}
 
   public submit(): void {
+    // TODO: fix this implementation
     this.titleCtrl.markAllAsTouched();
     this.codeCtrl.markAsTouched();
+    this.descriptionCtrl.markAsTouched();
 
     if (this.titleCtrl.invalid) {
       this.titleTabIndex.setValue(0);
@@ -105,11 +89,9 @@ export class NewTestComponent implements OnInit {
   private getFormData(): TestTemplatesInterface {
     return {
       code: this.codeCtrl.value,
-      title: this.getCtrlValues(this.titleCtrl.controls) as Translation,
-      description: this.getCtrlValues(
-        this.descriptionCtrl.controls
-      ) as Translation,
-      unit: this.getCtrlValues(this.unitCtrl.controls) as Translation,
+      title: this.titleCtrl.value,
+      description: this.descriptionCtrl.value,
+      unit: this.unitCtrl.value,
       // @ts-ignore
       refValue: this.getCtrlValues(this.refValueCtrl.controls),
     };
