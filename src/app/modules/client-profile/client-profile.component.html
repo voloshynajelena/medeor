@@ -222,12 +222,16 @@
         </div>
       </div>
     </form>
-    <div class="client-info-row__item" *ngIf="!editMode">
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="client; else spinner">
+  <mat-card-content>
+    <div class="client-info-row__item">
       <app-client-tests-table [tests]="tests$ | async"></app-client-tests-table>
     </div>
   </mat-card-content>
 </mat-card>
-
 <ng-template #spinner>
   <div class="loader">
     <mat-spinner></mat-spinner>

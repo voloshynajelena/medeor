@@ -1,29 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { FF_AVATAR, Gender } from '../../constants';
 import { ClientService } from '../../services/client.service';
 import { TestsService } from '../../services/tests.service';
-import { Client, Test } from '../../types';
+import { Client, Test, User } from '../../types';
 import { getAge } from '../../utils/date';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
 import { UserIconDialogComponent } from '../_shared/components/user-icon-dialog/user-icon-dialog.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-client-profile',
   templateUrl: './client-profile.component.html',
   styleUrls: ['./client-profile.component.scss'],
 })
-export class ClientProfileComponent implements OnInit {
+export class ClientProfileComponent implements OnInit, OnDestroy {
   public sending = false;
   public editMode = false;
   public userAvatar: string;
   public clientChipTags: string[] = [];
   public client: Client;
+  public user: User;
   public gender: typeof Gender = Gender;
   public isAvatarFeatureEnabled = FF_AVATAR;
   public clientForm = new FormGroup({
@@ -45,13 +47,16 @@ export class ClientProfileComponent implements OnInit {
   private clientId: string;
   getAge = getAge;
 
+  private subs: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
     private testService: TestsService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +72,11 @@ export class ClientProfileComponent implements OnInit {
 
     this.testService.getTestsTemplates().subscribe(({ data }) => {
       this.tests.next(data);
+    });
+
+    // updating user data after edit
+    this.subs = this.userService.user$.subscribe((data: User) => {
+      this.user = data;
     });
   }
 
@@ -176,5 +186,9 @@ export class ClientProfileComponent implements OnInit {
     this.dialog.open(UserIconDialogComponent, {
       data: this.client
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
