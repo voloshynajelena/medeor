@@ -5,6 +5,10 @@
       {{ client.name | uppercase }} {{ client.surname | uppercase }}
     </div>
     <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back_ios</mat-icon>
+        Back
+      </button>
       <ng-template [ngIf]="editMode" [ngIfElse]="editModeButtons">
         <button
           mat-raised-button
@@ -35,10 +39,6 @@
           <mat-icon>delete</mat-icon>
           Remove client
         </button>
-        <button mat-stroked-button color="primary" (click)="goBack()">
-          <mat-icon>arrow_back_ios</mat-icon>
-          Back
-        </button>
       </ng-template>
     </mat-card-actions>
   </div>
@@ -46,7 +46,12 @@
     <form class="client-card-grid" [formGroup]="clientForm">
       <div class="client-card-grid__col">
         <app-user-icon class="user-icon" [userData]="client">
-          <button mat-button id="changeAvatar"  *ngIf="editMode" (click)="openDialog()">
+          <button
+            mat-button
+            id="changeAvatar"
+            *ngIf="editMode"
+            (click)="openDialog()"
+          >
             <mat-icon>photo_camera</mat-icon>
           </button>
         </app-user-icon>
