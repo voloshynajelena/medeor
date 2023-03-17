@@ -28,3 +28,14 @@ button:disabled .button-icon {
   margin-right: 5px;
   color: $color-crepuscule;
 }
+
+.sidebar__search-bar {
+  padding: 0 16px;
+  margin-bottom: 15px;
+
+  display: none;
+
+  @media screen and (max-width: 1024px) {
+    display: block;
+  }
+}

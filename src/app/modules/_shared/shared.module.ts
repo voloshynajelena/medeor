@@ -7,6 +7,7 @@ import { AppRoutingModule } from '../../app-routing.module';
 import { MaterialModule } from '../_material/material.module';
 import { ContactUsModalComponent } from './components/contact-us-modal/contact-us-modal.component';
 import { DateNowComponent } from './components/date-now/date-now.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { HelpMenuComponent } from './components/help-menu/help-menu.component';
 import { TestListWidgetComponent } from './components/test-list-widget/test-list-widget.component';
 import { UserIconDialogComponent } from './components/user-icon-dialog/user-icon-dialog.component';
@@ -19,6 +20,7 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     TestListWidgetComponent,
     ContactUsModalComponent,
     DateNowComponent,
+    SearchBarComponent,
     HelpMenuComponent,
     UserIconComponent,
     UserMenuComponent,
@@ -43,6 +45,7 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     TestListWidgetComponent,
     ContactUsModalComponent,
     DateNowComponent,
+    SearchBarComponent,
     HelpMenuComponent,
     UserIconComponent,
     UserMenuComponent,
