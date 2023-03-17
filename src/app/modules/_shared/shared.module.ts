@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { AppRoutingModule } from '../../app-routing.module';
 
 import { MaterialModule } from '../_material/material.module';
@@ -33,6 +34,7 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NgxMatIntlTelInputComponent,
   ],
   exports: [
     MaterialModule,
@@ -46,6 +48,7 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     HelpMenuComponent,
     UserIconComponent,
     UserMenuComponent,
+    NgxMatIntlTelInputComponent,
 
     TestsFilterPipe,
   ],
