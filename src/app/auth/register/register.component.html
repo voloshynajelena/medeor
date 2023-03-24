@@ -58,13 +58,14 @@
           <div class="form-group_container">
             <mat-form-field appearance="fill" class="full-width_mobile">
               <mat-label>Phone</mat-label>
-              <input
-                matInput
-                formControlName="phone"
+              <ngx-mat-intl-tel-input
+                [preferredCountries]="['ua', 'ca', 'lv']"
+                [enableSearch]="true"
+                [enablePlaceholder]="true"
+                [format]="'national'"
                 name="phone"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
-              />
+                formControlName="phone"
+              ></ngx-mat-intl-tel-input>
             </mat-form-field>
             <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
               <div *ngIf="f.phone.errors.required">Phone is required</div>
