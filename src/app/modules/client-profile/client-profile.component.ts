@@ -34,11 +34,7 @@ export class ClientProfileComponent implements OnInit, OnDestroy {
     sex: new FormControl(''),
     birthday: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]+$'),
-      Validators.minLength(6),
-    ]),
+    phone: new FormControl('', [Validators.required]),
     photo: new FormControl(''),
     pregnancy: new FormControl(''),
   });
@@ -84,6 +80,8 @@ export class ClientProfileComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.clientForm.markAllAsTouched();
     this.clientForm.updateValueAndValidity();
+    console.log(this.clientForm.controls['phone']);
+
   }
 
   public disableEditMode(): void {
@@ -108,10 +106,7 @@ export class ClientProfileComponent implements OnInit, OnDestroy {
         Validators.email,
       ]),
       phone: new FormControl(this.client.phone, [
-        Validators.required,
-        Validators.pattern('^[0-9]+$'),
-        Validators.minLength(6),
-      ]),
+        Validators.required]),
       photo: new FormControl(this.client.photo),
       pregnancy: new FormControl(this.client.pregnancy),
     });

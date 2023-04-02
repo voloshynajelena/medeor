@@ -163,28 +163,24 @@
               appearance="fill"
             >
               <mat-label>Phone</mat-label>
-              <input
-                matInput
+              <ngx-mat-intl-tel-input
+                [preferredCountries]="['ua', 'ca', 'lv']"
+                [enableSearch]="true"
+                [enablePlaceholder]="true"
+                [format]="'national'"
+                name="phone"
                 formControlName="phone"
-                maxlength="12"
-                #inputNumber
-              />
-              <span matPrefix>+</span>
-              <mat-error *ngIf="clientForm.controls['phone'].errors?.required"
-                >This field is required</mat-error
-              >
-              <mat-error *ngIf="clientForm.controls['phone'].errors?.pattern"
-                >Please use numbers</mat-error
-              >
-              <mat-error *ngIf="clientForm.controls['phone'].errors?.minlength"
-                >You need enter 12 numbers ({{
-                  inputNumber.value?.length
-                }}/12)</mat-error
-              >
+              ></ngx-mat-intl-tel-input>
+              <mat-error *ngIf="clientForm.controls['phone'].errors?.required">
+                This field is required
+              </mat-error>
+              <mat-error *ngIf="clientForm.controls['phone'].errors?.validatePhoneNumber">
+                Please enter valid phone namber
+              </mat-error>
             </mat-form-field>
             <ng-template #clientPhone>
               <h5 class="client-info-row__title">Phone</h5>
-              <div class="client-info-row__content">+{{ client.phone }}</div>
+              <div class="client-info-row__content">{{ client.phone }}</div>
             </ng-template>
           </div>
         </div>

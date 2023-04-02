@@ -53,7 +53,7 @@ export class NewClientComponent implements OnInit {
       email: ['', Validators.required],
       sex: ['', Validators.required],
       birthday: ['', Validators.required],
-      phone: [''],
+      phone: ['', Validators.required],
       pregnancy: [''],
       photo: [''],
       analyzes: [[]],
@@ -109,6 +109,8 @@ export class NewClientComponent implements OnInit {
   public getErrorMessage(control: FormControl): string {
     if (control.hasError('required')) {
       return 'You must enter a value';
+    } else if (control.hasError('validatePhoneNumber')) {
+      return 'Please enter valid phone namber';
     }
     return control.hasError('email') ? 'Not a valid email' : '';
   }

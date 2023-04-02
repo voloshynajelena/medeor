@@ -33,11 +33,7 @@ export class UserProfileComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     location: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]+$'),
-      Validators.minLength(12),
-    ]),
+    phone: new FormControl('', [Validators.required])
   });
 
   public data: User;

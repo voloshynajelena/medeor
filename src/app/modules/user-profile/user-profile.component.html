@@ -145,18 +145,19 @@
                   appearance="fill"
                 >
                   <mat-label>Phone</mat-label>
-                  <input matInput formControlName="phone" #inputNumber />
-                  <mat-error *ngIf="userForm.controls['phone'].errors?.required"
-                    >This field is required
+                  <ngx-mat-intl-tel-input
+                    [preferredCountries]="['ua', 'ca', 'lv']"
+                    [enableSearch]="true"
+                    [enablePlaceholder]="true"
+                    [format]="'national'"
+                    name="phone"
+                    formControlName="phone"
+                  ></ngx-mat-intl-tel-input>
+                  <mat-error *ngIf="userForm.controls['phone'].errors?.required">
+                    This field is required
                   </mat-error>
-                  <mat-error *ngIf="userForm.controls['phone'].errors?.pattern"
-                    >Please use numbers
-                  </mat-error>
-                  <mat-error
-                    *ngIf="userForm.controls['phone'].errors?.minlength"
-                    >You need enter 12 numbers ({{
-                      inputNumber.value?.length
-                    }}/12)
+                  <mat-error *ngIf="userForm.controls['phone'].errors?.validatePhoneNumber">
+                    Please enter valid phone namber
                   </mat-error>
                 </mat-form-field>
                 <ng-template #userPhone>
