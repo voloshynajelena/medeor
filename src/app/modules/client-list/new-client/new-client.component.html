@@ -103,13 +103,17 @@
           <div class="form-group">
             <mat-form-field>
               <mat-label>Phone</mat-label>
-              <input
-                required
-                matInput
+              <ngx-mat-intl-tel-input
+                [preferredCountries]="['ua', 'ca', 'lv']"
+                [enableSearch]="true"
+                [enablePlaceholder]="true"
+                [format]="'national'"
+                name="phone"
                 formControlName="phone"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
-              />
+              ></ngx-mat-intl-tel-input>
+              <mat-error *ngIf="f.phone.invalid">{{
+                getErrorMessage(f.phone)
+              }}</mat-error>
             </mat-form-field>
           </div>
         </div>
