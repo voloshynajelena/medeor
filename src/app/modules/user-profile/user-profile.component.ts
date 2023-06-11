@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Apollo } from 'apollo-angular';
 import { take } from 'rxjs/operators';
 
 import { AuthenticationService } from '../../auth/auth.service';
@@ -11,6 +12,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../types';
 import { RemoveClientModalComponent } from '../client-list/remove-client-modal/remove-client-modal.component';
 import { UserIconDialogComponent } from '../_shared/components/user-icon-dialog/user-icon-dialog.component';
+import { GET_USER } from '../../graphql/graphql.queries';
 
 export enum TabLabelEnum {
   PROFILE = 'Profile',
@@ -33,7 +35,7 @@ export class UserProfileComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     location: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required])
+    phone: new FormControl('', [Validators.required]),
   });
 
   public data: User;
@@ -47,7 +49,8 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private authenticationService: AuthenticationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private apollo: Apollo
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -64,6 +67,19 @@ export class UserProfileComponent implements OnInit {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.setTabRouterParam(params.activeTab);
     });
+
+    // TEST GRAPHQL INTEGRATION
+    this.apollo
+      .watchQuery({
+        query: GET_USER,
+        variables: {
+          id: this.user?.userId,
+        },
+      })
+      .valueChanges.subscribe(({ data, error }: any) => {
+        console.log({ data });
+        console.log({ error });
+      });
   }
 
   public enableEditMode(): void {
@@ -162,7 +178,7 @@ export class UserProfileComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(UserIconDialogComponent, {
-      data: this.data
+      data: this.data,
     });
   }
 }
