@@ -24,7 +24,6 @@ import { TestsFilterPipe } from './pipes/tests-filter.pipe';
     UserIconComponent,
     UserMenuComponent,
     UserIconDialogComponent,
-
     TestsFilterPipe,
   ],
   imports: [

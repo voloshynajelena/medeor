@@ -42,7 +42,6 @@ export class UserService {
         return data as User;
       }),
       catchError((e) => {
-        console.error('Error: ', e);
         this.notification.throwError(e);
         return e;
       })

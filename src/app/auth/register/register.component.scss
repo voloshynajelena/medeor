@@ -5,10 +5,13 @@
   ::ng-deep mat-card {
     margin: 10% auto;
     max-width: 800px;
+    min-width: 240px;
     width: 100%;
     box-sizing: border-box;
     text-align: center;
     mat-form-field {
+      width: 80%;
+      max-width: 300px;
       &.password-block {
         .mat-form-field-infix {
           width: 145px;
@@ -35,6 +38,9 @@
 .registration-container {
   display: flex;
   justify-content: space-around;
+  div {
+    flex: 1;
+  }
 }
 
 .invalid-feedback {
@@ -85,4 +91,11 @@
 img {
   margin-top: 50px;
   max-width: 100%;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  .registration-container {
+    flex-direction: column-reverse;
+  }
 }
