@@ -17,6 +17,7 @@ import { ClientProfileModule } from './modules/client-profile/client-profile.mod
 import { ConstructorTestModule } from './modules/constructor-test/constructor-test.module';
 import { LayoutModule } from './modules/layout/layout.module';
 import { UserProfileModule } from './modules/user-profile/user-profile.module';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { UserProfileModule } from './modules/user-profile/user-profile.module';
     ConstructorTestModule,
     LayoutModule,
     UserProfileModule,
+    GraphQLModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
