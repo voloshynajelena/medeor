@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
-import { ITestsGroup, User } from '../../../types';
+import { ITest, ITestsGroup, User } from '../../../types';
 import { NewTestGroupComponent } from '../new-test-group/new-test-group.component';
 
 @Component({
@@ -30,6 +30,7 @@ export class GroupedTestsTableComponent
   private user: User;
 
   @Input() testsGroups: ITestsGroup[] = [];
+  @Input() tests: ITest[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -64,13 +65,12 @@ export class GroupedTestsTableComponent
 
   public openCreateNewTestGroupOverlay(): void {
     this.dialog.open(NewTestGroupComponent, {
-      width: '600%',
-      maxWidth: '800px',
       hasBackdrop: true,
       autoFocus: false,
       restoreFocus: false,
       data: {
         user: this.user,
+        tests: this.tests,
       },
     });
   }

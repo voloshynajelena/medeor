@@ -69,6 +69,7 @@ export class UserProfileComponent implements OnInit {
     });
 
     // TEST GRAPHQL INTEGRATION
+    // TODO: remove it after compliting integration
     this.apollo
       .watchQuery({
         query: GET_USER,

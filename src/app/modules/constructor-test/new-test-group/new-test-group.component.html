@@ -1,42 +1,58 @@
 <div class="container">
   <header>
-    <h1><mat-icon>person</mat-icon> Create new Test</h1>
+    <h1><mat-icon>person</mat-icon> Create new Test group</h1>
   </header>
-
-  <form>
-    <div class="client-info-row">
-      <div class="client-info-row__item">
-        <mat-form-field appearance="fill">
-          <mat-label>Title</mat-label>
-          <input matInput [formControl]="titleCtrl" />
-        </mat-form-field>
-      </div>
+  <div class="container-content">
+    <div class="container-form">
+      <form>
+        <div class="row">
+          <div class="item">
+            <mat-form-field appearance="fill">
+              <mat-label>Title</mat-label>
+              <input matInput [formControl]="titleCtrl" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="item">
+            <mat-form-field appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                rows="5"
+                [formControl]="descriptionCtrl"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="item">
+            <mat-form-field appearance="fill">
+              <mat-label>Test id(s)</mat-label>
+              <mat-select [formControl]="testsCtrl" multiple>
+                <mat-option
+                  *ngFor="let test of data?.tests"
+                  [value]="test.id"
+                  >{{ test?.typeId || test.id }}</mat-option
+                >
+              </mat-select>
+              <mat-hint align="end">Here's the dropdown arrow</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="client-info-row">
-      <div class="client-info-row__item">
-        <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea
-            matInput
-            rows="5"
-            [formControl]="descriptionCtrl"
-          ></textarea>
-        </mat-form-field>
-      </div>
+    <div class="container-image">
+      <img
+        class="image"
+        width="300"
+        src="../../../assets/img/medical-lab-blood-test.jpg"
+        alt="user icon"
+      />
     </div>
-    <div class="client-info-row">
-      <div class="client-info-row__item">
-        <mat-form-field appearance="fill">
-          <mat-label>Test id(s)</mat-label>
-          <input matInput [formControl]="testsCtrl" />
-        </mat-form-field>
-      </div>
-    </div>
-  </form>
-
+  </div>
   <footer class="footer">
     <button
-      class="footer-btn"
       mat-raised-button
       color="primary"
       [disabled]="loading"
@@ -51,24 +67,16 @@
         Create
       </ng-template>
     </button>
-    <button
-      [mat-dialog-close]="testsList"
-      class="footer-btn"
-      mat-raised-button
-      color="warn"
-    >
+    <button [mat-dialog-close]="testsList" mat-raised-button color="warn">
       <mat-icon>cancel</mat-icon>
       Cancel
     </button>
   </footer>
 
   <div class="after-create" *ngIf="submitted">
-    <h2 class="after-create__title">
-      Test was created. Would you like create another test?
-    </h2>
-    <div class="after-create-buttons">
+    <h2>Test was created. Would you like create another test?</h2>
+    <div>
       <button
-        class="footer-btn"
         mat-raised-button
         color="primary"
         (click)="closeAfterSubmitModal()"
@@ -76,12 +84,7 @@
         <mat-icon>add_circle</mat-icon>
         Create another
       </button>
-      <button
-        [mat-dialog-close]="testsList"
-        class="footer-btn"
-        mat-raised-button
-        color="warn"
-      >
+      <button [mat-dialog-close]="testsList" mat-raised-button color="warn">
         <mat-icon>cancel</mat-icon>
         Close
       </button>

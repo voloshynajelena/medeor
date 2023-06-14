@@ -3,6 +3,7 @@
   <div *ngIf="!loadingTestGroups; else spinner" class="constructor-section">
     <app-grouped-tests-table
       [testsGroups]="testsGroups"
+      [tests]="tests"
     ></app-grouped-tests-table>
   </div>
   <div *ngIf="!loadingTests; else spinner" class="constructor-section">
