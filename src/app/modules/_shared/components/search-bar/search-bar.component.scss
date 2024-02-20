@@ -1,0 +1,42 @@
+.search-bar__form {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.search-bar__label {
+  display: none;
+}
+
+.search-bar__input {
+  padding: 7px 10px;
+  padding-right: 35px;
+
+  font-size: 14px;
+
+  border: none;
+  border-radius: 50px;
+  outline: 1px solid #e0e0e0;
+
+  &:focus {
+    outline-color: #00000080;
+  }
+}
+
+.search-bar__button {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & mat-icon {
+    color: #00000080;
+  }
+}
